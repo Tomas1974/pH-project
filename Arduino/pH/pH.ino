@@ -57,13 +57,6 @@ WifiMenu wifiMenu( lcd, wifiNetworks, BUTTON_Menu, BUTTON_Choise);
 
 
 
-
-
-
-
-
-
-
 //Broker signal fra c# om at starte temperatursensoren
 void callback(char* topic, byte* payload, unsigned int length) {
   
@@ -101,16 +94,13 @@ client.publish("esp/test", "Hello from ESP32");
 
 void setup() {
 
-if (!SPIFFS.begin(true)) { //Den her linje stabilisere evnen til at læse gemte data. Jeg ved ikke hvorfor.
-        Serial.println("SPIFFS Mount Failed");
-        return;
-    }
 
 
 
   Serial.begin(9600);
 
   wifiMenu.initialize();
+  pHDriver.initialize();
     lcd.init();                    
     lcd.backlight();
   
@@ -125,10 +115,8 @@ if (!SPIFFS.begin(true)) { //Den her linje stabilisere evnen til at læse gemte 
 void loop() {
   
   client.loop();
-  
    
   
-
    
   if (start)
   {

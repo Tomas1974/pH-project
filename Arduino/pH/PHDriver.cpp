@@ -30,10 +30,20 @@ writeJsonToFile(writeModel, "/pH");
 }
 
 
+void PHDriver::initialize()
+{
+  if (!SPIFFS.begin(true)) { //Den her linje stabilisere evnen til at læse gemte data. Jeg ved ikke hvorfor.
+        Serial.println("SPIFFS Mount Failed");
+        return;
+    }
+}
+
+
 
 
 float PHDriver::makemVTopH(int U)
 {
+  
 
   models = readJsonFromFile("/pH"); //Gemmer de gemte værdier i en array
 

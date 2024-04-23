@@ -20,7 +20,7 @@ public:
     void writeJsonToFile(std::vector<WriteModel> writeModel, String fileName);
     std::vector<WriteModel> readJsonFromFile( String fileName);
     int measuremV();
-    
+    void initialize();
 
 private:
 
