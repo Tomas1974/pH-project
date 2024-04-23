@@ -9,7 +9,6 @@
 #include "WifiModel.h"
 #include "PHDriver.h"
 #include "WriteModel.h"
-
 #include <vector> 
 
 
@@ -57,7 +56,7 @@ WifiMenu wifiMenu( lcd, wifiNetworks, BUTTON_Menu, BUTTON_Choise);
 
 
 
-//Broker signal fra c# om at starte temperatursensoren
+//Broker signal fra c# om at starte PHsensoren
 void callback(char* topic, byte* payload, unsigned int length) {
   
 Serial.println("Modtaget");
@@ -119,8 +118,8 @@ void loop() {
   {
   
         
-    float pH = pHDriver.measurePH(); // Measure the pH
-  //int U=pHDriver.measuremV();
+    float pH = pHDriver.measurePh(); // Measure the pH
+  //int U=pHDriver.measureU();
   
   Serial.println(pH); // Print the pH value to the Serial Monitor
 
@@ -145,8 +144,6 @@ void loop() {
   digitalWrite(LED_GREEN, LOW);  // Slukker led, når der ikke er forbindelse
   
     wifiMenu.wifiMenuSystem();
-
-  
     
     if (wifiMenu.getwifiON() !="") //Den skal ikke forbinde, hvis der ikke er internet.
        mqttConnection(); 

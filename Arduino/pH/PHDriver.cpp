@@ -31,17 +31,16 @@ writeJsonToFile(writeModel, "/pH"); //Her skrives til flash kalibreringsværdier
 
 
 
-
-float PHDriver::measurePH()
+float PHDriver::measurePh()
 {
-int U =measuremV();
-return makemVTopH(U);
+int U =measureU(); //U da man bruger det bogstav til spænding.
+return makeUToPh(U);
 }
 
 
 
 
-float PHDriver::makemVTopH(int U)
+float PHDriver::makeUToPh(int U)
 {
   
 
@@ -62,7 +61,7 @@ float PHDriver::makemVTopH(int U)
 
 
 
-int PHDriver::measuremV()  
+int PHDriver::measureU()  
 {
     const int numMeasurements = 50;  // Total number of measurements
     int values[numMeasurements];     // Array to store the measurements

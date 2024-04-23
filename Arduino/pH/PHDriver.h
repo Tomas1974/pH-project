@@ -11,15 +11,14 @@
 class PHDriver {
 public:
     
-    
-    float makemVTopH(int U);
+        
     PHDriver(int PHAnalogPin);
-    float measurePH();
-   void makeCalibration(int pH4, int pH7); 
+    float measurePh();
+    void makeCalibration(int pH4, int pH7); 
 
     void writeJsonToFile(std::vector<WriteModel> writeModel, String fileName);
     std::vector<WriteModel> readJsonFromFile( String fileName);
-    int measuremV();
+    int measureU();
     void initialize();
 
 private:
@@ -27,6 +26,7 @@ private:
     
     void sortArray(int array[], int size);
     int _PHAnalogPin;
+    float makeUToPh(int U);
     std::vector<WriteModel> models;
 
 };
