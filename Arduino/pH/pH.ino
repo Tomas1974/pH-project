@@ -25,15 +25,10 @@ const int BUTTON_Choise = 4;
 int lcdColumns = 16;
 int lcdRows = 2;
 
-std::vector<WriteModel> models1;
-
-
-
 
 
 //Starter temperatursensoren, hvis den er sand.
 bool start=false;
-long lastUpdateTime;
 
 
 
@@ -131,19 +126,15 @@ void loop() {
   
   client.loop();
   
-   //long currentTime = millis();
+   
   
 
    
   if (start)
   {
 
-    //long timeWent=currentTime-lastUpdateTime;
-
-  
-  //if (timeWent>=1000)
-  {
-      
+   
+        
     float pH = pHDriver.measurePH(); // Measure the pH
   //int U=pHDriver.measuremV();
   
@@ -161,9 +152,6 @@ void loop() {
 
     client.publish("esp/pH", message);
     
-    //lastUpdateTime=currentTime;
-    }
-       
       
 
     }
