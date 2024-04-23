@@ -70,10 +70,10 @@ int PHDriver::measureU()
   
   for (int i = 0; i < numMeasurements; i++) {
   
-    values[i] = analogRead(_PHAnalogPin)* (3300.0 / 4095.0);; // Læser værdien fra sensoren og omregner til mV
+    values[i] = analogRead(_PHAnalogPin)* (3300 / 4095);; // Læser værdien fra sensoren og omregner til mV. Der gemmes i 12 bit altså 12^2 muligheder. Det giver 4096. Fra 0 til 4095.
     delay(10);                         
  
-  }
+  } 
  
    std::sort(values, values + numMeasurements); //Her sorteres værdier via Timsort
       
