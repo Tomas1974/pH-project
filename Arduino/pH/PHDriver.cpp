@@ -9,34 +9,33 @@ _PHAnalogPin = PHAnalogPin;
 }
 
 
-
-float PHDriver::measurePH()
-{
-int U =measuremV();
-
-return makemVTopH(U);
-
-}
-
-void PHDriver::makeCalibration(int pH4, int pH7) {
-    
-    
-  std::vector<WriteModel> writeModel = {
-    WriteModel("pH4", pH4),
-    WriteModel("pH7", pH7)
-};
-
-writeJsonToFile(writeModel, "/pH");
-
-}
-
-
 void PHDriver::initialize()
 {
   if (!SPIFFS.begin(true)) { //Den her linje stabilisere evnen til at læse gemte data. Jeg ved ikke hvorfor.
         Serial.println("SPIFFS Mount Failed");
         return;
     }
+}
+
+
+void PHDriver::makeCalibration(int pH4, int pH7) {
+   
+  std::vector<WriteModel> writeModel = {
+    WriteModel("pH4", pH4),
+    WriteModel("pH7", pH7)
+};
+
+writeJsonToFile(writeModel, "/pH"); //Her skrives til flash kalibreringsværdierne
+
+}
+
+
+
+
+float PHDriver::measurePH()
+{
+int U =measuremV();
+return makemVTopH(U);
 }
 
 
@@ -63,7 +62,6 @@ float PHDriver::makemVTopH(int U)
 
 
 
-
 int PHDriver::measuremV()  
 {
     const int numMeasurements = 50;  // Total number of measurements
@@ -73,22 +71,24 @@ int PHDriver::measuremV()
   
   for (int i = 0; i < numMeasurements; i++) {
   
-    values[i] = analogRead(_PHAnalogPin)* (3300.0 / 4095.0);; // Read the value from the sensor
-    delay(10);                         // Short delay between measurements
+    values[i] = analogRead(_PHAnalogPin)* (3300.0 / 4095.0);; // Læser værdien fra sensoren og omregner til mV
+    delay(10);                         
  
   }
  
-   std::sort(values, values + numMeasurements); //Timsort
+   std::sort(values, values + numMeasurements); //Her sorteres værdier via Timsort
       
 
   int sum = 0;  
-  int validCount = numMeasurements - numMeasurements/5; // Fjerner 20% af værdierne
-  for (int i = numMeasurements/10; i < numMeasurements - numMeasurements/10; i++) { //Vi sortere 10% fra af de højeste og laveste værdier. Så burde vi have ekskluderet alle outliers.
+    
+  for (int i = numMeasurements*0.1; i < numMeasurements*0.9; i++) { //Vi sortere 10% fra af de højeste og laveste værdier. Så burde vi have ekskluderet alle outliers.
     sum += values[i];
   }
   
-  return sum / validCount;
+  return sum / (numMeasurements*0.8); //Her tages gennemsnittet af de 80% af værdierne vi bruger
 }
+
+
 
 
 
