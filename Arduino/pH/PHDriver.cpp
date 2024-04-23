@@ -1,4 +1,5 @@
 #include "PHDriver.h"
+#include <algorithm> // Include to use std::sort
 
 
 PHDriver::PHDriver(int PHAnalogPin) 
@@ -73,36 +74,17 @@ int PHDriver::measuremV()
  
   }
  
- 
-   sortArray(values, numMeasurements); 
-   
+   std::sort(values, values + numMeasurements); //Timsort
+      
 
   int sum = 0;  
-  int validCount = numMeasurements - numMeasurements/5; // Excluding the 10 extreme values
+  int validCount = numMeasurements - numMeasurements/5; // Fjerner 20% af værdierne
   for (int i = numMeasurements/10; i < numMeasurements - numMeasurements/10; i++) { //Vi sortere 10% fra af de højeste og laveste værdier. Så burde vi have ekskluderet alle outliers.
     sum += values[i];
   }
   
   return sum / validCount;
 }
-
-
-
-
-void PHDriver::sortArray(int array[], int size) {
-  // Simple bubble sort algorithm
-  for (int i = 0; i < size - 1; i++) {
-    for (int j = 0; j < size - i - 1; j++) {
-      if (array[j] > array[j + 1]) {
-        // Swap the elements
-        int temp = array[j];
-        array[j] = array[j + 1];
-        array[j + 1] = temp;
-      }
-    }
-  }
-}
-
 
 
 

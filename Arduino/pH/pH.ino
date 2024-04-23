@@ -95,8 +95,6 @@ client.publish("esp/test", "Hello from ESP32");
 void setup() {
 
 
-
-
   Serial.begin(9600);
 
   wifiMenu.initialize();
@@ -115,13 +113,11 @@ void setup() {
 void loop() {
   
   client.loop();
-   
   
-   
+     
   if (start)
   {
-
-   
+  
         
     float pH = pHDriver.measurePH(); // Measure the pH
   //int U=pHDriver.measuremV();
@@ -131,7 +127,7 @@ void loop() {
 
 
      lcd.clear();
-     lcd.print("Vis pH. "+ String(pH));
+     lcd.print("pH = "+ String(pH));
     
     digitalWrite(LED_GREEN, HIGH);  // Update the LED
     
