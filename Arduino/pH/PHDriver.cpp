@@ -91,7 +91,7 @@ int PHDriver::measureU()
 
 
 
-void PHDriver::writeJsonToFile(std::vector<WriteModel> writeModel, String fileName) {//Her gemmes de kalibreringsværdier
+void PHDriver::writeJsonToFile(std::vector<WriteModel> writeModel, String fileName) {//Her gemmes kalibreringsværdierne
         if (!SPIFFS.begin(true)) {
             Serial.println("An Error has occurred while mounting SPIFFS");
             return;
@@ -113,10 +113,10 @@ void PHDriver::writeJsonToFile(std::vector<WriteModel> writeModel, String fileNa
 
 
 
-std::vector<WriteModel> PHDriver::readJsonFromFile(  String fileName) { //Her hentes de kalibreringsværdier
+std::vector<WriteModel> PHDriver::readJsonFromFile(  String fileName) { //Her hentes kalibreringsværdierne
     
     std::vector<WriteModel> models;
-    File file = SPIFFS.open(fileName, FILE_READ); // Consider making file name dynamic
+    File file = SPIFFS.open(fileName, FILE_READ); 
     if (!file) {
         Serial.println("Failed to open file for reading");
         return models;
