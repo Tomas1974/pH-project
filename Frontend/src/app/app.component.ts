@@ -15,7 +15,7 @@ import {Router} from "@angular/router";
         <ion-row>
           <img style=" width: 2%; height: auto;" src="../assets/Temp_image.jpg">
 
-          <H1 style="margin-left: 20px;">Temperaturer</H1>
+          <H1 style="margin-left: 20px;">pH</H1>
         </ion-row>
       </ion-col>
 
@@ -117,7 +117,7 @@ export class AppComponent {
   showLegend = true;
   showXAxisLabel = true;
   xAxisLabel = 'Sek';
-  yAxisLabel = 'Temperatur';
+  yAxisLabel = 'pH';
   showYAxisLabel = true;
   xAxis: boolean = true;
   yAxis: boolean = true;

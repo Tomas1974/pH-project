@@ -45,15 +45,15 @@ public class MQTT ()
 
     }
 
-/**********  Her laves et abonnement på info fra esb/temp  **********/
+/**********  Her laves et abonnement på info fra esb/pH  **********/
     public async Task getConnectionToesb_temp()
     {
        
         mqttClient.UseConnectedHandler(async e =>
         {
-            await mqttClient.SubscribeAsync(new MqttTopicFilterBuilder().WithTopic("esp/temp").Build());
+            await mqttClient.SubscribeAsync(new MqttTopicFilterBuilder().WithTopic("esp/pH").Build());
             Console.WriteLine("Subscribed to esp/temp topic.");
-            //Her tilføjes adgang til esp/temp
+            //Her tilføjes adgang til esp/pH
 
         });
 

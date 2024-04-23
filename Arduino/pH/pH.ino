@@ -15,8 +15,8 @@
 
 
 // Ports on ESP32
-const int LED_GREEN = 25;
-const int TEMP_SENSOR = 17;
+const int LED_GREEN = 17;
+
 const int BUTTON_Menu = 16;
 const int BUTTON_Choise = 4;
 
@@ -25,6 +25,7 @@ const int BUTTON_Choise = 4;
 int lcdColumns = 16;
 int lcdRows = 2;
 
+std::vector<WriteModel> models1;
 
 
 
@@ -37,8 +38,7 @@ long lastUpdateTime;
 
 
 //Hardware  varibles
-OneWire oneWire(TEMP_SENSOR);
-DallasTemperature DS18B20(&oneWire);
+
 PHDriver pHDriver(36); // Starter pHdriveren med måling på pin 36
 
 //Pubsub til brokeren
@@ -72,6 +72,8 @@ WifiMenu wifiMenu( lcd, wifiNetworks, BUTTON_Menu, BUTTON_Choise);
 //Broker signal fra c# om at starte temperatursensoren
 void callback(char* topic, byte* payload, unsigned int length) {
   
+Serial.println("Modtaget");
+
 if (start)
   start=false;
   else
@@ -103,6 +105,14 @@ client.publish("esp/test", "Hello from ESP32");
 
 
 void setup() {
+
+if (!SPIFFS.begin(true)) { //Den her linje stabilisere evnen til at læse gemte data. Jeg ved ikke hvorfor.
+        Serial.println("SPIFFS Mount Failed");
+        return;
+    }
+
+
+
   Serial.begin(9600);
 
   wifiMenu.initialize();
@@ -110,7 +120,10 @@ void setup() {
     lcd.backlight();
   
   pinMode(LED_GREEN, OUTPUT);
-  DS18B20.begin(); //En del af Dallas temperatur beregneren.
+
+//pHDriver.makeCalibration(1944, 1445);
+
+  
 }
 
 
@@ -118,17 +131,17 @@ void loop() {
   
   client.loop();
   
-   long currentTime = millis();
+   //long currentTime = millis();
   
 
    
   if (start)
   {
 
-    long timeWent=currentTime-lastUpdateTime;
+    //long timeWent=currentTime-lastUpdateTime;
 
   
-  if (timeWent>=1000)
+  //if (timeWent>=1000)
   {
       
     float pH = pHDriver.measurePH(); // Measure the pH
@@ -148,7 +161,7 @@ void loop() {
 
     client.publish("esp/pH", message);
     
-    lastUpdateTime=currentTime;
+    //lastUpdateTime=currentTime;
     }
        
       
