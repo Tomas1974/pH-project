@@ -52,8 +52,12 @@ float PHDriver::makemVTopH(int U)
     
     float b=float(4)-a*float(models[0].getValue()); //Udregner skæring med y-aksen også kaldt b værdien
     
-
-return  a*U+b;
+  if (a*U+b>14)
+  return 14;
+  else if(a*U+b<0)
+  return 0;
+  else
+  return  a*U+b;
 
 }
 
