@@ -7,6 +7,9 @@
 #include <LiquidCrystal_I2C.h>
 #include "WifiMenu.h"
 #include "WifiModel.h"
+#include "PHDriver.h"
+#include "WriteModel.h"
+
 #include <vector> 
 
 
@@ -24,20 +27,19 @@ int lcdRows = 2;
 
 
 
-// Variabler til temperatursensor
-float tempC; // temperature in Celsius
-long lastUpdateTime; //Bruges til tidsmåling til temperaturer
+
 
 
 //Starter temperatursensoren, hvis den er sand.
 bool start=false;
+long lastUpdateTime;
 
 
 
-
-//Hardware and connections varibles
+//Hardware  varibles
 OneWire oneWire(TEMP_SENSOR);
 DallasTemperature DS18B20(&oneWire);
+PHDriver pHDriver(36); // Starter pHdriveren med måling på pin 36
 
 //Pubsub til brokeren
 WiFiClient espClient;
@@ -56,6 +58,15 @@ std::vector<WifiModel> wifiNetworks = {
 
 //WifiMenu wifiMenu(skærm variabel, netværks array, antal objekter i array, knap et bladre i menu, knap to vælge i menuen);
 WifiMenu wifiMenu( lcd, wifiNetworks, BUTTON_Menu, BUTTON_Choise);
+
+
+
+
+
+
+
+
+
 
 
 //Broker signal fra c# om at starte temperatursensoren
@@ -120,18 +131,22 @@ void loop() {
   if (timeWent>=1000)
   {
       
-    DS18B20.requestTemperatures();  // Send the command to get temperatures
-    tempC = DS18B20.getTempCByIndex(0);  // Read temperature in °C
-    char message[20];
-     sprintf(message, "%.1f", tempC);
+    float pH = pHDriver.measurePH(); // Measure the pH
+  //int U=pHDriver.measuremV();
+  
+  Serial.println(pH); // Print the pH value to the Serial Monitor
+
 
 
      lcd.clear();
-     lcd.print("Vis temp. "+ String(message));
+     lcd.print("Vis pH. "+ String(pH));
     
     digitalWrite(LED_GREEN, HIGH);  // Update the LED
     
-    client.publish("esp/temp", message);
+    char message[20];
+     sprintf(message, "%.1f", pH);
+
+    client.publish("esp/pH", message);
     
     lastUpdateTime=currentTime;
     }
