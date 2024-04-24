@@ -1,8 +1,7 @@
 {
-  "name": "arrayOperationer",
+  "name": "Start",
   "integrations": {
     "capacitor": {}
   },
   "type": "angular"
-
 }

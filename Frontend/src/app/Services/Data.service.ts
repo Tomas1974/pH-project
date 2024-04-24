@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import {BaseDto,  ServerSendsIOTDataToClientsDto} from "./BaseDto";
+
 import {temperaturModel} from "./tempModel";
+import {BaseDto, ServerSendsIOTDataToClientsDto} from "../BaseDto";
+
 
 
 
