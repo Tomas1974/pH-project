@@ -91,7 +91,7 @@ float randNumber1=float(randNumber)/1000.0;
     
 
 
- randNumber = random(680, 740); 
+ randNumber = random(680, 740); //Jeg havde lavet en fin array til alle disse broker sendinger, men brokeren stoppede med at modtage. Så det blev kopi-paste programmering.
  randNumber1=float(randNumber)/100.0;
  sprintf(message, "%.2f", randNumber1);
  client.publish("client/2", message);
