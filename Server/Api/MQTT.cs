@@ -51,7 +51,7 @@ public class MQTT ()
        
         mqttClient.UseConnectedHandler(async e =>
         {
-            await mqttClient.SubscribeAsync(new MqttTopicFilterBuilder().WithTopic("esp/pH").Build());
+            await mqttClient.SubscribeAsync(new MqttTopicFilterBuilder().WithTopic("client/#").Build());
             Console.WriteLine("Subscribed to esp/temp topic.");
             //Her tilføjes adgang til esp/pH
 
