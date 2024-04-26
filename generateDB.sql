@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS ph.users;
 DROP TABLE IF EXISTS ph.status;
 DROP TABLE IF EXISTS ph.data;
 DROP TABLE IF EXISTS ph.city;
+DROP TABLE IF EXISTS ph.client_user;
 
 CREATE TABLE ph.city(
     zip_code INTEGER PRIMARY KEY,
@@ -32,10 +33,8 @@ CREATE TABLE ph.client
 (
     client_iD varchar(20) PRIMARY KEY,
     client_name varchar(50) NOT NULL,
-    user_id INTEGER NOT NULL,
-    max_value DECIMAL NOT NULL,
-    min_value DECiMAL NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES ph.users (user_id)
+    max_value DECIMAL,
+    min_value DECiMAL
 );
 
 CREATE TABLE ph.status(
@@ -51,4 +50,12 @@ CREATE TABLE ph.data(
     date DATE NOT NULL,
     alarm VARCHAR(50),
     FOREIGN KEY (client_id) REFERENCES ph.client (client_iD)
+);
+
+CREATE TABLE ph.client_user(
+    client_user_id SERIAL PRIMARY KEY,
+    client_id VARCHAR(20) NOT NULL,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (client_id) REFERENCES ph.client (client_iD),
+    FOREIGN KEY (user_id) REFERENCES ph.users (user_id)
 );
