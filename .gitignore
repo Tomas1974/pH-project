@@ -1,0 +1,4 @@
+**/bin/
+**/obj/
+.idea
+Arduino/MQTT_2_/passwords.h
