@@ -75,7 +75,7 @@ float randNumber1=float(randNumber)/1000.0;
 
 
      sprintf(message, "%.2f", randNumber1);
-    client.publish("client/1", message);
+    client.publish("client/AAAA-AAAA", message);
     delay(1000); // Debounce delay
 
 
@@ -85,7 +85,7 @@ float randNumber1=float(randNumber)/1000.0;
  randNumber = random(680, 740); //Jeg havde lavet en fin array til alle disse broker sendinger, men brokeren stoppede med at modtage. Så det blev kopi-paste programmering.
  randNumber1=float(randNumber)/100.0;
  sprintf(message, "%.2f", randNumber1);
- client.publish("client/2", message);
+ client.publish("client/BBBB-BBBB", message);
     delay(1000); // Debounce delay
 
 
@@ -93,14 +93,14 @@ float randNumber1=float(randNumber)/1000.0;
  randNumber = random(600, 620); 
  randNumber1=float(randNumber)/100.0;
  sprintf(message, "%.2f", randNumber1);
- client.publish("client/3", message);
+ client.publish("client/CCCC-CCCC", message);
     delay(1000); // Debounce delay
 
 
  randNumber = random(580, 620); 
  randNumber1=float(randNumber)/100.0;
  sprintf(message, "%.2f", randNumber1);
- client.publish("client/4", message);
+ client.publish("client/DDDD-DDDD", message);
     delay(1000); // Debounce delay
 
 
@@ -108,7 +108,7 @@ float randNumber1=float(randNumber)/1000.0;
  randNumber = random(740, 780); 
  randNumber1=float(randNumber)/100.0;
  sprintf(message, "%.2f", randNumber1);
- client.publish("client/5", message);
+ client.publish("client/EEEE-EEEE", message);
     delay(1000); // Debounce delay
 
 

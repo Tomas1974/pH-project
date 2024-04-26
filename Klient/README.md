@@ -1,2 +1,2 @@
-# AI_4_sem
+# KMT 4 sem klient program
  

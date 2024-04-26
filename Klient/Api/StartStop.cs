@@ -16,7 +16,7 @@ public class StartStop : BaseEventHandler<StartStopDto>
     public override Task Handle(StartStopDto dto, IWebSocketConnection socket)
     {
     
-        _
+        Console.WriteLine("Hej");
         
         return Task.CompletedTask;
     }
