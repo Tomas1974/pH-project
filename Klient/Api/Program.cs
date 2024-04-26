@@ -11,7 +11,7 @@ using Websocket;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<DataService>();
-builder.Services.AddSingleton<MQTT>();
+
 
 
 
@@ -47,7 +47,7 @@ server.Start(ws =>
     };
 });
 
-new MQTT().Startup();
+
 
 Console.ReadLine();
 

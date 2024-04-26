@@ -2,16 +2,7 @@
 #include <PubSubClient.h>
 #include <random>
 #include <iostream>
-
- 
-const char* ssid = "Tomas";
-const char* password = "Tomas1974";
-const char* mqttServer = "mqtt.flespi.io";
-const int mqttPort = 1883;
-const char* mqttUser = "WiiXzzB3fAsxjKcW5ihlTXS9xyU9D36nbeaBBzsGXI25g2Rb8WmPH5O4ry3SsY6r";
-const char* mqttPassword = "";
-
-
+#include "passwords_Dummit.h"  // Your WiFi and MQTT credentials
 
 WiFiClient espClient;
 PubSubClient client(espClient);

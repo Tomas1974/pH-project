@@ -3,7 +3,7 @@
 #include <PubSubClient.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
-#include "passwords.h"  // Your WiFi and MQTT credentials
+#include "passwords_pH.h"  // Your WiFi and MQTT credentials
 #include <LiquidCrystal_I2C.h>
 #include "WifiMenu.h"
 #include "WifiModel.h"
