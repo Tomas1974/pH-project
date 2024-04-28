@@ -19,8 +19,8 @@ public class getAddresses(HttpClientService httpService) : BaseEventHandler<getA
     public override async Task Handle(getAddressesDto dto, IWebSocketConnection socket)
     {
 
-        Console.WriteLine("Hej"+dto.addressSearchTerm);
-        var message = new sendAddressesDto()
+       // Console.WriteLine("Hej"+dto.addressSearchTerm);
+        var message = new sendAddresses()
         {
             
             results= await httpService.GetAddressSuggestion(dto.addressSearchTerm)
@@ -49,11 +49,11 @@ public class getAddressesDto : BaseDto
 
 
 
-public class sendAddressesDto : BaseDto
+public class sendAddresses : BaseDto
 {
    
     public AddressRootObject results { get; set; }
-    //public string results { get; set; }
+    
  
 }
 

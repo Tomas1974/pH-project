@@ -2,7 +2,8 @@ import {Component, ElementRef, NgZone, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {firstValueFrom} from "rxjs";
-import {Address, AddressAPIJsonResponseModel } from "../models";
+import {Address, AddressAPIJsonResponseModel } from "./models";
+import {DataService} from "../../Services/Data.service";
 
 
 
@@ -168,7 +169,7 @@ import {Address, AddressAPIJsonResponseModel } from "../models";
 export class LoginComponent {
 
 
-  constructor(public http: HttpClient,
+  constructor(public dataservice: DataService,
               public formbuilder: FormBuilder
   ) {
   }
@@ -205,15 +206,10 @@ ValidateData=this.formbuilder.group({
     if (this.ValidateData.controls.vejField.value.length > 3)
     {
       this.showSuggestions = true;
-      const address = "http://localhost:5000/api/address";
-      const params: any = {
-        addressSearchTerm: this.ValidateData.controls.vejField.value,
-      };
 
-
-      const observable = this.http.get<AddressAPIJsonResponseModel>(address, {params: params});
-      const addressResult = await firstValueFrom<AddressAPIJsonResponseModel>(observable);
-      this.addressSuggestions = addressResult.results;
+      // @ts-ignore
+      this.dataservice.sendAddressLine(this.ValidateData.controls.vejField.value);
+      this.addressSuggestions = this.dataservice.addressSuggestions;
 
     }
     else

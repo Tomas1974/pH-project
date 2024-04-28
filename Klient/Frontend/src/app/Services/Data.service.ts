@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import {temperaturModel} from "./tempModel";
-import {BaseDto, ServerSendsIOTDataToClientsDto} from "../BaseDto";
+import {BaseDto, sendAddressesDto, ServerSendsIOTDataToClientsDto} from "../BaseDto";
+import {Address} from "../home/Login/models";
 
 
 
@@ -13,6 +14,7 @@ export class DataService {
 
   secCounter:number=0;
   temperatureData: temperaturModel[]=[];
+  addressSuggestions: Address[] = [];
   start: boolean=false;
 
   ws: WebSocket = new WebSocket("ws://localhost:8181")
@@ -52,6 +54,46 @@ export class DataService {
     }
 
   }
+
+
+  sendAddressLine(addressSearchTerm: string)
+  {
+
+    var object = {
+      eventType: "getAddresses",
+      addressSearchTerm: addressSearchTerm
+
+    }
+    this.ws.send(JSON.stringify(object));
+
+
+  }
+
+
+
+
+  sendAddresses(dto: sendAddressesDto): void
+
+  {
+
+      const addressSuggestions=dto.results!
+      this.addressSuggestions=addressSuggestions.results;
+
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   startStop()

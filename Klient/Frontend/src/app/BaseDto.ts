@@ -1,3 +1,5 @@
+import {Address, AddressAPIJsonResponseModel} from "./home/Login/models";
+
 export class BaseDto<T> {
   eventType: string;
 
@@ -11,4 +13,12 @@ export class BaseDto<T> {
 
 export class ServerSendsIOTDataToClientsDto extends BaseDto<ServerSendsIOTDataToClientsDto> {
   data?: string;
+}
+
+
+
+
+
+export class sendAddressesDto extends BaseDto<sendAddressesDto> {
+  results?: AddressAPIJsonResponseModel;
 }
