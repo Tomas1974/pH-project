@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using api;
 using Fleck;
 using lib;
 using Service1.Service;
@@ -7,34 +9,53 @@ using Service1.Service;
 namespace ws;
 
 
-public class getAddresses : BaseEventHandler<NyDeltagerDto>
-{
-    public readonly DataService _dataService;
-    
-    public getAddresses(DataService dataService)
-    {
-        _dataService = dataService;
-    }
-    
-    
-    public override Task Handle(NyDeltagerDto dto, IWebSocketConnection socket)
-    {
-        
-      //  _dataService.tilFøjDeltager(dto.messageContent);
-        
-        
-        return Task.CompletedTask;
-    }
-    
-    }
 
-public class NyDeltagerDto : BaseDto
+
+public class getAddresses(HttpClientService httpService) : BaseEventHandler<getAddressesDto>
+{
+
+    
+    
+    public override async Task Handle(getAddressesDto dto, IWebSocketConnection socket)
+    {
+
+        Console.WriteLine("Hej"+dto.addressSearchTerm);
+        var message = new sendAddressesDto()
+        {
+            
+            results= await httpService.GetAddressSuggestion(dto.addressSearchTerm)
+        
+      
+        };
+ 
+        var messageToClient = JsonSerializer.Serialize(message);
+        socket.Send(messageToClient);
+        
+        }
+
+       
+    }
+    
+ 
+
+
+
+public class getAddressesDto : BaseDto
 {
     
-    public string messageContent { get; set; }
+    public string addressSearchTerm { get; set; }
 }
 
 
+
+
+public class sendAddressesDto : BaseDto
+{
+   
+    public AddressRootObject results { get; set; }
+    //public string results { get; set; }
+ 
+}
 
 
 

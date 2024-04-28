@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Xml;
+using api;
 using Fleck;
 using infrastructure;
 using lib;
@@ -22,11 +23,12 @@ if (builder.Environment.IsProduction())
     builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString);
 }
 
+builder.Services.AddHttpClient();
 
 builder.Services.AddSingleton<phInfrastructure>();
 builder.Services.AddSingleton<DataService>();
-
-
+builder.Services.AddSingleton<HttpClient>();
+builder.Services.AddSingleton<HttpClientService>();
 
 
 var clientEventHandlers = builder.FindAndInjectClientEventHandlers(Assembly.GetExecutingAssembly());

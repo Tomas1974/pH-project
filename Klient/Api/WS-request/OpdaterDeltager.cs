@@ -20,7 +20,7 @@ public class OpdaterDeltager : BaseEventHandler<OpdaterDeltagerDto>
     public override Task Handle(OpdaterDeltagerDto dto, IWebSocketConnection socket)
     {
         
-        _dataService.opdaterDeltager(dto.tidligereNavn,dto.nytNavn);
+        
         
         return Task.CompletedTask;
     }
