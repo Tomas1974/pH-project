@@ -9,6 +9,30 @@ PubSubClient client(espClient);
 
 int satisfaction = 0;
 
+String names[]={"AAAA-AAAA","BBBB-BBBB","CCCC-CCCC","DDDD-DDDD","EEEE-EEEE","FFFF-FFFF","GGGG-GGGG","HHHH-HHHH","IIII-IIII","JJJJ-JJJJ","KKKK-KKKK","LLLL-LLLL","MMMM-MMMM","NNNN-NNNN","OOOO-OOOO","PPPP-PPPP","QQQQ-QQQQ","RRRR-RRRR","SSSS-SSSS"
+,"TTTT-TTTT","UUUU-UUUU","VVVV-VVVV","XXXX-XXXX","YYYY-YYYY","ZZZZ-ZZZZ"};
+
+int randNumber;
+
+float randNumber1;
+
+
+void reconnect() {
+  // Loop until we're reconnected
+  while (!client.connected()) {
+    Serial.println("Connecting to MQTT...");
+    // Attempt to connect
+    if (client.connect("ESP32Client", mqttUser, mqttPassword)) {
+      Serial.println("Connected to MQTT broker");
+    } else {
+      Serial.print("Failed with state ");
+      Serial.println(client.state());
+      delay(2000);
+    }
+  }
+}
+
+
 void setup() {
 
 
@@ -20,98 +44,43 @@ while (WiFi.status() != WL_CONNECTED) {
     Serial.println("Connecting to WiFi..");
 }
  
-Serial.println("Connected to the WiFi network");
-
-
-client.setServer(mqttServer, mqttPort);
- 
-  while (!client.connected()) {
-    Serial.println("Connecting to MQTT...");
- 
-    if (client.connect("ESP32Client", mqttUser, mqttPassword )) {
- 
-      Serial.println("connected");
- 
-    } else {
- 
-      Serial.print("failed with state ");
-      Serial.print(client.state());
-      delay(2000);
-
-    }
-
-  }
-  client.publish("esp/test", "Hello from ESP32");
-
-  client.publish("Contact/unit", "client1");
-    delay(100); // Debounce delay
-
-client.publish("Contact/unit", "client2");
-    delay(100); // Debounce delay
-
-    client.publish("Contact/unit", "client3");
-    delay(100); // Debounce delay
-  
-client.publish("Contact/unit", "client4");
-    delay(100); // Debounce delay
-
-client.publish("Contact/unit", "client5");
-    delay(100); // Debounce delay
-
-
+  // Connect to MQTT Broker
+  client.setServer(mqttServer, mqttPort);
+  reconnect();
 randomSeed(analogRead(0));
 
 }
 
+
+
+
+
 void loop() {
 
+   if (!client.connected()) {
+    reconnect();
+  }
   client.loop();
  
-int randNumber = random(7000, 7400); 
-
-float randNumber1=float(randNumber)/1000.0;
 
     char message[20];
+  char address[50];
 
+for (int i=0; i<20;i++)
+{
 
-     sprintf(message, "%.2f", randNumber1);
-    client.publish("client/AAAA-AAAA", message);
-    delay(5000); // Debounce delay
-
-
-    
-
-
- randNumber = random(680, 740); //Jeg havde lavet en fin array til alle disse broker sendinger, men brokeren stoppede med at modtage. Så det blev kopi-paste programmering.
+randNumber = random(650+i*3, 680+i*3); 
  randNumber1=float(randNumber)/100.0;
  sprintf(message, "%.2f", randNumber1);
- client.publish("client/BBBB-BBBB", message);
-    delay(5000); // Debounce delay
+sprintf(address, "client/%s", names[i]);
 
+ client.publish(address, message);
+    delay(3*60000); 
+    //delay(1000); 
 
+}
 
- randNumber = random(600, 620); 
- randNumber1=float(randNumber)/100.0;
- sprintf(message, "%.2f", randNumber1);
- client.publish("client/CCCC-CCCC", message);
-    delay(5000); // Debounce delay
-
-
- randNumber = random(580, 620); 
- randNumber1=float(randNumber)/100.0;
- sprintf(message, "%.2f", randNumber1);
- client.publish("client/DDDD-DDDD", message);
-    delay(5000); // Debounce delay
-
-
-
- randNumber = random(740, 780); 
- randNumber1=float(randNumber)/100.0;
- sprintf(message, "%.2f", randNumber1);
- client.publish("client/EEEE-EEEE", message);
-    delay(5000); // Debounce delay
-
-
+ 
 
 
 
