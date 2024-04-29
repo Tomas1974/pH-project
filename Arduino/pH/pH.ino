@@ -56,20 +56,6 @@ WifiMenu wifiMenu( lcd, wifiNetworks, BUTTON_Menu, BUTTON_Choise);
 
 
 
-//Broker signal fra c# om at starte PHsensoren
-void callback(char* topic, byte* payload, unsigned int length) {
-  
-Serial.println("Modtaget");
-
-if (start)
-  start=false;
-  else
-  start=true;
-  
-}
-
-
-
 void mqttConnection()
 {
    client.setServer(mqttServer, mqttPort);
@@ -78,7 +64,7 @@ void mqttConnection()
     Serial.println("Connecting to MQTT...");
     if (client.connect("ESP32Client", mqttUser, mqttPassword)) {
       Serial.println("connected");
-      client.setCallback(callback);  // Set the callback function
+     
       client.subscribe("esp/return"); // Subscribe to the topic
     } else {
       Serial.print("failed with state ");
@@ -101,7 +87,7 @@ void setup() {
     lcd.init();                    
     lcd.backlight();
   
-  pinMode(LED_GREEN, OUTPUT);
+  
 
 //pHDriver.makeCalibration(1966, 1450);
 
@@ -117,6 +103,7 @@ void loop() {
   if (start)
   {
   
+
         
     float pH = pHDriver.measurePh(); // Measure the pH
   //int U=pHDriver.measureU();
@@ -129,25 +116,28 @@ void loop() {
      lcd.clear();
      lcd.print("pH = "+ String(pH));
     
-    digitalWrite(LED_GREEN, HIGH);  // Update the LED
-    
+        
     char message[20];
-     sprintf(message, "%.1f", pH);
+     sprintf(message, "%.2f", pH);
 
-    client.publish("esp/pH", message);
+    client.publish("client/ABCD-EFGH", message);
     
-      
+    //  delay(60*60000);
+      delay(1000);
 
     }
     else
  {
 
-  digitalWrite(LED_GREEN, LOW);  // Slukker led, når der ikke er forbindelse
+  
   
     wifiMenu.wifiMenuSystem();
     
     if (wifiMenu.getwifiON() !="") //Den skal ikke forbinde, hvis der ikke er internet.
-       mqttConnection(); 
+     { mqttConnection(); 
+     start=true;
+     
+     } 
     
 
  }
