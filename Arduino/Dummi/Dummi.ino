@@ -76,7 +76,7 @@ float randNumber1=float(randNumber)/1000.0;
 
      sprintf(message, "%.2f", randNumber1);
     client.publish("client/AAAA-AAAA", message);
-    delay(1000); // Debounce delay
+    delay(5000); // Debounce delay
 
 
     
@@ -86,7 +86,7 @@ float randNumber1=float(randNumber)/1000.0;
  randNumber1=float(randNumber)/100.0;
  sprintf(message, "%.2f", randNumber1);
  client.publish("client/BBBB-BBBB", message);
-    delay(1000); // Debounce delay
+    delay(5000); // Debounce delay
 
 
 
@@ -94,14 +94,14 @@ float randNumber1=float(randNumber)/1000.0;
  randNumber1=float(randNumber)/100.0;
  sprintf(message, "%.2f", randNumber1);
  client.publish("client/CCCC-CCCC", message);
-    delay(1000); // Debounce delay
+    delay(5000); // Debounce delay
 
 
  randNumber = random(580, 620); 
  randNumber1=float(randNumber)/100.0;
  sprintf(message, "%.2f", randNumber1);
  client.publish("client/DDDD-DDDD", message);
-    delay(1000); // Debounce delay
+    delay(5000); // Debounce delay
 
 
 
@@ -109,7 +109,7 @@ float randNumber1=float(randNumber)/1000.0;
  randNumber1=float(randNumber)/100.0;
  sprintf(message, "%.2f", randNumber1);
  client.publish("client/EEEE-EEEE", message);
-    delay(1000); // Debounce delay
+    delay(5000); // Debounce delay
 
 
 
