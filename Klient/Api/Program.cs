@@ -6,6 +6,7 @@ using api;
 using Fleck;
 using infrastructure;
 using lib;
+using Service1;
 using Service1.Service;
 using Websocket;
 
@@ -25,8 +26,8 @@ if (builder.Environment.IsProduction())
 
 builder.Services.AddHttpClient();
 
-builder.Services.AddSingleton<phInfrastructure>();
-builder.Services.AddSingleton<DataService>();
+builder.Services.AddSingleton<UserRepository>();
+builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<HttpClientService>();
 
