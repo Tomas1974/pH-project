@@ -18,7 +18,9 @@ float randNumber1;
 
 
 void reconnect() {
-  // Loop until we're reconnected
+
+  client.setServer(mqttServer, mqttPort);
+  
   while (!client.connected()) {
     Serial.println("Connecting to MQTT...");
     // Attempt to connect
@@ -32,20 +34,30 @@ void reconnect() {
   }
 }
 
-
-void setup() {
-
-
-Serial.begin(9600);
+void connectWifi()
+{
 WiFi.begin(ssid, password);
  
 while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.println("Connecting to WiFi..");
 }
- 
-  // Connect to MQTT Broker
-  client.setServer(mqttServer, mqttPort);
+
+
+}
+
+
+
+
+
+void setup() {
+
+
+Serial.begin(9600);
+
+   connectWifi();
+   
+  
   reconnect();
 randomSeed(analogRead(0));
 
@@ -68,6 +80,8 @@ void loop() {
 for (int i=0; i<20;i++)
 {
 
+ if (WiFi.status() != WL_CONNECTED)
+  connectWifi();
 
 
 if (!client.connected()) {
@@ -83,8 +97,8 @@ sprintf(address, "client/%s", names[i]);
 
  client.publish(address, message);
  Serial.println(names[i]);
-    //delay(1000); 
-    delay(1000); 
+    
+    delay(3*60*1000); 
 
 }
 
