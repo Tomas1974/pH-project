@@ -49,6 +49,8 @@ while (WiFi.status() != WL_CONNECTED) {
   reconnect();
 randomSeed(analogRead(0));
 
+
+
 }
 
 
@@ -57,10 +59,7 @@ randomSeed(analogRead(0));
 
 void loop() {
 
-   if (!client.connected()) {
-    reconnect();
-  }
-  client.loop();
+   
  
 
     char message[20];
@@ -69,14 +68,23 @@ void loop() {
 for (int i=0; i<20;i++)
 {
 
+
+
+if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+
+
 randNumber = random(650+i*3, 680+i*3); 
  randNumber1=float(randNumber)/100.0;
  sprintf(message, "%.2f", randNumber1);
 sprintf(address, "client/%s", names[i]);
 
  client.publish(address, message);
-    delay(3*60000); 
+ Serial.println(names[i]);
     //delay(1000); 
+    delay(60*1000); 
 
 }
 
