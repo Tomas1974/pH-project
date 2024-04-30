@@ -14,7 +14,7 @@
 
 
 // Ports on ESP32
-const int LED_GREEN = 17;
+
 
 const int BUTTON_Menu = 16;
 const int BUTTON_Choise = 4;
@@ -89,7 +89,7 @@ void setup() {
   
   
 
-//pHDriver.makeCalibration(1966, 1450);
+pHDriver.makeCalibration(1958, 1467);
 
   
 }
@@ -105,7 +105,7 @@ void loop() {
   
 
         
-    float pH = pHDriver.measurePh(); // Measure the pH
+   float pH = pHDriver.measurePh(); // Measure the pH
   //int U=pHDriver.measureU();
   //Serial.println(U); // Print the U value to the Serial Monitor
 
