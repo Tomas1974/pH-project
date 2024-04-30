@@ -1,17 +1,26 @@
 ﻿   using System.Text;
    using System.Text.Json;
+   using api;
+   using Dapper;
    using lib;
    using MQTTnet;
         using MQTTnet.Client;
         using MQTTnet.Client.Options;
+   using Npgsql;
    using Service1.Service;
 
    namespace Websocket;
 
-public class MQTT ()
+public class MQTT
 {
+    public readonly NpgsqlDataSource _DataSource;
     public static IMqttClient? mqttClient;
     public static IMqttClientOptions? options;
+
+    public MQTT(NpgsqlDataSource dataSource)
+    {
+        _DataSource = dataSource;
+    }
     
     public async void Startup()
     {
@@ -65,8 +74,18 @@ public class MQTT ()
 
         mqttClient.UseApplicationMessageReceivedHandler(e =>
         {
+            
             var msg = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
             Console.WriteLine($"Received message: {msg}");
+            var data = decimal.Parse(msg);
+            var client = e.ApplicationMessage.Topic;
+            var today = DateTime.Today.Date;
+
+            var sql = "INSERT INTO ph.data(client_id, data, date) VALUES(@client, @data, @date);";
+            using (var conn = _DataSource.OpenConnection())
+            {
+                conn.Execute(sql, new {client = client, data = data, date = today});
+            }
 
 
             var resp = new ServerSendsIOTDataToClients()

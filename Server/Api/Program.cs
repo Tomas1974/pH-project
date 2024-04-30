@@ -1,19 +1,29 @@
 using System.Reflection;
-using System.Text;
-using System.Text.Json;
-using System.Xml;
+using api;
 using Fleck;
 using lib;
+using Npgsql;
 using Service1.Service;
 using Websocket;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString,
+        dataSourceBuilder => dataSourceBuilder.EnableParameterLogging());
+}
+
+if (builder.Environment.IsProduction())
+{
+    builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString);
+}
+
+var npgsqlConnection = builder.Services.BuildServiceProvider().GetRequiredService<NpgsqlDataSource>();
+
 builder.Services.AddSingleton<DataService>();
-builder.Services.AddSingleton<MQTT>();
-
-
+builder.Services.AddSingleton<MQTT>(_ => new MQTT(npgsqlConnection));
 
 var clientEventHandlers = builder.FindAndInjectClientEventHandlers(Assembly.GetExecutingAssembly());
 
@@ -47,7 +57,7 @@ server.Start(ws =>
     };
 });
 
-new MQTT().Startup();
+new MQTT(npgsqlConnection).Startup();
 
 Console.ReadLine();
 
