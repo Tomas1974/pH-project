@@ -84,7 +84,7 @@ sprintf(address, "client/%s", names[i]);
  client.publish(address, message);
  Serial.println(names[i]);
     //delay(1000); 
-    delay(60*1000); 
+    delay(1000); 
 
 }
 

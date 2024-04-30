@@ -7,11 +7,11 @@ using Service1.Service;
 namespace ws;
 
 
-public class OpdaterDeltager : BaseEventHandler<OpdaterDeltagerDto>
+public class saveUser : BaseEventHandler<OpdaterDeltagerDto>
 {
     public readonly DataService _dataService;
     
-    public OpdaterDeltager(DataService dataService)
+    public saveUser(DataService dataService)
     {
         _dataService = dataService;
     }
