@@ -15,12 +15,21 @@ public class UserRepository
     
     public UserModel CreateUser(UserModel userModel)
     {
-        var sql =
-            @" INSERT INTO ph.users (name, password, address, zip_code, cvr) VALUES (@name, @password, @address, @zip_code, @cvr) RETURNING *;";
+        var sql = @"INSERT INTO ph.users (name, password, address, zip_code, cvr) 
+                VALUES (@Name, @Password, @Address, @ZipCode, @Cvr) 
+                RETURNING *;";
 
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QueryFirst<UserModel>(sql, new { name=userModel.username, password=userModel.password, address=userModel.address, zip_code=userModel.zipcode, cvr=userModel.cvr });
+            
+            return conn.QueryFirst<UserModel>(sql, new
+            {
+                Name = userModel.username,       
+                Password = userModel.password,
+                Address = userModel.address,
+                ZipCode = userModel.zipcode, 
+                Cvr = userModel.cvr
+            });
         }
     }
     
