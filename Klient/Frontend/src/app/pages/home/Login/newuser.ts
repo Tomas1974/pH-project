@@ -2,8 +2,9 @@ import {Component, ElementRef, NgZone, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {firstValueFrom} from "rxjs";
-import {Address, AddressAPIJsonResponseModel } from "./models";
-import {DataService} from "../../Services/Data.service";
+import {Address, AddressAPIJsonResponseModel } from "../../../Models/LookupModels";
+import {DataService} from "../../../Services/Data.service";
+import {UserModel} from "../../../Models/userModel";
 
 
 
@@ -164,9 +165,9 @@ import {DataService} from "../../Services/Data.service";
 
 
   `,
-  styleUrls: ['./app-login.scss'],
+  styleUrls: ['./newUser.scss'],
 })
-export class LoginComponent {
+export class NewUserComponent {
 
 
   constructor(public dataservice: DataService,
@@ -280,6 +281,17 @@ ValidateData=this.formbuilder.group({
 
   selectAddress() {
 
+  let userModel:UserModel = {
+
+    username: this.ValidateData.controls.brugerNavn.value+"",
+    password: this.ValidateData.controls.kodeord.value+"",
+    address: this.ValidateData.controls.vejField.value+ " "+this.ValidateData.controls.husnrField.value,
+    zipcode: Number(this.ValidateData.controls.postnrField.value),
+    cvr: 0
+
+    }
+
+    this.dataservice.saveUser(userModel);
 
   }
 

@@ -9,7 +9,7 @@ using Service1;
 namespace ws;
 
 
-public class saveUser : BaseEventHandler<UserModelDto>
+public class saveUser : BaseEventHandler<saveUserDto>
 {
     public readonly UserService _UserService;
     
@@ -19,7 +19,7 @@ public class saveUser : BaseEventHandler<UserModelDto>
     }
     
     
-    public override Task Handle(UserModelDto dto, IWebSocketConnection socket)
+    public override Task Handle(saveUserDto dto, IWebSocketConnection socket)
     {
         var message = new UserModel
         {
@@ -39,7 +39,7 @@ public class saveUser : BaseEventHandler<UserModelDto>
     
     }
 
-public class UserModelDto : BaseDto
+public class saveUserDto : BaseDto
 {
     
     public string username { get; set; }

@@ -10,3 +10,16 @@ public class UserModel
     public int zipcode { get; set; }
     public int? cvr { get; set; }
 }
+
+
+
+
+public class UserSaveToDatabaseModel
+{
+    public string username { get; set; }
+    public string hash { get; set; }
+    public string salt { get; set; }
+    public string address { get; set; }
+    public int zipcode { get; set; }
+    public int? cvr { get; set; }
+}

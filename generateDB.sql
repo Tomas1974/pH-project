@@ -21,7 +21,8 @@ CREATE TABLE ph.company(
 CREATE TABLE ph.users(
     user_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    password VARCHAR(100) NOT NULL,
+    hash      VARCHAR(350) NOT NULL,
+    salt      VARCHAR(180) NOT NULL,
     address VARCHAR(100) NOT NULL,
     zip_code INTEGER NOT NULL,
     cvr INTEGER,

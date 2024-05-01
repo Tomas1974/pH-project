@@ -13,10 +13,10 @@ public class UserRepository
         _dataSource = dataSource;
     }
     
-    public UserModel CreateUser(UserModel userModel)
+    public UserModel CreateUser(UserSaveToDatabaseModel saveToDatabase)
     {
-        var sql = @"INSERT INTO ph.users (name, password, address, zip_code, cvr) 
-                VALUES (@Name, @Password, @Address, @ZipCode, @Cvr) 
+        var sql = @"INSERT INTO ph.users (name, hash, salt, address, zip_code, cvr) 
+                VALUES (@Name, @Hash, @Salt, @Address, @ZipCode, @Cvr) 
                 RETURNING *;";
 
         using (var conn = _dataSource.OpenConnection())
@@ -24,11 +24,12 @@ public class UserRepository
             
             return conn.QueryFirst<UserModel>(sql, new
             {
-                Name = userModel.username,       
-                Password = userModel.password,
-                Address = userModel.address,
-                ZipCode = userModel.zipcode, 
-                Cvr = userModel.cvr
+                Name = saveToDatabase.username,       
+                Hash = saveToDatabase.hash,
+                Salt = saveToDatabase.salt,
+                Address = saveToDatabase.address,
+                ZipCode = saveToDatabase.zipcode, 
+                Cvr = saveToDatabase.cvr
             });
         }
     }

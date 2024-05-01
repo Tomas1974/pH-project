@@ -1,4 +1,4 @@
-import {Address, AddressAPIJsonResponseModel} from "./home/Login/models";
+import {Address, AddressAPIJsonResponseModel} from "./Models/LookupModels";
 
 export class BaseDto<T> {
   eventType: string;
