@@ -15,7 +15,7 @@ import {UserModel} from "../../../Models/userModel";
 
 
     <ion-grid>
-        <ion-header>Bruger information</ion-header>
+
       <ion-row>
         <ion-col size="3.3">
           <ion-item>

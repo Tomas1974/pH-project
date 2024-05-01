@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
+showHeader: string="- New User";
 
   constructor(private router: Router) {
   }
@@ -16,5 +16,10 @@ export class HomePage {
 
   toggleLogin(): void {
     this.showLogin2 = !this.showLogin2;  // Toggle the state
+
+    if (this.showLogin2)
+      this.showHeader="- New User"
+    else
+      this.showHeader="- Login"
   }
 }
