@@ -8,15 +8,6 @@ DROP TABLE IF EXISTS ph.data;
 DROP TABLE IF EXISTS ph.city;
 DROP TABLE IF EXISTS ph.client_user;
 
-CREATE TABLE ph.city(
-    zip_code INTEGER PRIMARY KEY,
-    city VARCHAR(150) NOT NULL
-);
-
-CREATE TABLE ph.company(
-    cvr INTEGER PRIMARY KEY,
-    company_name VARCHAR(100)
-);
 
 CREATE TABLE ph.users(
     user_id SERIAL PRIMARY KEY,
@@ -25,18 +16,25 @@ CREATE TABLE ph.users(
     salt      VARCHAR(180) NOT NULL,
     address VARCHAR(100) NOT NULL,
     zip_code INTEGER NOT NULL,
-    cvr INTEGER,
-    FOREIGN KEY (zip_code) REFERENCES ph.city (zip_code),
-    FOREIGN KEY (cvr) REFERENCES ph.company (cvr)
+    cvr INTEGER
+   
 );
 
 CREATE TABLE ph.client
 (
-    client_iD varchar(20) PRIMARY KEY,
+    client_id varchar(20) PRIMARY KEY,  
     client_name varchar(50) NOT NULL,
-    max_value DECIMAL,
-    min_value DECiMAL
+    max_value DECIMAL(4,2),            
+    min_value DECIMAL(4,2)             
 );
+
+INSERT INTO ph.client (client_id, client_name, max_value, min_value)
+VALUES
+    ('C001', 'AAAA-AAAA', 8.00, 6.00),  
+    ('C002', 'BBBB-BBBB', 8.00, 6.00),
+    ('C003', 'CCCC-CCCC', 8.00, 6.00),
+    ('C004', 'DDDD-DDDD', 8.00, 6.00);
+
 
 CREATE TABLE ph.status(
     status_id SERIAL PRIMARY KEY,
