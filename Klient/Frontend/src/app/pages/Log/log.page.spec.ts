@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SpamPage } from './spam.page';
+import { LogPage } from './log.page';
 
 describe('SpamPage', () => {
-  let component: SpamPage;
-  let fixture: ComponentFixture<SpamPage>;
+  let component: LogPage;
+  let fixture: ComponentFixture<LogPage>;
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(SpamPage);
+    fixture = TestBed.createComponent(LogPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

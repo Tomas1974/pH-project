@@ -38,6 +38,27 @@ import {DataService} from "../../../Services/Data.service";
       </ion-col>
     </ion-row>
 
+    <ion-button style=".grey {
+                  --ion-color-base: grey !important;
+                    --ion-color-base-rgb: 128,128,128 !important;
+}
+
+" [disabled]="!ValidateData.valid"
+                [class.grey]="!ValidateData.valid"
+
+                size="small"
+                (click)="selectUser()"
+                (keydown.enter)="selectUser()">Save
+    </ion-button>
+
+
+    <ion-button
+
+      size="small" (click)="UnselectUser()"
+      (keydown.enter)="UnselectUser()"
+    >Clear
+    </ion-button>
+
 
 
   `,
@@ -66,6 +87,12 @@ export class LoginComponent   {
   }
 
 
+  selectUser() {
 
+  }
 
+  UnselectUser() {
+    this.ValidateData.controls.brugerNavn.setValue("");
+    this.ValidateData.controls.kodeord.setValue("");
+  }
 }

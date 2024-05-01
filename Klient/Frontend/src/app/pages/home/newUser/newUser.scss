@@ -16,23 +16,3 @@
 
 }
 
-
-
-ion-button[size="small"] {
-  --border-style: solid;
-  --border-width: 1.5px;
-  --border-color: black;
-
-}
-
-ion-button[size="small"]:focus {
-  --border-color: grey;
-  outline: none;
-
-}
-
-ion-icon[name="eye"], ion-icon[name="eye-off"] {
-  font-size: 24px;
-  color: #777;
-  cursor: pointer;
-}

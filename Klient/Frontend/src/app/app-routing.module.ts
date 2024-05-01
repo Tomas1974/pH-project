@@ -22,12 +22,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/Graf/Graf').then(m => m.InboxPageModule)
   },
   {
-    path: 'outbox',
-    loadChildren: () => import('./pages/outbox/outbox.module').then( m => m.OutboxPageModule)
+    path: 'Settings',
+    loadChildren: () => import('./pages/Settings/settings.module').then(m => m.OutboxPageModule)
   },
   {
-    path: 'spam',
-    loadChildren: () => import('./pages/spam/spam.module').then( m => m.SpamPageModule)
+    path: 'Log',
+    loadChildren: () => import('./pages/Log/log.module').then(m => m.SpamPageModule)
   },
 ];
 

@@ -151,7 +151,7 @@ import {UserModel} from "../../../Models/userModel";
 
                 size="small"
                 (click)="selectAddress()"
-                (keydown.enter)="selectAddress()">Gem
+                (keydown.enter)="selectAddress()">Save
     </ion-button>
 
 
@@ -159,7 +159,7 @@ import {UserModel} from "../../../Models/userModel";
 
       size="small" (click)="UnselectAddress()"
       (keydown.enter)="UnselectAddress()"
-    >Tøm
+    >Clear
     </ion-button>
 
 
