@@ -131,22 +131,7 @@ public class MQTT
 
 //Her afbrydes forbindelsen
     }
-
-    public async Task sendMessageToBroker()
-    {
-        {
-            // Send a message to the esp/return topic
-            var message = new MqttApplicationMessageBuilder()
-                .WithTopic("esp/return")
-                .WithPayload("Start_Stop")
-                .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
-                .Build();
-
-            await mqttClient.PublishAsync(message, CancellationToken.None);
-            
-        }
-    }
-    
+   
 }
 
    public class ServerSendsIOTDataToClients : BaseDto

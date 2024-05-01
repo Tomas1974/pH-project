@@ -30,10 +30,10 @@ CREATE TABLE ph.client
 
 INSERT INTO ph.client (client_id, client_name, max_value, min_value)
 VALUES
-    ('AAAA-AAAA', 'Chiklide akvariet', 8.00, 6.00),  
-    ('BBBB-BBBB', 'Guppi akvariet', 8.00, 6.00),
-    ('CCCC-CCCC', 'Skalarne', 8.00, 6.00),
-    ('DDDD-DDDD', 'Guldfisk bowlen', 8.00, 6.00);
+    ('client/AAAA-AAAA', 'Chiklide akvariet', 8.00, 6.00),  
+    ('client/BBBB-BBBB', 'Guppi akvariet', 8.00, 6.00),
+    ('client/CCCC-CCCC', 'Skalarne', 8.00, 6.00),
+    ('client/DDDD-DDDD', 'Guldfisk bowlen', 8.00, 6.00);
 
 
 CREATE TABLE ph.status(

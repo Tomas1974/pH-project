@@ -7,11 +7,18 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-content>
 
-<ion-content >
+  <app-login *ngIf="!showLogin2"></app-login>
 
+  <!-- Show app-login2 if showLogin2 is true -->
+  <app-login2 *ngIf="showLogin2"></app-login2>
 
-  <app-login></app-login>
+  <!-- Toggle link text based on the component being displayed -->
+  <a (click)="toggleLogin()">
+    {{ showLogin2 ? 'Back to login' : 'Already have a username' }}
+  </a>
+
 
 
 
