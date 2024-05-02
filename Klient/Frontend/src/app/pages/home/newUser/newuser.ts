@@ -113,9 +113,9 @@ import {UserModel} from "../../../Models/userModel";
         <ion-col size="3.3">
           <ion-item>
 
-            <ion-input labelPlacement="stacked" [formControl]="ValidateData.controls.brugerNavn">
-              <div slot="label">Brugernavn
-                <ion-text *ngIf="!ValidateData.controls.brugerNavn.valid" color="danger">(min. 6 karakter)</ion-text>
+            <ion-input labelPlacement="stacked" [formControl]="ValidateData.controls.email">
+              <div slot="label">Email
+                <ion-text *ngIf="!ValidateData.controls.email.valid" color="danger">(Valid email address)</ion-text>
               </div>
 
             </ion-input>
@@ -189,7 +189,7 @@ ValidateData=this.formbuilder.group({
   husnrField: ["", [Validators.required, Validators.minLength(1)]],
   postnrField: ["",[Validators.required, Validators.min(1000),Validators.max(9999)]],
   byField: ["",[Validators.required, Validators.minLength(3)]],
-  brugerNavn: ["",[Validators.required, Validators.minLength(6)]],
+  email: ["",[Validators.required, Validators.minLength(6)]],
   kodeord: ["", [Validators.required, Validators.minLength(8), Validators.pattern(".*\\W.*")]],
 })
 
@@ -244,7 +244,7 @@ ValidateData=this.formbuilder.group({
     this.ValidateData.controls.postnrField.setValue("");
     this.ValidateData.controls.byField.setValue("");
     this.ValidateData.controls.navn.setValue("");
-    this.ValidateData.controls.brugerNavn.setValue("");
+    this.ValidateData.controls.email.setValue("");
     this.ValidateData.controls.kodeord.setValue("");
 
     this.addressSuggestions=[];
@@ -283,10 +283,11 @@ ValidateData=this.formbuilder.group({
 
   let userModel:UserModel = {
 
-    username: this.ValidateData.controls.brugerNavn.value+"",
+    name:this.ValidateData.controls.navn.value+"",
+    email: this.ValidateData.controls.email.value+"",
     password: this.ValidateData.controls.kodeord.value+"",
     address: this.ValidateData.controls.vejField.value+ " "+this.ValidateData.controls.husnrField.value,
-    zipcode: Number(this.ValidateData.controls.postnrField.value),
+    zip_code: Number(this.ValidateData.controls.postnrField.value),
     cvr: 0
 
     }

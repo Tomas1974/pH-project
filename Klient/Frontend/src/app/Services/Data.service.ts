@@ -90,10 +90,11 @@ export class DataService {
 
     var object = {
       eventType: "saveUser",
-      username: userModel.username,
+      email: userModel.email,
+      name: userModel.name,
       password: userModel.password,
       address: userModel.address,
-      zipcode: userModel.zipcode,
+      zipcode: userModel.zip_code,
       cvr: userModel.cvr
     }
     this.ws.send(JSON.stringify(object));

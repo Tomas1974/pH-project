@@ -1,9 +1,10 @@
 export interface UserModel {
 
-  username: string
+  email: string
+  name: string
   password: string
   address: string
-  zipcode: number
+  zip_code: number
   cvr?: number
 }
 

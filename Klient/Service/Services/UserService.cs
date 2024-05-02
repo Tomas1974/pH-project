@@ -29,11 +29,11 @@ public class UserService
             
                 {
                 email = userModel.email,
-                username = userModel.username, 
+                name = userModel.name, 
                 hash =  hashPassword,
                 salt = salt,
                 address =userModel.address,
-                zipcode =userModel.zipcode,
+                zip_code =userModel.zip_code,
                 cvr =userModel.cvr
                     
                 };
