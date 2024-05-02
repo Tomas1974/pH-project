@@ -5,7 +5,9 @@ using System.Xml;
 using api;
 using Fleck;
 using infrastructure;
+using infrastructure.Repositories;
 using lib;
+using Service.Services;
 using Service1;
 
 using Websocket;
@@ -27,6 +29,8 @@ if (builder.Environment.IsProduction())
 builder.Services.AddHttpClient();
 
 builder.Services.AddSingleton<UserRepository>();
+builder.Services.AddSingleton<ClientRepository>();
+builder.Services.AddSingleton<ClientService>();
 builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<HttpClientService>();
