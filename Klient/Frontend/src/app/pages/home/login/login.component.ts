@@ -97,7 +97,7 @@ export class LoginComponent   {
       password: this.ValidateData.controls.kodeord.value+"",
 
     };
-           
+
     this.dataservice.LoginUser(loginuser)
 
   }

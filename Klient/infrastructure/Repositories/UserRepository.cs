@@ -15,8 +15,8 @@ public class UserRepository
     
     public UserModel CreateUser(UserSaveToDatabaseModel saveToDatabase)
     {
-        var sql = @"INSERT INTO ph.users (name, hash, salt, address, zip_code, cvr) 
-                VALUES (@Name, @Hash, @Salt, @Address, @ZipCode, @Cvr) 
+        var sql = @"INSERT INTO ph.users (email,name, hash, salt, address, zip_code, cvr) 
+                VALUES (@Email,@Name, @Hash, @Salt, @Address, @Name@ZipCode, @Cvr) 
                 RETURNING *;";
 
         using (var conn = _dataSource.OpenConnection())
@@ -24,6 +24,7 @@ public class UserRepository
             
             return conn.QueryFirst<UserModel>(sql, new
             {
+                Email=saveToDatabase.email,
                 Name = saveToDatabase.username,       
                 Hash = saveToDatabase.hash,
                 Salt = saveToDatabase.salt,
@@ -34,6 +35,14 @@ public class UserRepository
         }
     }
     
-    
+    // public LoginModel FindUser(int boxId)
+    // {
+    //     var sql = $@"SELECT * FROM ph.users WHERE box_id = @boxId;";
+    //
+    //     using (var conn = _dataSource.OpenConnection())
+    //     {
+    //         return conn.QueryFirst<Box>(sql, new { boxId });
+    //     }
+    // }
     
 }

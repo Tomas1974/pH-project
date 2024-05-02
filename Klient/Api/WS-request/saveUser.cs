@@ -23,6 +23,7 @@ public class saveUser : BaseEventHandler<saveUserDto>
     {
         var message = new UserModel
         {
+            email = dto.email,
             username = dto.username,
             password = dto.password,
             address = dto.address,
@@ -41,7 +42,7 @@ public class saveUser : BaseEventHandler<saveUserDto>
 
 public class saveUserDto : BaseDto
 {
-    
+    public string email { get; set; }
     public string username { get; set; }
     public string password { get; set; }
     public string address { get; set; }

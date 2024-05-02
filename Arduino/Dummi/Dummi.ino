@@ -8,6 +8,8 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 
 int satisfaction = 0;
+int secondsDelay=100;
+int counter=0;
 
 String names[]={"AAAA-AAAA","BBBB-BBBB","CCCC-CCCC","DDDD-DDDD","EEEE-EEEE","FFFF-FFFF","GGGG-GGGG","HHHH-HHHH","IIII-IIII","JJJJ-JJJJ","KKKK-KKKK","LLLL-LLLL","MMMM-MMMM","NNNN-NNNN","OOOO-OOOO","PPPP-PPPP","QQQQ-QQQQ","RRRR-RRRR","SSSS-SSSS"
 ,"TTTT-TTTT","UUUU-UUUU","VVVV-VVVV","XXXX-XXXX","YYYY-YYYY","ZZZZ-ZZZZ"};
@@ -89,16 +91,23 @@ if (!client.connected()) {
   }
   client.loop();
 
-
+counter++;
+if(counter>secondsDelay)
+{
+  counter=0;
 randNumber = random(650+i*3, 680+i*3); 
  randNumber1=float(randNumber)/100.0;
  sprintf(message, "%.2f", randNumber1);
 sprintf(address, "client/%s", names[i]);
-
  client.publish(address, message);
  Serial.println(names[i]);
+
+}
+
+
+
     
-    delay(3*60*1000); 
+    delay(1000); 
 
 }
 

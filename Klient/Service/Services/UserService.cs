@@ -28,6 +28,7 @@ public class UserService
             UserSaveToDatabaseModel saveToDatabase= new UserSaveToDatabaseModel
             
                 {
+                email = userModel.email,
                 username = userModel.username, 
                 hash =  hashPassword,
                 salt = salt,
