@@ -35,17 +35,29 @@ public class LoginUser : BaseEventHandler<loginUserDto>
 
         };
 
-        bool login = _userService.loginUser(loginModel);
+        string login = _userService.loginUser(loginModel);
         Console.WriteLine("Check "+login);
         
-        return Task.CompletedTask;
-        }
-
+       
+        var message = new responseString()
+        {
+            
+           response = login
+        
+      
+        };
+ 
+        var messageToClient = JsonSerializer.Serialize(message);
+        socket.Send(messageToClient);
+        
+        return Task.CompletedTask;    
+    
+    
    
     }
     
  
-
+}
 
 
 public class loginUserDto : BaseDto
@@ -58,14 +70,17 @@ public class loginUserDto : BaseDto
 
 
 
-//
-// public class sendAddresses : BaseDto
-// {
-//    
-//     public AddressRootObject results { get; set; }
-//     
-//  
-// }
+
+public class responseString : BaseDto
+{
+   
+    public string response { get; set; }
+    
+ 
+}
+
+
+
 
 
 

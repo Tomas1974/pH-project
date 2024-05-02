@@ -31,11 +31,23 @@ public class saveUser : BaseEventHandler<saveUserDto>
             cvr = dto.cvr
         };
 
-        _UserService.CreateUser(message);
+        string message1=_UserService.CreateUser(message);
         
+        Console.WriteLine(message1);
         
+        var message2 = new responseString
+        {
+            
+            response = message1
         
-        return Task.CompletedTask;
+      
+        };
+ 
+        var messageToClient = JsonSerializer.Serialize(message2);
+        socket.Send(messageToClient);
+        
+        return Task.CompletedTask;    
+
     }
     
     }

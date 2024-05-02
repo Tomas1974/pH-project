@@ -1,4 +1,5 @@
-﻿using infrastructure;
+﻿using System.ComponentModel.DataAnnotations;
+using infrastructure;
 using infrastructure.DataModels;
 using service.Services;
 
@@ -16,18 +17,19 @@ public class UserService
     
 
 
-    public UserModel CreateUser(UserModel userModel)
+    public string CreateUser(UserModel userModel)
     {
-
-        PasswordHashService passwordHashService = new PasswordHashService();
-        string salt = passwordHashService.GenerateSalt();
-        string hashPassword = passwordHashService.HashPassword(userModel.password, salt);
+        try
+        {
+            PasswordHashService passwordHashService = new PasswordHashService();
+            string salt = passwordHashService.GenerateSalt();
+            string hashPassword = passwordHashService.HashPassword(userModel.password, salt);
         
       
             
             UserSaveToDatabaseModel saveToDatabase= new UserSaveToDatabaseModel
             
-                {
+            {
                 email = userModel.email,
                 name = userModel.name, 
                 hash =  hashPassword,
@@ -36,26 +38,51 @@ public class UserService
                 zip_code =userModel.zip_code,
                 cvr =userModel.cvr
                     
-                };
+            };
             
-      
-      
-            return _userRepository.CreateUser(saveToDatabase);
+             CheckLoginModel checkLoginModel = _userRepository.FindUser(userModel.email);
+              
+             
+             if (checkLoginModel == null )
+                     _userRepository.CreateUser(saveToDatabase);    
+             else
+             
+                     return "Email already used";
+                
+            
+            return "Success";
+        }
+        catch 
+        {
+            Console.WriteLine("Fejl på gemning");
+            throw new ValidationException("An error occured creating user");
+        }
+        
+       
 
     }
 
-    public bool loginUser(LoginModel loginModel)
+    public string loginUser(LoginModel loginModel)
     {
-        PasswordHashService passwordHashService = new PasswordHashService();
+        try
+        {
+            PasswordHashService passwordHashService = new PasswordHashService();
 
-        CheckLoginModel checkLoginModel = _userRepository.FindUser(loginModel.email);
+            CheckLoginModel checkLoginModel = _userRepository.FindUser(loginModel.email);
         
-        string hashPassword = passwordHashService.HashPassword(loginModel.password, checkLoginModel.salt);
+            string hashPassword = passwordHashService.HashPassword(loginModel.password, checkLoginModel.salt);
         
-        if (hashPassword.Equals(checkLoginModel.hash))
-            return true;
-        else
-            return false;
+            if (hashPassword.Equals(checkLoginModel.hash))
+                return "Success";
+            else
+                return "Wrong username or password";
+        }
+        catch 
+        {
+            
+            throw new ValidationException("An error occured login");
+        }
+        
 
     }
 

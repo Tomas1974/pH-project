@@ -25,9 +25,9 @@ public class LoginModel
 
 public class CheckLoginModel
 {
-    public string email { get; set; }
-    public string hash { get; set; }
-    public string salt { get; set; }
+    public string? email { get; set; }
+    public string? hash { get; set; }
+    public string? salt { get; set; }
    
 }
 

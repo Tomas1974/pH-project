@@ -37,11 +37,12 @@ public class UserRepository
     
     public CheckLoginModel FindUser(String Email)
     {
+        
         var sql = $@"SELECT email, hash, salt FROM ph.users WHERE email = @Email;";
     
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QueryFirst<CheckLoginModel>(sql, new { Email=Email });
+            return conn.QueryFirstOrDefault<CheckLoginModel>(sql, new { Email=Email }); //Denne QueryFirstOrDefault acceptere null værdier.
         }
     }
     
