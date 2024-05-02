@@ -4,8 +4,7 @@ import {temperaturModel} from "./tempModel";
 import {BaseDto, sendAddressesDto, ServerSendsIOTDataToClientsDto} from "../BaseDto";
 import {Address} from "../Models/LookupModels";
 import {LoginModel, UserModel} from "../Models/userModel";
-
-
+import {ClientModel} from "../Models/clientModel";
 
 
 @Injectable({
@@ -111,6 +110,18 @@ export class DataService {
       username: loginModel.username,
       password: loginModel.password
 
+    }
+    this.ws.send(JSON.stringify(object));
+  }
+
+  saveClient(clientModel: ClientModel)
+  {
+    var object = {
+      eventType: "saveClient",
+      client_id: clientModel.client_id,
+      client_name: clientModel.client_name,
+      max_value: clientModel.max_value,
+      min_value: clientModel.min_value
     }
     this.ws.send(JSON.stringify(object));
   }
