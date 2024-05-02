@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS ph.client_user;
 
 
 CREATE TABLE ph.users(
-    user_id SERIAL PRIMARY KEY,
+    email VARCHAR(100) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     hash      VARCHAR(350) NOT NULL,
     salt      VARCHAR(180) NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE ph.data(
 CREATE TABLE ph.client_user(
     client_user_id SERIAL PRIMARY KEY,
     client_id VARCHAR(20) NOT NULL,
-    user_id INTEGER NOT NULL,
+    email VARCHAR(100) NOT NULL,
     FOREIGN KEY (client_id) REFERENCES ph.client (client_iD),
-    FOREIGN KEY (user_id) REFERENCES ph.users (user_id)
+    FOREIGN KEY (email) REFERENCES ph.users (email)
 );
