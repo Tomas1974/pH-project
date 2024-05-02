@@ -43,8 +43,21 @@ public class UserService
             return _userRepository.CreateUser(saveToDatabase);
 
     }
-    
-    
+
+    public bool loginUser(LoginModel loginModel)
+    {
+        PasswordHashService passwordHashService = new PasswordHashService();
+
+        CheckLoginModel checkLoginModel = _userRepository.FindUser(loginModel.email);
+        
+        string hashPassword = passwordHashService.HashPassword(loginModel.password, checkLoginModel.salt);
+        
+        if (hashPassword.Equals(checkLoginModel.hash))
+            return true;
+        else
+            return false;
+
+    }
 
 
 }

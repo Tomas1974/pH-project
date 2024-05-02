@@ -13,9 +13,9 @@ import {LoginModel} from "../../../Models/userModel";
       <ion-col size="3.3">
         <ion-item>
 
-          <ion-input labelPlacement="stacked" [formControl]="ValidateData.controls.brugerNavn">
-            <div slot="label">Brugernavn
-              <ion-text *ngIf="!ValidateData.controls.brugerNavn.valid" color="danger">(min. 6 karakter)</ion-text>
+          <ion-input labelPlacement="stacked" [formControl]="ValidateData.controls.email">
+            <div slot="label">Email
+              <ion-text *ngIf="!ValidateData.controls.email.valid"></ion-text>
             </div>
 
           </ion-input>
@@ -28,9 +28,9 @@ import {LoginModel} from "../../../Models/userModel";
       <ion-col size="3.3">
         <ion-item>
           <ion-input labelPlacement="stacked" [type]="showPassword ? 'text' : 'password'"
-                     [formControl]="ValidateData.controls.kodeord">
-            <div slot="label">Kodeord
-              <ion-text *ngIf="!ValidateData.controls.kodeord.valid" color="danger">(min. 8 kar. min 1 special)</ion-text>
+                     [formControl]="ValidateData.controls.password">
+            <div slot="label">Password
+              <ion-text *ngIf="!ValidateData.controls.password.valid"></ion-text>
             </div>
           </ion-input>
           <ion-icon [name]="showPassword ? 'eye-off' : 'eye'" slot="end"
@@ -72,8 +72,8 @@ export class LoginComponent   {
 
   ValidateData=this.formbuilder.group({
 
-    brugerNavn: ["",[Validators.required, Validators.minLength(6)]],
-    kodeord: ["", [Validators.required, Validators.minLength(8), Validators.pattern(".*\\W.*")]],
+    email: ["", [Validators.required, Validators.email, Validators.minLength(6)]],
+    password: ["", [Validators.required, Validators.minLength(8), Validators.pattern(".*\\W.*")]],
   })
 
 
@@ -93,8 +93,8 @@ export class LoginComponent   {
 
     let loginuser:LoginModel={
 
-      username: this.ValidateData.controls.brugerNavn.value+"",
-      password: this.ValidateData.controls.kodeord.value+"",
+      email: this.ValidateData.controls.email.value+"",
+      password: this.ValidateData.controls.password.value+"",
 
     };
 
@@ -103,7 +103,7 @@ export class LoginComponent   {
   }
 
   UnselectUser() {
-    this.ValidateData.controls.brugerNavn.setValue("");
-    this.ValidateData.controls.kodeord.setValue("");
+    this.ValidateData.controls.email.setValue("");
+    this.ValidateData.controls.password.setValue("");
   }
 }

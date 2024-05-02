@@ -3,35 +3,41 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using api;
 using Fleck;
+using infrastructure.DataModels;
 using lib;
+using Service1;
 
 namespace ws;
 
 
 
 
-public class loginUser(HttpClientService httpService) : BaseEventHandler<loginUserDto>
+public class LoginUser : BaseEventHandler<loginUserDto>
 {
 
+    public readonly UserService _userService;  
+    
+    public LoginUser(UserService userService) 
+    {
+        _userService = userService;  
+    }
+    
     
     
     public override  Task Handle(loginUserDto dto, IWebSocketConnection socket)
     {
-        
-        
-        
 
-       // Console.WriteLine("Hej"+dto.addressSearchTerm);
-        // var message = new sendAddresses()
-        // {
-        //     
-        //     results= await httpService.GetAddressSuggestion(dto.addressSearchTerm)
-        //
-        //
-        // };
- 
-        // var messageToClient = JsonSerializer.Serialize(message);
-        // socket.Send(messageToClient);
+
+        LoginModel loginModel = new LoginModel
+        {
+            email = dto.email,
+            password = dto.password
+
+        };
+
+        bool login = _userService.loginUser(loginModel);
+        Console.WriteLine("Check "+login);
+        
         return Task.CompletedTask;
         }
 
@@ -45,7 +51,7 @@ public class loginUser(HttpClientService httpService) : BaseEventHandler<loginUs
 public class loginUserDto : BaseDto
 {
     
-    public string username { get; set; }
+    public string email { get; set; }
      public string password { get; set; }
     
 }

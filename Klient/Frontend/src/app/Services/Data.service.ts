@@ -108,7 +108,7 @@ export class DataService {
 
     var object = {
       eventType: "loginUser",
-      username: loginModel.username,
+      email: loginModel.email,
       password: loginModel.password
 
     }

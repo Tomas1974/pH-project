@@ -35,14 +35,14 @@ public class UserRepository
         }
     }
     
-    // public LoginModel FindUser(int boxId)
-    // {
-    //     var sql = $@"SELECT * FROM ph.users WHERE box_id = @boxId;";
-    //
-    //     using (var conn = _dataSource.OpenConnection())
-    //     {
-    //         return conn.QueryFirst<Box>(sql, new { boxId });
-    //     }
-    // }
+    public CheckLoginModel FindUser(String Email)
+    {
+        var sql = $@"SELECT email, hash, salt FROM ph.users WHERE email = @Email;";
+    
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.QueryFirst<CheckLoginModel>(sql, new { Email=Email });
+        }
+    }
     
 }
