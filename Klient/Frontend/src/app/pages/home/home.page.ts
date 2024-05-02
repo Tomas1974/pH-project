@@ -18,8 +18,8 @@ showHeader: string="- New User";
     this.showLogin2 = !this.showLogin2;  // Toggle the state
 
     if (this.showLogin2)
-      this.showHeader="- New User"
-    else
       this.showHeader="- Login"
+    else
+      this.showHeader="- New user"
   }
 }

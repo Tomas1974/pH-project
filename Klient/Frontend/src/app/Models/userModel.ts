@@ -6,3 +6,10 @@ export interface UserModel {
   zipcode: number
   cvr?: number
 }
+
+export interface LoginModel {
+
+  username: string
+  password: string
+
+}

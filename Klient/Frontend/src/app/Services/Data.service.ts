@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {temperaturModel} from "./tempModel";
 import {BaseDto, sendAddressesDto, ServerSendsIOTDataToClientsDto} from "../BaseDto";
 import {Address} from "../Models/LookupModels";
-import {UserModel} from "../Models/userModel";
+import {LoginModel, UserModel} from "../Models/userModel";
 
 
 
@@ -81,6 +81,11 @@ export class DataService {
   }
 
 
+
+
+
+
+
   saveUser(userModel: UserModel)
   {
 
@@ -98,6 +103,17 @@ export class DataService {
 
 
 
+  LoginUser(loginModel: LoginModel)
+  {
+
+    var object = {
+      eventType: "loginUser",
+      username: loginModel.username,
+      password: loginModel.password
+
+    }
+    this.ws.send(JSON.stringify(object));
+  }
 
 
 

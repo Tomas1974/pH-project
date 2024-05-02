@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {DataService} from "../../../Services/Data.service";
+import {LoginModel} from "../../../Models/userModel";
 
 @Component({
   selector: 'app-login2',
@@ -88,6 +89,16 @@ export class LoginComponent   {
 
 
   selectUser() {
+
+
+    let loginuser:LoginModel={
+
+      username: this.ValidateData.controls.brugerNavn.value+"",
+      password: this.ValidateData.controls.kodeord.value+"",
+
+    };
+           
+    this.dataservice.LoginUser(loginuser)
 
   }
 
