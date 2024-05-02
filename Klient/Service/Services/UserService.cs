@@ -43,7 +43,7 @@ public class UserService
              CheckLoginModel checkLoginModel = _userRepository.FindUser(userModel.email);
               
              
-             if (checkLoginModel == null )
+             if (checkLoginModel == null ) //Checker om emailen er brugt før
                      _userRepository.CreateUser(saveToDatabase);    
              else
              
@@ -69,11 +69,17 @@ public class UserService
             PasswordHashService passwordHashService = new PasswordHashService();
 
             CheckLoginModel checkLoginModel = _userRepository.FindUser(loginModel.email);
+
+            if (checkLoginModel != null)
+            {
+                string hashPassword = passwordHashService.HashPassword(loginModel.password, checkLoginModel.salt);
         
-            string hashPassword = passwordHashService.HashPassword(loginModel.password, checkLoginModel.salt);
-        
-            if (hashPassword.Equals(checkLoginModel.hash))
-                return "Success";
+                if (hashPassword.Equals(checkLoginModel.hash))
+                    return "Success";
+                else
+                    return "Wrong username or password";
+            }
+           
             else
                 return "Wrong username or password";
         }
