@@ -5,7 +5,7 @@ namespace Service.Services;
 
 public class ClientService
 {
-    private readonly ClientRepository _ClientRepository;
+    private ClientRepository _ClientRepository;
 
     public ClientService(ClientRepository clientRepository)
     {
