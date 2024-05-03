@@ -20,9 +20,9 @@
     <ion-col size="45">
 
 
-      <app-login *ngIf="!showLogin2 && dataservice.loginResponse!=='Success'"></app-login>
-      <app-login2 *ngIf="showLogin2 && dataservice.loginResponse!=='Success'"></app-login2>
-      <app-login-overview *ngIf="dataservice.loginResponse==='Success'"></app-login-overview>
+      <app-login *ngIf="!showLogin2 && homeService.loginResponse!=='Success'"></app-login>
+      <app-login2 *ngIf="showLogin2 && homeService.loginResponse!=='Success'"></app-login2>
+      <app-login-overview *ngIf="homeService.loginResponse==='Success'"></app-login-overview>
 
     </ion-col>
 
@@ -33,7 +33,7 @@
 
     <ion-row>
       <ion-col >
-        <a *ngIf="dataservice.loginResponse !== 'Success'"
+        <a *ngIf="homeService.loginResponse !== 'Success'"
            style="color: blue; text-decoration: underline; cursor: pointer;"
            (click)="toggleLogin()">
           {{ showLogin2 ? 'Create account' : 'Already have an account?' }}

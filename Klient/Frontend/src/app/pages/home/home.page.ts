@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {HomeService} from "./Service/home.service";
 
@@ -7,20 +7,28 @@ import {HomeService} from "./Service/home.service";
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
 showHeader: string="- New User";
 
   constructor(private router: Router,
-              public dataservice:HomeService)
+              public homeService:HomeService)
 {
+
   }
+
+  ngOnInit(): void {
+
+    }
+
+
+
 
   showLogin2 = false;  // State to toggle between Login and Login2
 
   toggleLogin(): void {
     this.showLogin2 = !this.showLogin2;  // Toggle the state
 
-    if (this.dataservice.loginResponse!="Success")
+    if (this.homeService.loginResponse!="Success")
     {
       if (this.showLogin2)
         this.showHeader="- Login"
@@ -29,5 +37,8 @@ showHeader: string="- New User";
     }
       else
       this.showHeader="- Login information"
+
+
   }
+
 }

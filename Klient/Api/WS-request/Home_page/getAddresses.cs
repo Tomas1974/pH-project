@@ -18,7 +18,7 @@ public class getAddresses(HttpClientService httpService) : BaseEventHandler<getA
     public override async Task Handle(getAddressesDto dto, IWebSocketConnection socket)
     {
 
-       // Console.WriteLine("Hej"+dto.addressSearchTerm);
+        Console.WriteLine("Hej"+dto.addressSearchTerm);
         var message = new sendAddresses()
         {
             

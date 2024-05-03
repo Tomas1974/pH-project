@@ -106,11 +106,16 @@ export class HomeService {
   }
 
 
+  checkIfAnyoneHasLoggedIn() {
 
 
+    var object = {
+      eventType: "WhoHasLoggedIn",
+      LoggedInInfo: "LogInInfo"
 
+    }
+    this.ws.send(JSON.stringify(object));
 
-
-
+  }
 }
 

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {HomeService} from "../Service/home.service";
+import {Route, Router} from "@angular/router";
 
 @Component({
   selector: 'app-login-overview',
@@ -11,17 +13,17 @@ import { Component, OnInit } from '@angular/core';
 
   </ion-row>
 <ion-row>
-  <a>Go to graf</a>
+  <a routerLink="/Graf">Go to graf</a>
 </ion-row>
   <ion-row>
-    <a>Go to settings</a>
+    <a routerLink="/Settings">Go to settings</a>
   </ion-row>
   <ion-row style="height: 100px">
-    <a>Go to log</a>
+    <a routerLink="/Log">Go to log</a>
   </ion-row>
 
   <ion-row>
-  <ion-button size="small">LogOut</ion-button>
+  <ion-button size="small" (click)="LogOut()">LogOut</ion-button>
   <ion-button size="small">Delete User</ion-button>
   <ion-button size="small">Edit User</ion-button>
   </ion-row>
@@ -42,8 +44,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginOverviewComponent  implements OnInit {
 
-  constructor() { }
+  constructor(private homeService: HomeService,
+              private router: Router)
+{ }
 
   ngOnInit() {}
 
+  LogOut() {
+       this.homeService.checkIfAnyoneHasLoggedIn();
+  }
 }

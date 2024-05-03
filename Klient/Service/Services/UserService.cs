@@ -7,6 +7,8 @@ namespace Service1;
 
 public class UserService
 {
+    public string loginEmail = "";
+    
     
     private readonly UserRepository _userRepository;
 
@@ -41,10 +43,13 @@ public class UserService
             };
             
              CheckLoginModel checkLoginModel = _userRepository.FindUser(userModel.email);
-              
-             
-             if (checkLoginModel == null ) //Checker om emailen er brugt før
-                     _userRepository.CreateUser(saveToDatabase);    
+
+
+             if (checkLoginModel == null) //Checker om emailen er brugt før
+             {
+                 _userRepository.CreateUser(saveToDatabase);
+                 loginEmail = userModel.email; //gemmer hvem der er login. Hvis browseren bliver genindlæst kan man slå op, hvem der er logget ind.
+             }    
              else
              
                      return "Email already used";
@@ -73,9 +78,13 @@ public class UserService
             if (checkLoginModel != null)
             {
                 string hashPassword = passwordHashService.HashPassword(loginModel.password, checkLoginModel.salt);
-        
+
                 if (hashPassword.Equals(checkLoginModel.hash))
+                {
+                    loginEmail = loginModel.email;
                     return "Success";
+                    
+                }
                 else
                     return "Wrong username or password";
             }

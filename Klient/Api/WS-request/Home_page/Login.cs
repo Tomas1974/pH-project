@@ -36,7 +36,7 @@ public class LoginUser : BaseEventHandler<loginUserDto>
         };
 
         string login = _userService.loginUser(loginModel);
-        Console.WriteLine("Check "+login);
+        
         
        
         var message = new responseString()

@@ -4,6 +4,7 @@ import {temperaturModel} from "./tempModel";
 
 import {ClientModel} from "../Models/clientModel";
 import {BaseDto, ServerSendsIOTDataToClientsDto} from "./BaseDto";
+import {AddressAPIJsonResponseModel} from "../Models/LookupModels";
 
 
 @Injectable({
