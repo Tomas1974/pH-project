@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
+import {HomeService} from "./Service/home.service";
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,9 @@ import {Router} from "@angular/router";
 export class HomePage {
 showHeader: string="- New User";
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              public dataservice:HomeService)
+{
   }
 
   showLogin2 = false;  // State to toggle between Login and Login2
@@ -17,9 +20,14 @@ showHeader: string="- New User";
   toggleLogin(): void {
     this.showLogin2 = !this.showLogin2;  // Toggle the state
 
-    if (this.showLogin2)
-      this.showHeader="- Login"
-    else
-      this.showHeader="- New user"
+    if (this.dataservice.loginResponse!="Success")
+    {
+      if (this.showLogin2)
+        this.showHeader="- Login"
+      else
+        this.showHeader="- New user"
+    }
+      else
+      this.showHeader="- Login information"
   }
 }

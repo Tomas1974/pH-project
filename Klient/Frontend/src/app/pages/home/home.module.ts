@@ -7,6 +7,7 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import {NewUserComponent} from "./newUser/newuser";
 import {LoginComponent} from "./login/login.component";
+import {LoginOverviewComponent} from "./login-overview/login-overview.component";
 
 
 @NgModule({
@@ -17,6 +18,6 @@ import {LoginComponent} from "./login/login.component";
     HomePageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [HomePage, NewUserComponent,LoginComponent]
+  declarations: [HomePage, NewUserComponent, LoginComponent, LoginOverviewComponent]
 })
 export class HomePageModule {}

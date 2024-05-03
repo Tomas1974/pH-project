@@ -1,4 +1,4 @@
-<ion-header >
+<ion-header xmlns:color="http://www.w3.org/1999/xhtml">
   <ion-toolbar>
     <ion-title>  Home {{showHeader}}</ion-title>
     <ion-buttons slot="start">
@@ -14,23 +14,33 @@
    <ion-col style="display: flex;
     align-items: center;
     flex-direction: column;">
-  <ion-row >
+
+
+   <ion-row >
     <ion-col size="45">
 
-  <app-login *ngIf="!showLogin2"></app-login>
 
-  <app-login2 *ngIf="showLogin2"></app-login2>
+      <app-login *ngIf="!showLogin2 && dataservice.loginResponse!=='Success'"></app-login>
+      <app-login2 *ngIf="showLogin2 && dataservice.loginResponse!=='Success'"></app-login2>
+      <app-login-overview *ngIf="dataservice.loginResponse==='Success'"></app-login-overview>
+
     </ion-col>
+
+
 
   </ion-row>
 
 
     <ion-row>
       <ion-col >
-  <a style="color: blue; text-decoration: underline; cursor: pointer;" (click)="toggleLogin()">
-    {{ showLogin2 ? 'Create account' : 'Already have an account' }}
-  </a>
-     </ion-col>
+        <a *ngIf="dataservice.loginResponse !== 'Success'"
+           style="color: blue; text-decoration: underline; cursor: pointer;"
+           (click)="toggleLogin()">
+          {{ showLogin2 ? 'Create account' : 'Already have an account?' }}
+        </a>
+
+
+      </ion-col>
     </ion-row>
 
    </ion-col>

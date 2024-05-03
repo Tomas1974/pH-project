@@ -29,6 +29,7 @@
 
 
 
+
 ion-button[size="small"] {
   --border-style: solid;
   --border-width: 1.5px;
@@ -41,3 +42,21 @@ ion-button[size="small"]:focus {
   outline: none;
 
 }
+
+.white-background-black-text {
+  background-color: white;
+  color: black;
+  font-size: 10px;
+  height: 11px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-end: 0;
+  --inner-padding-start: 0;
+}
+
+.highlighted-selection {
+  background-color: #f0f0f0;
+  color: black;
+
+}
+
