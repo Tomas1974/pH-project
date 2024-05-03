@@ -24,7 +24,7 @@ public class UserRepository
             
             return conn.QueryFirst<UserModel>(sql, new
             {
-                Email=saveToDatabase.email,
+                Email=saveToDatabase.email.ToLower(),
                 Name = saveToDatabase.name,       
                 Hash = saveToDatabase.hash,
                 Salt = saveToDatabase.salt,
@@ -42,7 +42,7 @@ public class UserRepository
     
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QueryFirstOrDefault<CheckLoginModel>(sql, new { Email=Email }); //Denne QueryFirstOrDefault acceptere null værdier.
+            return conn.QueryFirstOrDefault<CheckLoginModel>(sql, new { Email=Email.ToLower() }); //Denne QueryFirstOrDefault acceptere null værdier.
         }
     }
     

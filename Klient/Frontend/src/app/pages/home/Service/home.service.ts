@@ -4,6 +4,7 @@ import {Address} from "../../../Models/LookupModels";
 import {LoginModel, UserModel} from "../../../Models/userModel";
 import {ClientModel} from "../../../Models/clientModel";
 import {HomeBaseDto, responseStringDto, sendAddressesDto} from "./HomeBaseDto";
+import {DataService} from "../../../Services/Data.service";
 
 
 @Injectable({
@@ -11,13 +12,14 @@ import {HomeBaseDto, responseStringDto, sendAddressesDto} from "./HomeBaseDto";
 })
 export class HomeService {
 
-  secCounter:number=0;
+
   addressSuggestions: Address[] = [];
     ws: WebSocket = new WebSocket("ws://localhost:8181")
   loginResponse: string | undefined="";
+    requestLoginUser: string="";
 
+  constructor(public dataservice:DataService) {
 
-  constructor() {
     this.ws.onmessage = message => {
       const messageFromServer = JSON.parse(message.data) as HomeBaseDto<any>;
       // @ts-ignore
@@ -58,7 +60,11 @@ export class HomeService {
   {
 
     this.loginResponse=dto.response;
-    console.log("Check"+dto.response);
+
+    if (dto.response=="Success")
+    {
+      this.dataservice.loginUser=this.requestLoginUser; //Da denne infor bruges i andre pages sendes info til fælles dataservice
+    }
 
   }
 
@@ -68,6 +74,8 @@ export class HomeService {
 
   saveUser(userModel: UserModel)
   {
+
+    this.requestLoginUser=userModel.email;
 
     var object = {
       eventType: "saveUser",
@@ -86,6 +94,7 @@ export class HomeService {
 
   LoginUser(loginModel: LoginModel)
   {
+    this.requestLoginUser=loginModel.email;
 
     var object = {
       eventType: "loginUser",

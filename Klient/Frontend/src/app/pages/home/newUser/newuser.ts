@@ -134,7 +134,12 @@ import {HomeService} from "../Service/home.service";
         </ion-col>
       </ion-row>
 
-    </ion-grid>
+      <ion-row>
+        <ion-col>
+          <p style="height: 7px;color: red">{{dataservice.loginResponse}}</p>
+        </ion-col>
+      </ion-row>
+
 
     <ion-button style=".grey {
                   --ion-color-base: grey !important;
@@ -157,7 +162,7 @@ import {HomeService} from "../Service/home.service";
     >Clear
     </ion-button>
 
-
+    </ion-grid>
 
   `,
   styleUrls: ['./newUser.scss'],
@@ -243,7 +248,7 @@ ValidateData=this.formbuilder.group({
     this.ValidateData.controls.password.setValue("");
 
     this.addressSuggestions=[];
-
+    this.dataservice.loginResponse="";
   }
 
   hideSuggestions() {

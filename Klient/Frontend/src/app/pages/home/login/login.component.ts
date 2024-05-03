@@ -39,7 +39,11 @@ import {HomeService} from "../Service/home.service";
         </ion-item>
       </ion-col>
     </ion-row>
-
+<ion-row>
+  <ion-col>
+    <p style="height: 7px;color: red">{{dataservice.loginResponse}}</p>
+  </ion-col>
+</ion-row>
     <ion-button style=".grey {
                   --ion-color-base: grey !important;
                     --ion-color-base-rgb: 128,128,128 !important;
@@ -106,5 +110,6 @@ export class LoginComponent   {
   UnselectUser() {
     this.ValidateData.controls.email.setValue("");
     this.ValidateData.controls.password.setValue("");
+    this.dataservice.loginResponse="";
   }
 }

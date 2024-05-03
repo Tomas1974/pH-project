@@ -13,8 +13,11 @@ export class DataService {
 
   secCounter:number=0;
   temperatureData: temperaturModel[]=[];
-
   start: boolean=false;
+
+  loginUser: string="";
+
+
 
   ws: WebSocket = new WebSocket("ws://localhost:8181")
   graphName: string="";
