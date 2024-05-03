@@ -28,6 +28,8 @@ showHeader: string="- New User";
   toggleLogin(): void {
     this.showLogin2 = !this.showLogin2;  // Toggle the state
 
+    console.log(this.homeService.loginResponse);
+
     if (this.homeService.loginResponse!="Success")
     {
       if (this.showLogin2)
