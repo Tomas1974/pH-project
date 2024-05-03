@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import {temperaturModel} from "./tempModel";
-import {BaseDto, sendAddressesDto, ServerSendsIOTDataToClientsDto} from "../BaseDto";
-import {Address} from "../Models/LookupModels";
-import {LoginModel, UserModel} from "../Models/userModel";
+
 import {ClientModel} from "../Models/clientModel";
+import {BaseDto, ServerSendsIOTDataToClientsDto} from "./BaseDto";
 
 
 @Injectable({
@@ -14,7 +13,7 @@ export class DataService {
 
   secCounter:number=0;
   temperatureData: temperaturModel[]=[];
-  addressSuggestions: Address[] = [];
+
   start: boolean=false;
 
   ws: WebSocket = new WebSocket("ws://localhost:8181")
@@ -56,64 +55,7 @@ export class DataService {
   }
 
 
-  sendAddressLine(addressSearchTerm: string)
-  {
 
-    var object = {
-      eventType: "getAddresses",
-      addressSearchTerm: addressSearchTerm
-
-    }
-    this.ws.send(JSON.stringify(object));
-
-
-  }
-
-
-  sendAddresses(dto: sendAddressesDto): void
-
-  {
-
-      const addressSuggestions=dto.results!
-      this.addressSuggestions=addressSuggestions.results;
-
-  }
-
-
-
-
-
-
-
-  saveUser(userModel: UserModel)
-  {
-
-    var object = {
-      eventType: "saveUser",
-      email: userModel.email,
-      name: userModel.name,
-      password: userModel.password,
-      address: userModel.address,
-      zipcode: userModel.zip_code,
-      cvr: userModel.cvr
-    }
-    this.ws.send(JSON.stringify(object));
-  }
-
-
-
-
-  LoginUser(loginModel: LoginModel)
-  {
-
-    var object = {
-      eventType: "loginUser",
-      email: loginModel.email,
-      password: loginModel.password
-
-    }
-    this.ws.send(JSON.stringify(object));
-  }
 
   saveClient(clientModel: ClientModel)
   {
@@ -126,11 +68,6 @@ export class DataService {
     }
     this.ws.send(JSON.stringify(object));
   }
-
-
-
-
-
 
 
 

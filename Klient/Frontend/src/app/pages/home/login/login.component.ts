@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {DataService} from "../../../Services/Data.service";
 import {LoginModel} from "../../../Models/userModel";
+import {HomeService} from "../Service/home.service";
 
 @Component({
   selector: 'app-login2',
@@ -49,7 +50,7 @@ import {LoginModel} from "../../../Models/userModel";
 
                 size="small"
                 (click)="selectUser()"
-                (keydown.enter)="selectUser()">Save
+                (keydown.enter)="selectUser()">Login
     </ion-button>
 
 
@@ -77,7 +78,7 @@ export class LoginComponent   {
   })
 
 
-  constructor(public dataservice: DataService,
+  constructor(public dataservice: HomeService,
               public formbuilder: FormBuilder) { }
 
 

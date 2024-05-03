@@ -5,6 +5,7 @@ import {firstValueFrom} from "rxjs";
 import {Address, AddressAPIJsonResponseModel } from "../../../Models/LookupModels";
 import {DataService} from "../../../Services/Data.service";
 import {UserModel} from "../../../Models/userModel";
+import {HomeService} from "../Service/home.service";
 
 
 
@@ -164,7 +165,7 @@ import {UserModel} from "../../../Models/userModel";
 export class NewUserComponent {
 
 
-  constructor(public dataservice: DataService,
+  constructor(public dataservice: HomeService,
               public formbuilder: FormBuilder
   ) {
   }
@@ -180,8 +181,8 @@ ValidateData=this.formbuilder.group({
 
   name:  ["",[Validators.required, Validators.minLength(6)]],
   street: ["", [Validators.required, Validators.minLength(3)]],
-  street_number: ["", [Validators.required, Validators.minLength(1)]],
-  zip_code: ["",[Validators.required, Validators.min(1000),Validators.max(9999)]],
+  street_number: ["", [Validators.required, Validators.minLength(1)]], //bevist ikke sat som nummer, da man kan bo 5.th
+  zip_code: ["",[Validators.required, Validators.pattern("^[0-9]+$"),Validators.min(1000),Validators.max(9999)]],
   city: ["",[Validators.required, Validators.minLength(3)]],
   email: ["", [Validators.required, Validators.email, Validators.minLength(6)]],
   password: ["", [Validators.required, Validators.minLength(8), Validators.pattern(".*\\W.*")]],
