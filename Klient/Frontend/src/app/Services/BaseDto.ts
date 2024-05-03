@@ -1,5 +1,6 @@
 import {Address, AddressAPIJsonResponseModel} from "../Models/LookupModels";
 
+
 export class BaseDto<T> {
   eventType: string;
 
@@ -16,5 +17,16 @@ export class ServerSendsIOTDataToClientsDto extends BaseDto<ServerSendsIOTDataTo
 }
 
 
+
+
+export class sendAddressesDto extends BaseDto<sendAddressesDto> {
+  results?: AddressAPIJsonResponseModel;
+}
+
+
+
+export class responseStringDto extends BaseDto<responseStringDto> {
+  response?: string;
+}
 
 

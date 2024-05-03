@@ -5,6 +5,7 @@ import {temperaturModel} from "./tempModel";
 import {ClientModel} from "../Models/clientModel";
 import {BaseDto, ServerSendsIOTDataToClientsDto} from "./BaseDto";
 import {AddressAPIJsonResponseModel} from "../Models/LookupModels";
+import {HomeService} from "./home.service";
 
 
 @Injectable({
@@ -21,6 +22,7 @@ export class DataService {
 
 
   ws: WebSocket = new WebSocket("ws://localhost:8181")
+
   graphName: string="";
 
   constructor() {
@@ -90,10 +92,7 @@ export class DataService {
 
     }
     this.ws.send(JSON.stringify(object));
-
-
   }
-
 
 
   nulstil()
@@ -102,6 +101,8 @@ export class DataService {
       this.temperatureData=[];
 
     }
+
+
 
 }
 

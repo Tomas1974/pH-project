@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import {Address} from "../../../Models/LookupModels";
+import {Address} from "../Models/LookupModels";
 
-import {LoginModel, UserModel} from "../../../Models/userModel";
-import {ClientModel} from "../../../Models/clientModel";
-import {HomeBaseDto, responseStringDto, sendAddressesDto} from "./HomeBaseDto";
-import {DataService} from "../../../Services/Data.service";
+import {LoginModel, UserModel} from "../Models/userModel";
+import {ClientModel} from "../Models/clientModel";
+import {DataService} from "./Data.service";
+import {BaseDto, responseStringDto, sendAddressesDto} from "./BaseDto";
 
 
 @Injectable({
@@ -14,14 +14,14 @@ export class HomeService {
 
 
   addressSuggestions: Address[] = [];
-    ws: WebSocket = new WebSocket("ws://localhost:8181")
+    ws: WebSocket = this.dataservice.ws;
   loginResponse: string | undefined="";
     requestLoginUser: string="";
 
   constructor(public dataservice:DataService) {
 
     this.ws.onmessage = message => {
-      const messageFromServer = JSON.parse(message.data) as HomeBaseDto<any>;
+      const messageFromServer = JSON.parse(message.data) as BaseDto<any>;
       // @ts-ignore
       this[messageFromServer.eventType].call(this, messageFromServer);
     }

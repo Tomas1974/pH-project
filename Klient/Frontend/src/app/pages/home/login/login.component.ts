@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {DataService} from "../../../Services/Data.service";
 import {LoginModel} from "../../../Models/userModel";
-import {HomeService} from "../Service/home.service";
+import {HomeService} from "../../../Services/home.service";
 
 @Component({
   selector: 'app-login2',
