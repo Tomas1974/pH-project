@@ -267,7 +267,7 @@ ValidateData=this.formbuilder.group({
     this.addressSuggestions=[];
     this.dataservice.loginResponse="";
 
-    this.dataservice.checkIfAnyoneHasLoggedIn("logInInfo");
+    this.dataservice.UserActions("logInInfo");
 
 
   }

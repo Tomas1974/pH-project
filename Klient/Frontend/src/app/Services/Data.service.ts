@@ -203,12 +203,12 @@ export class DataService {
   }
 
 
-  checkIfAnyoneHasLoggedIn(info: string) {
+  UserActions(info: string) {
 
 
     var object = {
-      eventType: "WhoHasLoggedInLogOff",
-      LoggedInInfo: info
+      eventType: "UserActions",
+      getLoginInfo: info
 
     }
     this.ws.send(JSON.stringify(object));

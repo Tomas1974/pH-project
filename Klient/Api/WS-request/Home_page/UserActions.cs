@@ -12,12 +12,12 @@ namespace ws;
 
 
 
-public class WhoHasLoggedInLogOff : BaseEventHandler<LoggedInInfo>
+public class UserActions : BaseEventHandler<LoggedInInfo>
 {
 
     public readonly UserService _userService;  
     
-    public WhoHasLoggedInLogOff(UserService userService) 
+    public UserActions(UserService userService) 
     {
         _userService = userService;  
     }
@@ -28,11 +28,17 @@ public class WhoHasLoggedInLogOff : BaseEventHandler<LoggedInInfo>
     {
 
 
-        if (dto.getLoginInfo.Contains("logOff")  )
+        Console.WriteLine(dto.getLoginInfo);
+        
+        if (dto.getLoginInfo.Contains("logOff"))
         {
             _userService.loginEmail = "";
-            Console.WriteLine("Test");
             
+        }
+        else if (dto.getLoginInfo.Contains("delete"))
+        {
+            _userService.deleteUser();
+            Console.WriteLine("delete");
         }
         
         

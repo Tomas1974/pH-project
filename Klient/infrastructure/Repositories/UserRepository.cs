@@ -46,4 +46,14 @@ public class UserRepository
         }
     }
     
+    
+    public void DeleteUser(string email)
+    {
+        var sql = @"DELETE FROM ph.users WHERE email = @Email RETURNING *;";
+
+        using (var conn = _dataSource.OpenConnection())
+        {
+            conn.QueryFirst<CheckLoginModel>(sql, new { Email=email });
+        }
+    }
 }

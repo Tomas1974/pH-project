@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {HomeService} from "../../../Services/home.service";
 import {Route, Router} from "@angular/router";
 import {DataService} from "../../../Services/Data.service";
+import {UtilitiesService} from "../../../Services/utilities.service";
 
 @Component({
   selector: 'app-login-overview',
@@ -25,7 +26,7 @@ import {DataService} from "../../../Services/Data.service";
 
   <ion-row>
   <ion-button size="small" (click)="LogOut()">LogOut</ion-button>
-  <ion-button size="small">Delete User</ion-button>
+  <ion-button size="small" (click)="DeleteUser()">Delete User</ion-button>
   <ion-button size="small">Edit User</ion-button>
   </ion-row>
 
@@ -46,6 +47,7 @@ import {DataService} from "../../../Services/Data.service";
 export class LoginOverviewComponent  implements OnInit {
 
   constructor(private homeService: DataService,
+              private utilitiesservice: UtilitiesService,
               private router: Router)
 { }
 
@@ -55,6 +57,21 @@ export class LoginOverviewComponent  implements OnInit {
     this.homeService.loginUser="";
     this.homeService.loginResponse="";
 
-    this.homeService.checkIfAnyoneHasLoggedIn("logOff");
+    this.homeService.UserActions("logOff");
+  }
+
+  async DeleteUser() {
+
+
+    const response=await this.utilitiesservice.confirmDelete();
+
+    if (response)
+    {
+      this.homeService.UserActions("delete");
+      this.homeService.loginUser="";
+      this.homeService.loginResponse="";
+
+    }
+
   }
 }

@@ -101,5 +101,13 @@ public class UserService
 
     }
 
-
+    public void deleteUser()
+    {
+        _userRepository.DeleteUser(loginEmail);
+        loginEmail = "";
+        
+        
+    }
+    
+    
 }
