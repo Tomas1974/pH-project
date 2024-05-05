@@ -180,7 +180,7 @@ export class DataService {
       name: userModel.name,
       password: userModel.password,
       address: userModel.address,
-      zipcode: userModel.zip_code,
+      zip_code: userModel.zip_code,
       cvr: userModel.cvr
     }
     this.ws.send(JSON.stringify(object));

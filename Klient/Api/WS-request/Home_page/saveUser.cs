@@ -21,6 +21,7 @@ public class saveUser : BaseEventHandler<saveUserDto>
     
     public override Task Handle(saveUserDto dto, IWebSocketConnection socket)
     {
+        Console.WriteLine("ZipZin "+dto.zip_code);
         var message = new UserModel
         {
             email = dto.email,
@@ -30,10 +31,10 @@ public class saveUser : BaseEventHandler<saveUserDto>
             zip_code = dto.zip_code,
             cvr = dto.cvr
         };
-
+        
         string message1=_UserService.CreateUser(message);
         
-        Console.WriteLine(message1);
+        
         
         var message2 = new responseString
         {

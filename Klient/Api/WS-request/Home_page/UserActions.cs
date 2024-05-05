@@ -27,8 +27,7 @@ public class UserActions : BaseEventHandler<LoggedInInfo>
     public override  Task Handle(LoggedInInfo dto, IWebSocketConnection socket)
     {
 
-
-        Console.WriteLine(dto.getLoginInfo);
+       
         
         if (dto.getLoginInfo.Contains("logOff"))
         {

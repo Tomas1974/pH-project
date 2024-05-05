@@ -27,7 +27,7 @@ public class UserService
             string salt = passwordHashService.GenerateSalt();
             string hashPassword = passwordHashService.HashPassword(userModel.password, salt);
         
-      
+                
             
             UserSaveToDatabaseModel saveToDatabase= new UserSaveToDatabaseModel
             
@@ -42,7 +42,7 @@ public class UserService
                     
             };
             
-             CheckLoginModel checkLoginModel = _userRepository.FindUser(userModel.email);
+            UserSaveToDatabaseModel checkLoginModel = _userRepository.FindUser(userModel.email);
 
 
              if (checkLoginModel == null) //Checker om emailen er brugt før
@@ -73,7 +73,7 @@ public class UserService
         {
             PasswordHashService passwordHashService = new PasswordHashService();
 
-            CheckLoginModel checkLoginModel = _userRepository.FindUser(loginModel.email);
+            UserSaveToDatabaseModel checkLoginModel = _userRepository.FindUser(loginModel.email);
 
             if (checkLoginModel != null)
             {
@@ -103,9 +103,43 @@ public class UserService
 
     public void deleteUser()
     {
-        _userRepository.DeleteUser(loginEmail);
-        loginEmail = "";
+        try
+        {
+            _userRepository.DeleteUser(loginEmail);
+            loginEmail = "";
+        }
+        catch
+        {
+            throw new ValidationException("Error in deleting user");
+        }
         
+    }
+
+    public  UserModel getUserInfo (string email)
+    {
+        try
+        {
+            UserSaveToDatabaseModel userSaveToDatabase = _userRepository.FindUser(email);
+            
+            Console.WriteLine("Check Address "+userSaveToDatabase.address);
+
+            UserModel userModel = new UserModel
+            {
+                email = userSaveToDatabase.email,
+                name = userSaveToDatabase.name,
+                zip_code = userSaveToDatabase.zip_code,
+                address = userSaveToDatabase.address,
+                password = "",
+                cvr = userSaveToDatabase.cvr,
+                
+            };
+
+            return userModel;
+        }
+        catch
+        {
+            throw new ValidationException("Error getting user");
+        }
         
     }
     

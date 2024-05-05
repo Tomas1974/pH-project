@@ -35,14 +35,14 @@ public class UserRepository
         }
     }
     
-    public CheckLoginModel FindUser(String Email)
+    public UserSaveToDatabaseModel FindUser(String Email)
     {
         
-        var sql = $@"SELECT email, hash, salt FROM ph.users WHERE email = @Email;";
+        var sql = $@"SELECT * FROM ph.users WHERE email = @Email;";
     
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QueryFirstOrDefault<CheckLoginModel>(sql, new { Email=Email.ToLower() }); //Denne QueryFirstOrDefault acceptere null værdier.
+            return conn.QueryFirstOrDefault<UserSaveToDatabaseModel>(sql, new { Email=Email.ToLower() }); //Denne QueryFirstOrDefault acceptere null værdier.
         }
     }
     
