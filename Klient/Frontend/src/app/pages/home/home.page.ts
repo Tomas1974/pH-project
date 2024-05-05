@@ -1,24 +1,26 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {HomeService} from "../../Services/home.service";
+import {DataService} from "../../Services/Data.service";
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements AfterViewInit {
 showHeader: string="- New User";
 
   constructor(private router: Router,
-              public homeService:HomeService)
+              public homeService:DataService)
 {
 
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
 
     }
+
 
 
 

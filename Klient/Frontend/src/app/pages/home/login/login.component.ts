@@ -82,7 +82,7 @@ export class LoginComponent   {
   })
 
 
-  constructor(public dataservice: HomeService,
+  constructor(public dataservice: DataService,
               public formbuilder: FormBuilder) { }
 
 
@@ -105,11 +105,12 @@ export class LoginComponent   {
 
     this.dataservice.LoginUser(loginuser)
 
+
   }
 
   UnselectUser() {
     this.ValidateData.controls.email.setValue("");
     this.ValidateData.controls.password.setValue("");
-    this.dataservice.loginResponse="";
+
   }
 }

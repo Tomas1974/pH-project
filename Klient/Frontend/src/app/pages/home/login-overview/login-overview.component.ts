@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HomeService} from "../../../Services/home.service";
 import {Route, Router} from "@angular/router";
+import {DataService} from "../../../Services/Data.service";
 
 @Component({
   selector: 'app-login-overview',
@@ -44,13 +45,16 @@ import {Route, Router} from "@angular/router";
 })
 export class LoginOverviewComponent  implements OnInit {
 
-  constructor(private homeService: HomeService,
+  constructor(private homeService: DataService,
               private router: Router)
 { }
 
   ngOnInit() {}
 
   LogOut() {
-       this.homeService.checkIfAnyoneHasLoggedIn();
+    this.homeService.loginUser="";
+    this.homeService.loginResponse="";
+
+    this.homeService.checkIfAnyoneHasLoggedIn("logOff");
   }
 }

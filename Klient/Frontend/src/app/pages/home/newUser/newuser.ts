@@ -1,12 +1,22 @@
-import {Component, ElementRef, NgZone, ViewChild} from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  NgZone,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {firstValueFrom} from "rxjs";
-import {Address, AddressAPIJsonResponseModel } from "../../../Models/LookupModels";
+import {Address, AddressAPIJsonResponseModel} from "../../../Models/LookupModels";
 import {DataService} from "../../../Services/Data.service";
 import {UserModel} from "../../../Models/userModel";
 import {HomeService} from "../../../Services/home.service";
-
+import {Data} from "@angular/router";
 
 
 @Component({
@@ -136,44 +146,51 @@ import {HomeService} from "../../../Services/home.service";
 
       <ion-row>
         <ion-col>
-          <p style="height: 7px;color: red">{{dataservice.loginResponse}}</p>
+          <p style="height: 7px;color: red">{{ dataservice.loginResponse }}</p>
         </ion-col>
       </ion-row>
 
 
-    <ion-button style=".grey {
+      <ion-button style=".grey {
                   --ion-color-base: grey !important;
                     --ion-color-base-rgb: 128,128,128 !important;
 }
 
 " [disabled]="!ValidateData.valid"
-                [class.grey]="!ValidateData.valid"
+                  [class.grey]="!ValidateData.valid"
 
-                size="small"
-                (click)="selectAddress()"
-                (keydown.enter)="selectAddress()">Save
-    </ion-button>
+                  size="small"
+                  (click)="selectAddress()"
+                  (keydown.enter)="selectAddress()">Save
+      </ion-button>
 
 
-    <ion-button
+      <ion-button
 
-      size="small" (click)="UnselectAddress()"
-      (keydown.enter)="UnselectAddress()"
-    >Clear
-    </ion-button>
+        size="small" (click)="UnselectAddress()"
+        (keydown.enter)="UnselectAddress()"
+      >Clear
+      </ion-button>
 
     </ion-grid>
 
   `,
   styleUrls: ['./newUser.scss'],
 })
-export class NewUserComponent {
+export class NewUserComponent implements OnChanges {
 
 
-  constructor(public dataservice: HomeService,
+  constructor(public dataservice: DataService,
               public formbuilder: FormBuilder
   ) {
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+    }
+
+
+
 
   addressSuggestions: Address[] = [];
   addressParts: string[]=[];
@@ -249,6 +266,10 @@ ValidateData=this.formbuilder.group({
 
     this.addressSuggestions=[];
     this.dataservice.loginResponse="";
+
+    this.dataservice.checkIfAnyoneHasLoggedIn("logInInfo");
+
+
   }
 
   hideSuggestions() {

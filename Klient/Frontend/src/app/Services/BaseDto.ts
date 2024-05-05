@@ -30,3 +30,8 @@ export class responseStringDto extends BaseDto<responseStringDto> {
 }
 
 
+
+
+export class SendLoginInfoDto extends BaseDto<SendLoginInfoDto> {
+  email?: string;
+}

@@ -3,9 +3,16 @@ import { Injectable } from '@angular/core';
 import {temperaturModel} from "./tempModel";
 
 import {ClientModel} from "../Models/clientModel";
-import {BaseDto, ServerSendsIOTDataToClientsDto} from "./BaseDto";
-import {AddressAPIJsonResponseModel} from "../Models/LookupModels";
+import {
+  BaseDto,
+  responseStringDto,
+  sendAddressesDto,
+  SendLoginInfoDto,
+  ServerSendsIOTDataToClientsDto
+} from "./BaseDto";
+import {Address, AddressAPIJsonResponseModel} from "../Models/LookupModels";
 import {HomeService} from "./home.service";
+import {LoginModel, UserModel} from "../Models/userModel";
 
 
 @Injectable({
@@ -16,10 +23,12 @@ export class DataService {
   secCounter:number=0;
   temperatureData: temperaturModel[]=[];
   start: boolean=false;
+  loginUser: string | undefined="";
 
-  loginUser: string="";
-
-
+  /***********Home service********************/
+  addressSuggestions: Address[] = [];
+  loginResponse: string | undefined="";
+  requestLoginUser: string="";
 
   ws: WebSocket = new WebSocket("ws://localhost:8181")
 
@@ -101,6 +110,110 @@ export class DataService {
       this.temperatureData=[];
 
     }
+
+/*********************home-service*********************************/
+
+
+
+  sendAddressLine(addressSearchTerm: string)
+  {
+
+    var object = {
+      eventType: "getAddresses",
+      addressSearchTerm: addressSearchTerm
+
+    }
+    this.ws.send(JSON.stringify(object));
+
+
+  }
+
+
+  sendAddresses(dto: sendAddressesDto): void
+
+  {
+
+    const addressSuggestions=dto.results!
+    this.addressSuggestions=addressSuggestions.results;
+
+
+  }
+
+
+
+
+  responseString(dto: responseStringDto): void
+
+  {
+
+    this.loginResponse=dto.response;
+
+    if (dto.response=="Success")
+    {
+      this.loginUser=this.requestLoginUser; //Da denne infor bruges i andre pages sendes info til fælles dataservice
+    }
+
+  }
+
+
+
+  SendLoginInfo(dto:SendLoginInfoDto)
+  {
+    this.loginUser=dto.email;
+
+    if (dto.email!="")
+    this.loginResponse="Success";
+
+    console.log("fdds "+dto.email)
+
+  }
+
+
+  saveUser(userModel: UserModel)
+  {
+
+    this.requestLoginUser=userModel.email;
+
+    var object = {
+      eventType: "saveUser",
+      email: userModel.email,
+      name: userModel.name,
+      password: userModel.password,
+      address: userModel.address,
+      zipcode: userModel.zip_code,
+      cvr: userModel.cvr
+    }
+    this.ws.send(JSON.stringify(object));
+  }
+
+
+
+
+  LoginUser(loginModel: LoginModel)
+  {
+    this.requestLoginUser=loginModel.email;
+
+    var object = {
+      eventType: "loginUser",
+      email: loginModel.email,
+      password: loginModel.password
+
+    }
+    this.ws.send(JSON.stringify(object));
+  }
+
+
+  checkIfAnyoneHasLoggedIn(info: string) {
+
+
+    var object = {
+      eventType: "WhoHasLoggedInLogOff",
+      LoggedInInfo: info
+
+    }
+    this.ws.send(JSON.stringify(object));
+
+  }
 
 
 

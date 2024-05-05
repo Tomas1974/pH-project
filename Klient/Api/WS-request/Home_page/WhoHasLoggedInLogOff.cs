@@ -12,12 +12,12 @@ namespace ws;
 
 
 
-public class WhoHasLoggedIn : BaseEventHandler<LoggedInInfo>
+public class WhoHasLoggedInLogOff : BaseEventHandler<LoggedInInfo>
 {
 
     public readonly UserService _userService;  
     
-    public WhoHasLoggedIn(UserService userService) 
+    public WhoHasLoggedInLogOff(UserService userService) 
     {
         _userService = userService;  
     }
@@ -27,7 +27,15 @@ public class WhoHasLoggedIn : BaseEventHandler<LoggedInInfo>
     public override  Task Handle(LoggedInInfo dto, IWebSocketConnection socket)
     {
 
-        Console.WriteLine("Test "+dto.getLoginInfo);
+
+        if (dto.getLoginInfo.Contains("logOff")  )
+        {
+            _userService.loginEmail = "";
+            Console.WriteLine("Test");
+            
+        }
+        
+        
         
         var message = new SendLoginInfoDto()
         {
