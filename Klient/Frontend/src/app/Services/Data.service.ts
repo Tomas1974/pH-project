@@ -8,7 +8,7 @@ import {
   responseStringDto,
   sendAddressesDto,
   SendLoginInfoDto,
-  ServerSendsIOTDataToClientsDto
+  ServerSendsIOTDataToClientsDto, userModelDto
 } from "./BaseDto";
 import {Address, AddressAPIJsonResponseModel} from "../Models/LookupModels";
 import {HomeService} from "./home.service";
@@ -29,6 +29,9 @@ export class DataService {
   addressSuggestions: Address[] = [];
   loginResponse: string | undefined="";
   requestLoginUser: string="";
+  user: UserModel | undefined; //Her gemmes bruger information
+  showLogin2 = false; //Denne variabel bruges til at vælge mellem login og ny bruger i home page
+  newOrEditUser: string="";
 
   ws: WebSocket = new WebSocket("ws://localhost:8181")
 
@@ -157,25 +160,52 @@ export class DataService {
 
 
 
+  userModel(dto:userModelDto)
+  {
+
+    this.user=
+    {
+      address: dto.address,
+      cvr: dto.cvr,
+      email: dto.email,
+      name: dto.name,
+      password: "",
+      zip_code: dto.zip_code
+    }
+
+
+    this.loginResponse=""; //Så vil den starte udfyldning af bruger
+    this.showLogin2=false;
+    this.newOrEditUser="Update";
+
+    console.log("Test den her");
+
+  }
+
+
+
+
   SendLoginInfo(dto:SendLoginInfoDto)
   {
     this.loginUser=dto.email;
 
     if (dto.email!="")
-    this.loginResponse="Success";
+      this.loginResponse="Success";
 
-    console.log("fdds "+dto.email)
 
   }
 
 
-  saveUser(userModel: UserModel)
-  {
 
-    this.requestLoginUser=userModel.email;
+
+  saveOrEditUser(userModel: UserModel, type: string)
+  {
+    this.newOrEditUser=type; //Her gemmes om det er update eller newUser
+    this.requestLoginUser!=userModel.email;
 
     var object = {
       eventType: "saveUser",
+
       email: userModel.email,
       name: userModel.name,
       password: userModel.password,
@@ -187,6 +217,18 @@ export class DataService {
   }
 
 
+
+  getUserInfo()
+
+  {
+    var object = {
+      eventType: "getUserInfo",
+
+      email: this.loginUser
+
+    }
+    this.ws.send(JSON.stringify(object));
+  }
 
 
   LoginUser(loginModel: LoginModel)

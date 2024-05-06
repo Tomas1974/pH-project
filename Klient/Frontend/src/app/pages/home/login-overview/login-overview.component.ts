@@ -27,7 +27,7 @@ import {UtilitiesService} from "../../../Services/utilities.service";
   <ion-row>
   <ion-button size="small" (click)="LogOut()">LogOut</ion-button>
   <ion-button size="small" (click)="DeleteUser()">Delete User</ion-button>
-  <ion-button size="small">Edit User</ion-button>
+  <ion-button size="small" (click)="EditUser()">Edit User</ion-button>
   </ion-row>
 
 
@@ -72,6 +72,14 @@ export class LoginOverviewComponent  implements OnInit {
       this.homeService.loginResponse="";
 
     }
+
+  }
+
+  EditUser() {
+
+    this.homeService.UserActions("logInInfo");
+    this.homeService.getUserInfo();
+
 
   }
 }

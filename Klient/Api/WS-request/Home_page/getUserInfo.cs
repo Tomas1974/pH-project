@@ -28,10 +28,22 @@ public class getUserInfo : BaseEventHandler<getUserInfoDto>
 
         UserModel userModel = _userService.getUserInfo(dto.email);  
         
-        Console.WriteLine("ddfffd"+userModel.address);
         
         
-       var messageToClient = JsonSerializer.Serialize(userModel);
+        var message = new userModelDto()
+        {
+            
+            email    = userModel.email,
+            name = userModel.name,
+            address = userModel.address,
+            zip_code = userModel.zip_code,
+            cvr = userModel.cvr
+        
+      
+        };
+        
+        
+       var messageToClient = JsonSerializer.Serialize(message);
         socket.Send(messageToClient);
         
         return Task.CompletedTask;    
@@ -53,6 +65,17 @@ public class getUserInfoDto : BaseDto
 
 
 
+
+public class userModelDto : BaseDto
+{
+    
+    public string email { get; set; }
+    public string name { get; set; }
+    
+    public string address { get; set; }
+    public int zip_code { get; set; }
+    public int? cvr { get; set; }
+}
 
 
 

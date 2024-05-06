@@ -75,7 +75,7 @@ export class HomeService {
   saveUser(userModel: UserModel)
   {
 
-    this.requestLoginUser=userModel.email;
+    this.requestLoginUser!=userModel.email;
 
     var object = {
       eventType: "saveUser",

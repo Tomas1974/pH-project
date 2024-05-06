@@ -35,3 +35,13 @@ export class responseStringDto extends BaseDto<responseStringDto> {
 export class SendLoginInfoDto extends BaseDto<SendLoginInfoDto> {
   email?: string;
 }
+
+
+
+export class userModelDto extends BaseDto<userModelDto> {
+  email?: string;
+  name?: string;
+  address?: string;
+  zip_code?: number;
+  cvr?: number;
+}

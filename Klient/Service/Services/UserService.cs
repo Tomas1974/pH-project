@@ -47,7 +47,11 @@ public class UserService
 
              if (checkLoginModel == null) //Checker om emailen er brugt før
              {
+                 
                  _userRepository.CreateUser(saveToDatabase);
+                 
+                 
+                 
                  loginEmail = userModel.email; //gemmer hvem der er login. Hvis browseren bliver genindlæst kan man slå op, hvem der er logget ind.
              }    
              else

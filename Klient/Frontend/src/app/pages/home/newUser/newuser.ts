@@ -177,7 +177,7 @@ import {Data} from "@angular/router";
   `,
   styleUrls: ['./newUser.scss'],
 })
-export class NewUserComponent implements OnChanges {
+export class NewUserComponent implements OnInit {
 
 
   constructor(public dataservice: DataService,
@@ -185,9 +185,10 @@ export class NewUserComponent implements OnChanges {
   ) {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-
+  ngOnInit(): void {
+       this.checkIfItIsAnUpdate();
     }
+
 
 
 
@@ -312,10 +313,37 @@ ValidateData=this.formbuilder.group({
     cvr: 0
 
     }
+    if (this.dataservice.newOrEditUser==="Update")
+    {
+      this.dataservice.UserActions("delete"); //Her slettes den oprindelige bruger.
+      this.dataservice.saveOrEditUser(userModel, "newUser");
+      this.dataservice.newOrEditUser="newUser"; //Vi nulstiller update værdien.
 
-    this.dataservice.saveUser(userModel);
+    }
+      else
+    this.dataservice.saveOrEditUser(userModel,"newUser");
 
   }
+
+  checkIfItIsAnUpdate()
+  {
+
+    if(this.dataservice.newOrEditUser==="Update")
+    {
+
+      this.ValidateData.controls.street.setValue(this.dataservice.user?.address+"");
+      this.ValidateData.controls.street_number.setValue("");
+      this.ValidateData.controls.zip_code.setValue(this.dataservice.user?.zip_code+"");
+      this.ValidateData.controls.city.setValue("");
+      this.ValidateData.controls.name.setValue(this.dataservice.user?.name+"");
+      this.ValidateData.controls.email.setValue(this.dataservice.user?.email+"");
+      this.ValidateData.controls.password.setValue("");
+
+    }
+
+
+  }
+
 
 }
 
