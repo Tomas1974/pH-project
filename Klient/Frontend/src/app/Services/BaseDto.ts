@@ -42,6 +42,7 @@ export class userModelDto extends BaseDto<userModelDto> {
   email?: string;
   name?: string;
   address?: string;
+  street_number?: string;
   zip_code?: number;
   cvr?: number;
 }

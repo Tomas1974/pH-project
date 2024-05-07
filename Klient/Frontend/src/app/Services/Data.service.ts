@@ -166,6 +166,7 @@ export class DataService {
     this.user=
     {
       address: dto.address,
+      street_number: dto.street_number,
       cvr: dto.cvr,
       email: dto.email,
       name: dto.name,
@@ -210,6 +211,7 @@ export class DataService {
       name: userModel.name,
       password: userModel.password,
       address: userModel.address,
+      street_number: userModel.street_number,
       zip_code: userModel.zip_code,
       cvr: userModel.cvr
     }

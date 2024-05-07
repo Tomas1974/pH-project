@@ -36,6 +36,7 @@ public class getUserInfo : BaseEventHandler<getUserInfoDto>
             email    = userModel.email,
             name = userModel.name,
             address = userModel.address,
+            street_number = userModel.street_number,
             zip_code = userModel.zip_code,
             cvr = userModel.cvr
         
@@ -74,6 +75,7 @@ public class userModelDto : BaseDto
     
     public string address { get; set; }
     public int zip_code { get; set; }
+    public string street_number { get; set; }
     public int? cvr { get; set; }
 }
 

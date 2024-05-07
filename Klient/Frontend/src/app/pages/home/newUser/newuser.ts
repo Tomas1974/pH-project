@@ -308,7 +308,8 @@ ValidateData=this.formbuilder.group({
     name:this.ValidateData.controls.name.value+"",
     email: this.ValidateData.controls.email.value+"",
     password: this.ValidateData.controls.password.value+"",
-    address: this.ValidateData.controls.street.value+ " "+this.ValidateData.controls.street_number.value,
+    address: this.ValidateData.controls.street.value+ " ",
+    street_number:this.ValidateData.controls.street_number.value+"",
     zip_code: Number(this.ValidateData.controls.zip_code.value),
     cvr: 0
 
@@ -332,7 +333,7 @@ ValidateData=this.formbuilder.group({
     {
 
       this.ValidateData.controls.street.setValue(this.dataservice.user?.address+"");
-      this.ValidateData.controls.street_number.setValue("");
+      this.ValidateData.controls.street_number.setValue(this.dataservice.user?.street_number+"");
       this.ValidateData.controls.zip_code.setValue(this.dataservice.user?.zip_code+"");
       this.ValidateData.controls.city.setValue("");
       this.ValidateData.controls.name.setValue(this.dataservice.user?.name+"");

@@ -29,6 +29,7 @@ public class saveUser : BaseEventHandler<saveUserDto>
             name = dto.name,
             password = dto.password,
             address = dto.address,
+            street_number = dto.street_number,
             zip_code = dto.zip_code,
             cvr = dto.cvr
         };
@@ -65,6 +66,7 @@ public class saveUserDto : BaseDto
     public string name { get; set; }
     public string password { get; set; }
     public string address { get; set; }
+    public string street_number { get; set; }
     public int zip_code { get; set; }
     public int? cvr { get; set; }
 }
