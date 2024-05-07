@@ -268,6 +268,7 @@ ValidateData=this.formbuilder.group({
     this.addressSuggestions=[];
     this.dataservice.loginResponse="";
 
+    this.dataservice.newOrEditUser="newUser"; //Vi nulstiller update værdien.
     this.dataservice.UserActions("logInInfo");
 
 

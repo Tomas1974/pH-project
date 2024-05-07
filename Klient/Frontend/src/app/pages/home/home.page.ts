@@ -25,18 +25,27 @@ showHeader: string="- New User";
   toggleLogin(): void {
     this.homeService.showLogin2 = !this.homeService.showLogin2;  // Toggle the state
 
-    console.log(this.homeService.loginResponse);
+
+    console.log("Test mig "+this.homeService.newOrEditUser)
+
+        
 
     if (this.homeService.loginResponse!="Success")
     {
       if (this.homeService.showLogin2)
         this.showHeader="- Login"
       else
-        this.showHeader="- New user"
+      {
+
+          this.showHeader = "- New user";
+      }
     }
       else
       this.showHeader="- Login information"
 
+
+    //if (this.homeService.newOrEditUser=="Update")
+    //  this.showHeader = "- Update user";
 
   }
 

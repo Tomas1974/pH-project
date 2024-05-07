@@ -77,7 +77,9 @@ export class LoginOverviewComponent  implements OnInit {
 
   EditUser() {
 
+    this.homeService.newOrEditUser="Update";
     this.homeService.UserActions("logInInfo");
+
     this.homeService.getUserInfo();
 
 
