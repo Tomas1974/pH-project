@@ -15,13 +15,13 @@ import {UtilitiesService} from "../../../Services/utilities.service";
 
   </ion-row>
 <ion-row>
-  <a routerLink="/Graf">Go to graf</a>
+  <a style="color: blue; text-decoration: underline; cursor: pointer;" routerLink="/Graf">Go to graf</a>
 </ion-row>
   <ion-row>
-    <a routerLink="/Settings">Go to settings</a>
+    <a style="color: blue; text-decoration: underline; cursor: pointer;" routerLink="/Settings">Go to settings</a>
   </ion-row>
   <ion-row style="height: 100px">
-    <a routerLink="/Log">Go to log</a>
+    <a style="color: blue; text-decoration: underline; cursor: pointer;" routerLink="/Log">Go to log</a>
   </ion-row>
 
   <ion-row>

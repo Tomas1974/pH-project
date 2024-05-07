@@ -37,6 +37,7 @@ public class UserService
                 hash =  hashPassword,
                 salt = salt,
                 address =userModel.address,
+                street_number = userModel.street_number,
                 zip_code =userModel.zip_code,
                 cvr =userModel.cvr
                     
@@ -133,6 +134,7 @@ public class UserService
                 name = userSaveToDatabase.name,
                 zip_code = userSaveToDatabase.zip_code,
                 address = userSaveToDatabase.address,
+                street_number = userSaveToDatabase.street_number,
                 password = "",
                 cvr = userSaveToDatabase.cvr,
                 

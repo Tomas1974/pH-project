@@ -15,8 +15,8 @@ public class UserRepository
     
     public UserModel CreateUser(UserSaveToDatabaseModel saveToDatabase)
     {
-        var sql = @"INSERT INTO ph.users (email,name, hash, salt, address, zip_code, cvr) 
-                VALUES (@Email,@Name, @Hash, @Salt, @Address, @ZipCode, @Cvr) 
+        var sql = @"INSERT INTO ph.users (email,name, hash, salt, address, street_number, zip_code, cvr) 
+                VALUES (@Email,@Name, @Hash, @Salt, @Address, @street_number,@ZipCode, @Cvr) 
                 RETURNING *;";
 
         using (var conn = _dataSource.OpenConnection())
@@ -29,6 +29,7 @@ public class UserRepository
                 Hash = saveToDatabase.hash,
                 Salt = saveToDatabase.salt,
                 Address = saveToDatabase.address,
+                Street_number=saveToDatabase.street_number,
                 ZipCode = saveToDatabase.zip_code, 
                 Cvr = saveToDatabase.cvr
             });

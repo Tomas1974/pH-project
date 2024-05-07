@@ -13,6 +13,7 @@ CREATE TABLE ph.users(
     hash      VARCHAR(350) NOT NULL,
     salt      VARCHAR(180) NOT NULL,
     address VARCHAR(100) NOT NULL,
+    street_number VARCHAR(100) NOT NULL,
     zip_code INTEGER NOT NULL,
     cvr INTEGER
    
