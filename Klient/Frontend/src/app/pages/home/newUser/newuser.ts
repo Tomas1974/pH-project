@@ -146,7 +146,7 @@ import {Data} from "@angular/router";
 
       <ion-row>
         <ion-col>
-          <p style="height: 7px;color: red">{{ dataservice.loginResponse }}</p>
+          <p *ngIf="dataservice.chooseComponent===1" style="height: 7px;color: red">{{ dataservice.loginResponse }}</p>
         </ion-col>
       </ion-row>
 
@@ -268,9 +268,9 @@ ValidateData=this.formbuilder.group({
     this.addressSuggestions=[];
     this.dataservice.loginResponse="";
 
-    this.dataservice.newOrEditUser="newUser"; //Vi nulstiller update værdien.
+    //this.dataservice.newOrEditUser="newUser"; //Vi nulstiller update værdien.
     this.dataservice.UserActions("logInInfo");
-
+    this.dataservice.chooseComponent=2;
 
   }
 
@@ -315,11 +315,11 @@ ValidateData=this.formbuilder.group({
     cvr: 0
 
     }
-    if (this.dataservice.newOrEditUser==="Update")
+    if (this.dataservice.chooseComponent===3)
     {
       this.dataservice.UserActions("delete"); //Her slettes den oprindelige bruger.
       this.dataservice.saveOrEditUser(userModel, "newUser");
-      this.dataservice.newOrEditUser="newUser"; //Vi nulstiller update værdien.
+      //this.dataservice.newOrEditUser="newUser"; //Vi nulstiller update værdien.
 
     }
       else
@@ -330,7 +330,7 @@ ValidateData=this.formbuilder.group({
   checkIfItIsAnUpdate()
   {
 
-    if(this.dataservice.newOrEditUser==="Update")
+    if(this.dataservice.chooseComponent===3)
     {
 
       this.ValidateData.controls.street.setValue(this.dataservice.user?.address+"");

@@ -44,20 +44,20 @@ import {UtilitiesService} from "../../../Services/utilities.service";
   `,
   styleUrls: ['./login-overview.component.scss'],
 })
-export class LoginOverviewComponent  implements OnInit {
+export class LoginOverviewComponent   {
 
   constructor(private homeService: DataService,
               private utilitiesservice: UtilitiesService,
               private router: Router)
 { }
 
-  ngOnInit() {}
+
 
   LogOut() {
     this.homeService.loginUser="";
     this.homeService.loginResponse="";
-
     this.homeService.UserActions("logOff");
+    this.homeService.chooseComponent=1; //Her vælges login
   }
 
   async DeleteUser() {
@@ -69,15 +69,15 @@ export class LoginOverviewComponent  implements OnInit {
     {
       this.homeService.UserActions("delete");
       this.homeService.loginUser="";
-      this.homeService.loginResponse="";
-
+      //this.homeService.loginResponse="";
+      this.homeService.chooseComponent=0; //Her vælges new User
     }
 
   }
 
   EditUser() {
 
-    this.homeService.newOrEditUser="Update";
+    //this.homeService.newOrEditUser="Update";
     this.homeService.UserActions("logInInfo");
 
     this.homeService.getUserInfo();

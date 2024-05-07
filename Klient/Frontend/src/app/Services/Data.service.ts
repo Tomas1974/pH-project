@@ -30,8 +30,7 @@ export class DataService {
   loginResponse: string | undefined="";
   requestLoginUser: string="";
   user: UserModel | undefined; //Her gemmes bruger information
-  showLogin2 = false; //Denne variabel bruges til at vælge mellem login og ny bruger i home page
-  newOrEditUser: string="";
+ // newOrEditUser: string="";
   chooseComponent: number=0;
 
   ws: WebSocket = new WebSocket("ws://localhost:8181")
@@ -157,10 +156,10 @@ export class DataService {
       zip_code: dto.zip_code
     }
 
+    this.chooseComponent=3; //Her vælges new User. Den vælges her, da så ved man at user er opdateret.
 
-    this.loginResponse=""; //Så vil den starte udfyldning af bruger
-    this.showLogin2=false;
-    this.newOrEditUser="Update";
+
+
 
 
   }
@@ -172,11 +171,6 @@ export class DataService {
   {
     this.loginUser=dto.email;
 
-    if (dto.email!="") {
-      this.loginResponse = "Success";
-      this.chooseComponent=2;
-    }
-
   }
 
 
@@ -184,7 +178,7 @@ export class DataService {
 
   saveOrEditUser(userModel: UserModel, type: string)
   {
-    this.newOrEditUser=type; //Her gemmes om det er update eller newUser
+    //this.newOrEditUser=type; //Her gemmes om det er update eller newUser
     this.requestLoginUser!=userModel.email;
 
     var object = {
