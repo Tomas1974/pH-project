@@ -12,7 +12,12 @@ public class ClientService
         _ClientRepository = clientRepository;
     }
 
-    public ClientModel CreateClint(ClientModel clientModel)
+    public IEnumerable<ClientModel> GetClient(string user_id)
+    {
+        return _ClientRepository.GetClients(user_id);
+    }
+    
+    public ClientModel CreateClient(ClientModel clientModel)
     {
         return _ClientRepository.CreateClient(clientModel);
     }
