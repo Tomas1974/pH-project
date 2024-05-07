@@ -32,6 +32,7 @@ export class DataService {
   user: UserModel | undefined; //Her gemmes bruger information
   showLogin2 = false; //Denne variabel bruges til at vælge mellem login og ny bruger i home page
   newOrEditUser: string="";
+  chooseComponent: number=0;
 
   ws: WebSocket = new WebSocket("ws://localhost:8181")
 
@@ -134,7 +135,8 @@ export class DataService {
 
     if (dto.response=="Success")
     {
-      this.loginUser=this.requestLoginUser; //Da denne infor bruges i andre pages sendes info til fælles dataservice
+      this.loginUser=this.requestLoginUser;
+      this.chooseComponent=2;//Da denne infor bruges i andre pages sendes info til fælles dataservice
     }
 
   }
@@ -160,7 +162,6 @@ export class DataService {
     this.showLogin2=false;
     this.newOrEditUser="Update";
 
-    console.log("Test den her");
 
   }
 
@@ -171,9 +172,10 @@ export class DataService {
   {
     this.loginUser=dto.email;
 
-    if (dto.email!="")
-      this.loginResponse="Success";
-
+    if (dto.email!="") {
+      this.loginResponse = "Success";
+      this.chooseComponent=2;
+    }
 
   }
 
