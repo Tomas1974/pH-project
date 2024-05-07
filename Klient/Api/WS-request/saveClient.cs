@@ -25,7 +25,7 @@ public class saveClient : BaseEventHandler<saveClientDto>
             min_value = dto.min_value
         };
 
-        _ClientService.CreateClint(message);
+        _ClientService.CreateClient(message);
         
         return Task.CompletedTask;
     }

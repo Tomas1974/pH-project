@@ -72,25 +72,6 @@ export class DataService {
 
   }
 
-
-
-
-  saveClient(clientModel: ClientModel)
-  {
-    var object = {
-      eventType: "saveClient",
-      client_id: clientModel.client_id,
-      client_name: clientModel.client_name,
-      max_value: clientModel.max_value,
-      min_value: clientModel.min_value
-    }
-    this.ws.send(JSON.stringify(object));
-  }
-
-
-
-
-
   startStop()
   {
     if (this.start)
@@ -216,8 +197,6 @@ export class DataService {
     this.ws.send(JSON.stringify(object));
   }
 
-
-
   getUserInfo()
 
   {
@@ -257,7 +236,28 @@ export class DataService {
 
   }
 
+/**************************************client-service*******************************/
 
+saveClient(clientModel: ClientModel)
+{
+  var object = {
+    eventType: "saveClient",
+    client_id: clientModel.client_id,
+    client_name: clientModel.client_name,
+    max_value: clientModel.max_value,
+    min_value: clientModel.min_value
+  }
+  this.ws.send(JSON.stringify(object));
+}
+
+getClient(email: string)
+{
+  var object = {
+    eventType: "getClient",
+    email: email
+  }
+  this.ws.send(JSON.stringify(object));
+}
 
 }
 

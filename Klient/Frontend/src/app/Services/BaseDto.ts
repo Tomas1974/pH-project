@@ -45,3 +45,11 @@ export class userModelDto extends BaseDto<userModelDto> {
   zip_code?: number;
   cvr?: number;
 }
+
+export class userClientDto extends BaseDto<userClientDto>
+{
+  client_id?: string;
+  client_name?: string;
+  max_value?: number;
+  min_value?: number;
+}
