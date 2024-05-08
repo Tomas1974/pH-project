@@ -8,12 +8,19 @@
 #include <vector>
 
 
+
+
 class WifiMenu {
 public:
     WifiMenu(LiquidCrystal_I2C lcd, std::vector<WifiModel> wifiNetworks, int BUTTON_Menu, int BUTTON_Choise);
     void initialize();        // Initializes the LCD
     String getwifiON();
     void wifiMenuSystem();
+    int programNumber;
+    void startCalibration();
+    void startCalibrationtwo();
+    int ph4;
+    int ph7;
 
 private:
 
@@ -32,7 +39,7 @@ private:
     int buttonState_Choise;
     int lastButtonState_Menu;
     int lastButtonState_Choise;
-    int programNumber;
+    //int programNumber;
     std::vector<WifiModel> _wifiNetworks ;
     
             

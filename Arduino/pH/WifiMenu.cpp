@@ -1,6 +1,6 @@
 #include "WifiMenu.h"
 #include "Arduino.h"
-
+#include "PHDriver.h"
 
 
 WifiMenu::WifiMenu(LiquidCrystal_I2C lcd, std::vector<WifiModel> wifiNetworks , int BUTTON_Menu, int BUTTON_Choise)
@@ -20,6 +20,8 @@ WifiMenu::WifiMenu(LiquidCrystal_I2C lcd, std::vector<WifiModel> wifiNetworks , 
 
 
 
+
+
 void WifiMenu::initialize() {
   
   _lcd.init();                    
@@ -36,6 +38,7 @@ void WifiMenu::initialize() {
 String WifiMenu::wifiConnection(String ssid, String password)
 {
   int counter=0;
+  //programNumber == 0;
   
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED && counter<10) 
@@ -44,6 +47,11 @@ String WifiMenu::wifiConnection(String ssid, String password)
     delay(500);
     
   }
+
+if (programNumber == 3){
+  Serial.println("kalibrere");
+  return "calibration";
+}
   
 if (counter==10)
 {
@@ -51,8 +59,9 @@ if (counter==10)
    ssid="";
        
 }
-else
 
+
+else
   Serial.println("Connected to the WiFi network");
  
 
@@ -102,24 +111,94 @@ void WifiMenu::valg()
         
       if (getwifiON() == _wifiNetworks[programNumber].getSSID() )
        _lcd.print("-------ON-------");
+
+       else if (_wifiNetworks[programNumber].getNetworkName() == "Calibrate")
+        _lcd.print("");
+       
       else
        _lcd.print("------OFF-------");
 
+       
+
 
 }
+
+void WifiMenu::startCalibration(){
+
+      _lcd.clear();
+
+     _lcd.print("Measuring PH4...");
+
+     PHDriver pHDriver(36);
+
+     ph4 = pHDriver.measureU();
+
+     delay (2000);
+
+     _lcd.clear();
+
+     _lcd.print(ph4);
+
+     delay(2000);
+ 
+}
+
+void WifiMenu::startCalibrationtwo(){
+
+      
+    _lcd.clear();
+
+     _lcd.print("measuring PH7...");
+     PHDriver pHDriver(36);
+
+    ph7 = pHDriver.measureU();
+
+     delay (2000);
+
+     _lcd.clear();
+
+     _lcd.print(ph7);
+
+     delay(2000);
+
+     _lcd.clear();
+
+     _lcd.print("Calibrating");
+
+   
+     delay(2000);
+
+     _lcd.clear();
+      pHDriver.makeCalibration(ph4, ph7);
+
+     _lcd.print("Calibration fin");
+
+     delay(2000);
+     
+
+}
+
+
+    
 
 
 
 void WifiMenu::button_Choise()
 {
- 
+
  buttonState_Choise = digitalRead(_BUTTON_Choise);
 
     if (buttonState_Choise != lastButtonState_Choise) 
     if (buttonState_Choise == HIGH) 
     {
+
+      
+   
+    
+      
              //Her placeres en String i wificonnection. Det sker ved at kalde wificonnection. (Den etablere wifi og sender navnet på opkoblingen retur). Hvis der ikke var netværk er opkoblingen "" tom. 
        setWifiOn(wifiConnection(_wifiNetworks[programNumber].getSSID(), _wifiNetworks[programNumber].getPassword()));
+
        valg();
              
     }

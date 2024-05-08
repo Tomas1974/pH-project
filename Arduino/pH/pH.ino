@@ -47,7 +47,9 @@ LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows);
 std::vector<WifiModel> wifiNetworks = {
   WifiModel(hjemme_name, hjemme_ssid, hjemme_password), //Strings fra passwords.h
   WifiModel(skole_name, skole_ssid, skole_password),
-    
+  WifiModel(magnus_name, magnus_ssid, magnus_password),
+  WifiModel(calibrate_name, calibrate_ssid, calibrate_password),
+  WifiModel(calibratetwo_name, calibratetwo_ssid, calibratetwo_password)
 };
 
 //WifiMenu wifiMenu(skærm variabel, netværks array, antal objekter i array, knap et bladre i menu, knap to vælge i menuen);
@@ -89,7 +91,7 @@ void setup() {
   
   
 
-pHDriver.makeCalibration(1958, 1467);
+//pHDriver.makeCalibration(1958, 1467);
 
   
 }
@@ -99,12 +101,11 @@ void loop() {
   
   client.loop();
   
+  
      
   if (start)
   {
-  
-
-        
+      
    float pH = pHDriver.measurePh(); // Measure the pH
   //int U=pHDriver.measureU();
   //Serial.println(U); // Print the U value to the Serial Monitor
@@ -130,17 +131,51 @@ void loop() {
  {
 
   
-  
+  if(wifiMenu.programNumber != 3){
+
     wifiMenu.wifiMenuSystem();
-    
-    if (wifiMenu.getwifiON() !="") //Den skal ikke forbinde, hvis der ikke er internet.
+
+
+       if (wifiMenu.getwifiON() !="") //Den skal ikke forbinde, hvis der ikke er internet.
      { mqttConnection(); 
      start=true;
      
      } 
-    
 
+}
+
+if(wifiMenu.programNumber == 3)
+{
+    int lastButtonState_Menu = HIGH;
+    int buttonState_Menu = digitalRead(BUTTON_Choise);
+
+    lcd.clear();
+    lcd.print("Measure PH4");
+    
+    if (buttonState_Menu != lastButtonState_Menu)
+    {  
+     wifiMenu.startCalibration();
+    }
+    wifiMenu.wifiMenuSystem();
+    
+}
+
+if(wifiMenu.programNumber == 4)
+{
+    int lastButtonState_Menu = HIGH;
+    int buttonState_Menu = digitalRead(BUTTON_Choise);
+
+    lcd.clear();
+    lcd.print("Measure PH7");
+    
+    if (buttonState_Menu != lastButtonState_Menu)
+    {  
+     wifiMenu.startCalibrationtwo();
+    }
+    wifiMenu.wifiMenuSystem();
+    
+}
+    
  }
  delay(50);
-  
 }

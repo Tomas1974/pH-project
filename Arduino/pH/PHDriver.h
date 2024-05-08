@@ -20,13 +20,14 @@ public:
     std::vector<WriteModel> readJsonFromFile( String fileName);
     int measureU();
     void initialize();
+    float makeUToPh(int U);
 
 private:
 
     
     void sortArray(int array[], int size);
     int _PHAnalogPin;
-    float makeUToPh(int U);
+    //float makeUToPh(int U);
     std::vector<WriteModel> models;
 
 };
