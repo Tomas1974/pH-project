@@ -80,9 +80,10 @@ export class LoginOverviewComponent   {
 
     this.homeService.UserActions("logInInfo");
 
-  const bool= await this.homeService.timePromise; 
+  const bool= await this.homeService.timePromise;
 
-
+    // @ts-ignore
+    if (bool)
     this.homeService.getUserInfo();
 
 

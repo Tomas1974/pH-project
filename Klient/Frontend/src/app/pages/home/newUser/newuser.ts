@@ -26,8 +26,9 @@ import {Data} from "@angular/router";
 
 
     <ion-grid>
-
+      <H1>New User</H1>
       <ion-row>
+
         <ion-col size="3.3">
           <ion-item>
 

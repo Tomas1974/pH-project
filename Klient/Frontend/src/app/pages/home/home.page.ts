@@ -9,7 +9,7 @@ import {DataService} from "../../Services/Data.service";
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit{
-showHeader: string="- New User";
+
 messageToToggle: string="";
   constructor(private router: Router,
               public homeService:DataService)
@@ -43,35 +43,6 @@ messageToToggle: string="";
 
 
 
-  }
-
-  changeHeadline()
-   {
-
-     console.log("adj "+this.homeService.chooseComponent)
-
-    switch (this.homeService.chooseComponent)
-    {
-      case 0:
-        this.showHeader = "- New User";
-
-        break;
-
-      case 1:
-        this.showHeader = "- Login";
-
-        break;
-
-      case 2:
-        this.showHeader = "- Login Success";
-
-        break;
-
-      case 3:
-        this.showHeader = "- Update User";
-
-        break;
-    }
   }
 
 
