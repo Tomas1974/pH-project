@@ -15,7 +15,7 @@ import {firstValueFrom} from "rxjs";
 import {Address, AddressAPIJsonResponseModel} from "../../../Models/LookupModels";
 import {DataService} from "../../../Services/Data.service";
 import {UserModel} from "../../../Models/userModel";
-import {HomeService} from "../../../Services/home.service";
+
 import {Data} from "@angular/router";
 
 
@@ -26,10 +26,11 @@ import {Data} from "@angular/router";
 
 
     <ion-grid>
+
       <H1>New User</H1>
       <ion-row>
 
-        <ion-col size="3.3">
+        <ion-col size="2.7">
           <ion-item>
 
             <ion-input labelPlacement="stacked" [formControl]="ValidateData.controls.name">
@@ -43,7 +44,7 @@ import {Data} from "@angular/router";
 
 
       <ion-row>
-        <ion-col size="2.3">
+        <ion-col size="1.7">
 
           <ion-item>
 
@@ -88,7 +89,7 @@ import {Data} from "@angular/router";
 
 
       <ion-row>
-        <ion-col size="1.2">
+        <ion-col size="1">
           <ion-item>
 
             <ion-input labelPlacement="stacked" [formControl]="ValidateData.controls.zip_code">
@@ -99,7 +100,7 @@ import {Data} from "@angular/router";
           </ion-item>
         </ion-col>
 
-        <ion-col size="2.1">
+        <ion-col size="1.7">
           <ion-item>
 
             <ion-input labelPlacement="stacked" [formControl]="ValidateData.controls.city">
@@ -115,7 +116,7 @@ import {Data} from "@angular/router";
 
 
       <ion-row>
-        <ion-col size="3.3">
+        <ion-col size="2.7">
           <ion-item>
 
             <ion-input labelPlacement="stacked" [formControl]="ValidateData.controls.email">
@@ -130,7 +131,7 @@ import {Data} from "@angular/router";
 
 
       <ion-row>
-        <ion-col size="3.3">
+        <ion-col size="2.7">
           <ion-item>
             <ion-input labelPlacement="stacked" [type]="showPassword ? 'text' : 'password'"
                        [formControl]="ValidateData.controls.password">

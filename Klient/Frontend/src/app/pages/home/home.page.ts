@@ -1,6 +1,5 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {HomeService} from "../../Services/home.service";
 import {DataService} from "../../Services/Data.service";
 
 @Component({

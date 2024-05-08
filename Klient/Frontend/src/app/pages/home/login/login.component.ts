@@ -2,16 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {DataService} from "../../../Services/Data.service";
 import {LoginModel} from "../../../Models/userModel";
-import {HomeService} from "../../../Services/home.service";
+
 
 @Component({
   selector: 'app-login2',
   template: `
 
+    <ion-grid >
 
     <H1>Login</H1>
     <ion-row>
-      <ion-col size="3.3">
+      <ion-col size="2.7">
         <ion-item>
 
           <ion-input labelPlacement="stacked" [formControl]="ValidateData.controls.email">
@@ -26,7 +27,7 @@ import {HomeService} from "../../../Services/home.service";
 
 
     <ion-row>
-      <ion-col size="3.3">
+      <ion-col size="2.7">
         <ion-item>
           <ion-input labelPlacement="stacked" [type]="showPassword ? 'text' : 'password'"
                      [formControl]="ValidateData.controls.password">
@@ -64,8 +65,8 @@ import {HomeService} from "../../../Services/home.service";
       (keydown.enter)="UnselectUser()"
     >Clear
     </ion-button>
-
-
+      
+    </ion-grid>
 
   `,
   styleUrls: ['./login.component.scss'],

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {HomeService} from "../../../Services/home.service";
 import {Route, Router} from "@angular/router";
 import {DataService} from "../../../Services/Data.service";
 import {UtilitiesService} from "../../../Services/utilities.service";
@@ -36,11 +35,6 @@ import {UtilitiesService} from "../../../Services/utilities.service";
 
 
 
-
-
-
-
-
   `,
   styleUrls: ['./login-overview.component.scss'],
 })
@@ -69,8 +63,7 @@ export class LoginOverviewComponent   {
     {
       this.homeService.UserActions("delete");
       this.homeService.loginUser="";
-      //this.homeService.loginResponse="";
-      this.homeService.chooseComponent=0; //Her vælges new User
+       this.homeService.chooseComponent=0; //Her vælges new User
     }
 
   }
@@ -80,11 +73,12 @@ export class LoginOverviewComponent   {
 
     this.homeService.UserActions("logInInfo");
 
-  const bool= await this.homeService.timePromise;
 
-    // @ts-ignore
-    if (bool)
-    this.homeService.getUserInfo();
+    setTimeout(() => { //Så når backend info frem inden vi går videre.
+           }, 100);
+
+
+     this.homeService.getUserInfo();
 
 
   }
