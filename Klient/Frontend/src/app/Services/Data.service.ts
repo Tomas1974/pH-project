@@ -15,6 +15,7 @@ import {HomeService} from "./home.service";
 import {LoginModel, UserModel} from "../Models/userModel";
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -30,8 +31,9 @@ export class DataService {
   loginResponse: string | undefined="";
   requestLoginUser: string="";
   user: UserModel | undefined; //Her gemmes bruger information
- // newOrEditUser: string="";
   chooseComponent: number=0;
+  oldTimeStamp: Date | undefined
+  timeStamp: Date | undefined
 
   ws: WebSocket = new WebSocket("ws://localhost:8181")
 
@@ -42,6 +44,8 @@ export class DataService {
       const messageFromServer = JSON.parse(message.data) as BaseDto<any>;
       // @ts-ignore
       this[messageFromServer.eventType].call(this, messageFromServer);
+
+      this.oldTimeStamp=new Date();
     }
   }
 
@@ -107,6 +111,9 @@ export class DataService {
       addressSearchTerm: addressSearchTerm
 
     }
+
+
+
     this.ws.send(JSON.stringify(object));
 
 
@@ -121,7 +128,33 @@ export class DataService {
     this.addressSuggestions=addressSuggestions.results;
 
 
+
   }
+
+
+
+
+  timePromise(): Promise<boolean> {
+
+    return new Promise<boolean>((resolve, reject) => {
+
+
+        if (!this.timeStamp > !this.oldTimeStamp) {
+          this.oldTimeStamp = this.timeStamp;
+          {
+            resolve(true); // Resolve as true if timeStamp is later than oldTimeStamp
+
+          }
+
+        } else {
+          resolve(false); // Resolve as false if no change or timeStamp is not greater
+
+        }
+
+    });
+  }
+
+
 
 
 
@@ -135,7 +168,8 @@ export class DataService {
     if (dto.response=="Success")
     {
       this.loginUser=this.requestLoginUser;
-      this.chooseComponent=2;//Da denne infor bruges i andre pages sendes info til fælles dataservice
+
+     this.chooseComponent=2;//Da denne infor bruges i andre pages sendes info til fælles dataservice
     }
 
   }
@@ -171,6 +205,7 @@ export class DataService {
   {
     this.loginUser=dto.email;
 
+    this.timeStamp=new Date();
   }
 
 

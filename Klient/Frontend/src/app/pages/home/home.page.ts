@@ -46,7 +46,9 @@ messageToToggle: string="";
   }
 
   changeHeadline()
-  {
+   {
+
+     console.log("adj "+this.homeService.chooseComponent)
 
     switch (this.homeService.chooseComponent)
     {

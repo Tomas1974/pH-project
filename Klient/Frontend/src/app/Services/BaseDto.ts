@@ -21,6 +21,7 @@ export class ServerSendsIOTDataToClientsDto extends BaseDto<ServerSendsIOTDataTo
 
 export class sendAddressesDto extends BaseDto<sendAddressesDto> {
   results?: AddressAPIJsonResponseModel;
+
 }
 
 

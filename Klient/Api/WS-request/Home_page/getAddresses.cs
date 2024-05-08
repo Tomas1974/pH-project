@@ -22,7 +22,8 @@ public class getAddresses(HttpClientService httpService) : BaseEventHandler<getA
         var message = new sendAddresses()
         {
             
-            results= await httpService.GetAddressSuggestion(dto.addressSearchTerm)
+            results= await httpService.GetAddressSuggestion(dto.addressSearchTerm),
+           
         
       
         };
@@ -52,7 +53,7 @@ public class sendAddresses : BaseDto
 {
    
     public AddressRootObject results { get; set; }
-    
+   
  
 }
 

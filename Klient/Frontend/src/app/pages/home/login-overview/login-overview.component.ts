@@ -75,10 +75,13 @@ export class LoginOverviewComponent   {
 
   }
 
-  EditUser() {
+  async EditUser() {
 
-    //this.homeService.newOrEditUser="Update";
+
     this.homeService.UserActions("logInInfo");
+
+  const bool= await this.homeService.timePromise; 
+
 
     this.homeService.getUserInfo();
 

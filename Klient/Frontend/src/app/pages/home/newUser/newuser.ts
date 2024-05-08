@@ -228,7 +228,12 @@ ValidateData=this.formbuilder.group({
 
       // @ts-ignore
       this.dataservice.sendAddressLine(this.ValidateData.controls.street.value);
-      this.addressSuggestions = this.dataservice.addressSuggestions;
+
+      const bool=await this.dataservice.timePromise()
+    // if (bool)
+
+       this.addressSuggestions = this.dataservice.addressSuggestions;
+
 
     }
     else
@@ -266,12 +271,14 @@ ValidateData=this.formbuilder.group({
     this.ValidateData.controls.password.setValue("");
 
     this.addressSuggestions=[];
-    this.dataservice.loginResponse="";
 
-    //this.dataservice.newOrEditUser="newUser"; //Vi nulstiller update værdien.
-    this.dataservice.UserActions("logInInfo");
-    this.dataservice.chooseComponent=2;
 
+       this.dataservice.UserActions("logInInfo");
+
+      if (this.dataservice.loginResponse=="Success")
+           this.dataservice.chooseComponent=2;
+else
+        this.dataservice.loginResponse="";
   }
 
   hideSuggestions() {
