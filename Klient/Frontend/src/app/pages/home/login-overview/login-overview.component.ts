@@ -40,18 +40,18 @@ import {UtilitiesService} from "../../../Services/utilities.service";
 })
 export class LoginOverviewComponent   {
 
-  constructor(private homeService: DataService,
+  constructor(private dataservice: DataService,
               private utilitiesservice: UtilitiesService,
-              private router: Router)
+              )
 { }
 
 
 
   LogOut() {
-    this.homeService.loginUser="";
-    this.homeService.loginResponse="";
-    this.homeService.UserActions("logOff");
-    this.homeService.chooseComponent=1; //Her vælges login
+    this.dataservice.loginUser="";
+    this.dataservice.loginResponse="";
+    this.dataservice.UserActions("logOff");
+    this.dataservice.chooseComponent=1; //Her vælges login
   }
 
   async DeleteUser() {
@@ -61,9 +61,11 @@ export class LoginOverviewComponent   {
 
     if (response)
     {
-      this.homeService.UserActions("delete");
-      this.homeService.loginUser="";
-       this.homeService.chooseComponent=0; //Her vælges new User
+
+      this.dataservice.UserActions("delete");
+      this.dataservice.loginUser="";
+      this.dataservice.chooseComponent=0; //Her vælges new User
+      this.dataservice.loginResponse="";
     }
 
   }
@@ -71,14 +73,14 @@ export class LoginOverviewComponent   {
   async EditUser() {
 
 
-    this.homeService.UserActions("logInInfo");
+    this.dataservice.UserActions("logInInfo");
 
 
     setTimeout(() => { //Så når backend info frem inden vi går videre.
            }, 100);
 
 
-     this.homeService.getUserInfo();
+     this.dataservice.getUserInfo();
 
 
   }

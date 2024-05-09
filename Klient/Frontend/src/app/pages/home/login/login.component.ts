@@ -65,13 +65,13 @@ import {LoginModel} from "../../../Models/userModel";
       (keydown.enter)="UnselectUser()"
     >Clear
     </ion-button>
-      
+
     </ion-grid>
 
   `,
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent   {
+export class LoginComponent {
 
   showPassword: boolean = false;
 
@@ -85,6 +85,7 @@ export class LoginComponent   {
 
   constructor(public dataservice: DataService,
               public formbuilder: FormBuilder) { }
+
 
 
 
@@ -114,4 +115,6 @@ export class LoginComponent   {
     this.ValidateData.controls.password.setValue("");
 
   }
+
+
 }

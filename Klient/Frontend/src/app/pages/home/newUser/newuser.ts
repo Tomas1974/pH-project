@@ -27,7 +27,7 @@ import {Data} from "@angular/router";
 
     <ion-grid>
 
-      <H1>New User</H1>
+      <H1>{{headLine}}</H1>
       <ion-row>
 
         <ion-col size="2.7">
@@ -171,7 +171,7 @@ import {Data} from "@angular/router";
 
         size="small" (click)="UnselectAddress()"
         (keydown.enter)="UnselectAddress()"
-      >Clear
+      >{{clearOrRegret}}
       </ion-button>
 
     </ion-grid>
@@ -189,6 +189,7 @@ export class NewUserComponent implements OnInit {
 
   ngOnInit(): void {
        this.checkIfItIsAnUpdate();
+       this.makeStartTextRight();
     }
 
 
@@ -196,11 +197,11 @@ export class NewUserComponent implements OnInit {
 
 
   addressSuggestions: Address[] = [];
-  addressParts: string[]=[];
   showPassword: boolean = false;
   showSuggestions = false;
   selectedIndex = -1;
-
+  headLine: string="";
+  clearOrRegret: string="";
 
 ValidateData=this.formbuilder.group({
 
@@ -212,6 +213,27 @@ ValidateData=this.formbuilder.group({
   email: ["", [Validators.required, Validators.email, Validators.minLength(6)]],
   password: ["", [Validators.required, Validators.minLength(8), Validators.pattern(".*\\W.*")]],
 })
+
+makeStartTextRight()
+
+{
+
+
+  if (this.dataservice.loginUser="")
+  {
+    this.headLine="Update User";
+    this.clearOrRegret="Regret";
+  }
+  else
+  {
+    this.headLine="New User";
+    this.clearOrRegret="Clear";
+  }
+
+
+
+}
+
 
 
 
