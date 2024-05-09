@@ -169,7 +169,6 @@ export class DataService {
 
     if (dto.response=="Success")
     {
-      console.log("Her");
       this.loginUser=this.requestLoginUser;
 
      this.chooseComponent=2;//Da denne infor bruges i andre pages sendes info til fælles dataservice
@@ -194,9 +193,6 @@ export class DataService {
     }
 
     this.chooseComponent=3; //Her vælges new User. Den vælges her, da så ved man at user er opdateret.
-
-
-
 
 
   }
