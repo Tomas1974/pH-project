@@ -31,7 +31,6 @@ export class DataService {
   requestLoginUser: string="";
   user: UserModel | undefined; //Her gemmes bruger information
   chooseComponent: number=0;
-  oldTimeStamp: number | undefined;
   timeStamp: number | undefined;
   town: string | undefined="";
 
@@ -44,10 +43,6 @@ export class DataService {
       const messageFromServer = JSON.parse(message.data) as BaseDto<any>;
       // @ts-ignore
       this[messageFromServer.eventType].call(this, messageFromServer);
-
-      //this.oldTimeStamp=new Date().getTime();
-      //this.timeStamp=this.oldTimeStamp;
-
 
 
 
@@ -143,13 +138,13 @@ export class DataService {
 
     return new Promise<boolean>((resolve, reject) => {
 
-      this.oldTimeStamp = new Date().getTime(); //Her sættes første tidsstempel
+      const oldTimeStamp = new Date().getTime(); //Her sættes første tidsstempel
 
       const intervalId = setInterval(() => {
 
 
-        if (this.timeStamp !== undefined && this.oldTimeStamp !== undefined) {
-          if (this.timeStamp >= this.oldTimeStamp) {
+        if (this.timeStamp !== undefined && oldTimeStamp !== undefined) {
+          if (this.timeStamp >= oldTimeStamp) {
             resolve(true);
           }
 
