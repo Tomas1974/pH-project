@@ -74,7 +74,6 @@ export class LoginOverviewComponent   {
 
 
     this.dataservice.UserActions("logInInfo");
-    this.dataservice.oldTimeStamp = new Date().getTime(); //Her sættes første tidsstempel
 
     await this.dataservice.timePromise(); //Den her venter på responsen fra websocket.
 

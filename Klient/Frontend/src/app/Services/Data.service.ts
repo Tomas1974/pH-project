@@ -143,6 +143,7 @@ export class DataService {
 
     return new Promise<boolean>((resolve, reject) => {
 
+      this.oldTimeStamp = new Date().getTime(); //Her sættes første tidsstempel
 
       const intervalId = setInterval(() => {
 

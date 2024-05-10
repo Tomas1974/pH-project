@@ -298,10 +298,10 @@ makeStartTextRight()
 
        this.dataservice.UserActions("logInInfo");
 
-      if (this.dataservice.loginUser!="")
+      if (this.dataservice.loginUser!="") //Altså at det er en updatering af brugeren
            this.dataservice.chooseComponent=2;
 else
-        this.dataservice.loginResponse="";
+        this.dataservice.loginResponse=""; //Her tømmes info om ukorrekt login.
   }
 
   hideSuggestions() {
@@ -365,8 +365,7 @@ else
       let zip=this.dataservice.user?.zip_code;
 
       this.dataservice.getPostNr(zip!);
-      this.dataservice.oldTimeStamp = new Date().getTime(); //Her sættes første tidsstempel
-
+      
 
       this.ValidateData.controls.street.setValue(this.dataservice.user?.address+"");
       this.ValidateData.controls.street_number.setValue(this.dataservice.user?.street_number+"");
