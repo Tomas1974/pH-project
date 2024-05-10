@@ -44,8 +44,6 @@ export class DataService {
       // @ts-ignore
       this[messageFromServer.eventType].call(this, messageFromServer);
 
-
-
     }
   }
 
@@ -99,38 +97,6 @@ export class DataService {
 
     }
 
-/*********************home-service*********************************/
-
-
-
-  sendAddressLine(addressSearchTerm: string)
-  {
-
-    var object = {
-      eventType: "getAddresses",
-      addressSearchTerm: addressSearchTerm
-
-    }
-
-
-
-    this.ws.send(JSON.stringify(object));
-
-
-  }
-
-
-
-
-
-  sendAddresses(dto: sendAddressesDto): void
-
-  {
-
-    const addressSuggestions=dto.results!
-    this.addressSuggestions=addressSuggestions.results;
-
-  }
 
   timePromise(): Promise<boolean> {
 
@@ -154,8 +120,53 @@ export class DataService {
   }
 
 
+/*********************home-service*********************************/
 
 
+
+  sendAddressLine(addressSearchTerm: string)
+  {
+
+    var object = {
+      eventType: "getAddresses",
+      addressSearchTerm: addressSearchTerm
+
+    }
+
+    this.ws.send(JSON.stringify(object));
+  }
+
+
+
+
+  sendAddresses(dto: sendAddressesDto): void
+
+  {
+
+    const addressSuggestions=dto.results!
+    this.addressSuggestions=addressSuggestions.results;
+
+  }
+
+
+  saveOrEditUser(userModel: UserModel, type: string)
+  {
+
+    this.requestLoginUser!=userModel.email;
+
+    var object = {
+      eventType: "saveUser",
+
+      email: userModel.email,
+      name: userModel.name,
+      password: userModel.password,
+      address: userModel.address,
+      street_number: userModel.street_number,
+      zip_code: userModel.zip_code,
+      cvr: userModel.cvr
+    }
+    this.ws.send(JSON.stringify(object));
+  }
 
 
 
@@ -176,6 +187,18 @@ export class DataService {
 
 
 
+  getUserInfo()
+
+  {
+    var object = {
+      eventType: "getUserInfo",
+
+      email: this.loginUser
+
+    }
+    this.ws.send(JSON.stringify(object));
+  }
+
   userModel(dto:userModelDto)
   {
 
@@ -195,6 +218,21 @@ export class DataService {
 
   }
 
+
+
+
+  LoginUser(loginModel: LoginModel)
+  {
+    this.requestLoginUser=loginModel.email;
+
+    var object = {
+      eventType: "loginUser",
+      email: loginModel.email,
+      password: loginModel.password
+
+    }
+    this.ws.send(JSON.stringify(object));
+  }
 
 
 
@@ -220,7 +258,7 @@ export class DataService {
 
   }
 
-  async SendTown(dto: postNrDto)
+   SendTown(dto: postNrDto)
   {
     this.town=dto.town;
 
@@ -230,52 +268,6 @@ export class DataService {
   }
 
 
-
-
-  saveOrEditUser(userModel: UserModel, type: string)
-  {
-    //this.newOrEditUser=type; //Her gemmes om det er update eller newUser
-    this.requestLoginUser!=userModel.email;
-
-    var object = {
-      eventType: "saveUser",
-
-      email: userModel.email,
-      name: userModel.name,
-      password: userModel.password,
-      address: userModel.address,
-      street_number: userModel.street_number,
-      zip_code: userModel.zip_code,
-      cvr: userModel.cvr
-    }
-    this.ws.send(JSON.stringify(object));
-  }
-
-  getUserInfo()
-
-  {
-    var object = {
-      eventType: "getUserInfo",
-
-      email: this.loginUser
-
-    }
-    this.ws.send(JSON.stringify(object));
-  }
-
-
-  LoginUser(loginModel: LoginModel)
-  {
-    this.requestLoginUser=loginModel.email;
-
-    var object = {
-      eventType: "loginUser",
-      email: loginModel.email,
-      password: loginModel.password
-
-    }
-    this.ws.send(JSON.stringify(object));
-  }
 
 
   UserActions(info: string) {
