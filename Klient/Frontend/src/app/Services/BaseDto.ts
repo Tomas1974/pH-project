@@ -55,3 +55,12 @@ export class userClientDto extends BaseDto<userClientDto>
   max_value?: number;
   min_value?: number;
 }
+
+
+
+
+export class postNrDto extends BaseDto<postNrDto>
+{
+  town?: string;
+
+}

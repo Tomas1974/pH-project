@@ -4,7 +4,7 @@ import {temperaturModel} from "./tempModel";
 
 import {ClientModel} from "../Models/clientModel";
 import {
-  BaseDto,
+  BaseDto, postNrDto,
   responseStringDto,
   sendAddressesDto,
   SendLoginInfoDto,
@@ -31,8 +31,9 @@ export class DataService {
   requestLoginUser: string="";
   user: UserModel | undefined; //Her gemmes bruger information
   chooseComponent: number=0;
-  oldTimeStamp: Date | undefined
-  timeStamp: Date | undefined
+  oldTimeStamp: number | undefined;
+  timeStamp: number | undefined;
+  town: string | undefined="";
 
   ws: WebSocket = new WebSocket("ws://localhost:8181")
 
@@ -44,7 +45,12 @@ export class DataService {
       // @ts-ignore
       this[messageFromServer.eventType].call(this, messageFromServer);
 
-      this.oldTimeStamp=new Date();
+      //this.oldTimeStamp=new Date().getTime();
+      //this.timeStamp=this.oldTimeStamp;
+
+
+
+
     }
   }
 
@@ -129,32 +135,28 @@ export class DataService {
     const addressSuggestions=dto.results!
     this.addressSuggestions=addressSuggestions.results;
 
-
-
   }
 
-
-
-
   timePromise(): Promise<boolean> {
+
+
 
     return new Promise<boolean>((resolve, reject) => {
 
 
-        if (!this.timeStamp > !this.oldTimeStamp) {
-          this.oldTimeStamp = this.timeStamp;
-          {
-            resolve(true); // Resolve as true if timeStamp is later than oldTimeStamp
+      const intervalId = setInterval(() => {
 
+
+        if (this.timeStamp !== undefined && this.oldTimeStamp !== undefined) {
+          if (this.timeStamp >= this.oldTimeStamp) {
+            resolve(true);
           }
 
-        } else {
-          resolve(false); // Resolve as false if no change or timeStamp is not greater
-
         }
-
+      }, 100);
     });
   }
+
 
 
 
@@ -203,8 +205,32 @@ export class DataService {
   SendLoginInfo(dto:SendLoginInfoDto)
   {
     this.loginUser=dto.email;
+    this.timeStamp=new Date().getTime();
 
-    this.timeStamp=new Date();
+
+  }
+
+
+  getPostNr(postNr: number)
+  {
+
+    var object = {
+      eventType: "PostNr",
+
+      postNr: postNr
+
+    }
+    this.ws.send(JSON.stringify(object));
+
+  }
+
+  async SendTown(dto: postNrDto)
+  {
+    this.town=dto.town;
+
+
+    this.timeStamp=new Date().getTime();
+
   }
 
 
@@ -265,6 +291,7 @@ export class DataService {
 
     }
     this.ws.send(JSON.stringify(object));
+
 
   }
 

@@ -219,7 +219,7 @@ makeStartTextRight()
 {
 
 
-  if (this.dataservice.loginUser="")
+  if (this.dataservice.loginUser!="")
   {
     this.headLine="Update User";
     this.clearOrRegret="Regret";
@@ -350,7 +350,7 @@ else
     {
       this.dataservice.UserActions("delete"); //Her slettes den oprindelige bruger.
       this.dataservice.saveOrEditUser(userModel, "newUser");
-      //this.dataservice.newOrEditUser="newUser"; //Vi nulstiller update værdien.
+
 
     }
       else
@@ -358,19 +358,30 @@ else
 
   }
 
-  checkIfItIsAnUpdate()
+  async checkIfItIsAnUpdate()
   {
 
     if(this.dataservice.chooseComponent===3)
     {
+      let zip=this.dataservice.user?.zip_code;
+
+      this.dataservice.getPostNr(zip!);
+      this.dataservice.oldTimeStamp = new Date().getTime(); //Her sættes første tidsstempel
+
 
       this.ValidateData.controls.street.setValue(this.dataservice.user?.address+"");
       this.ValidateData.controls.street_number.setValue(this.dataservice.user?.street_number+"");
       this.ValidateData.controls.zip_code.setValue(this.dataservice.user?.zip_code+"");
-      this.ValidateData.controls.city.setValue("");
       this.ValidateData.controls.name.setValue(this.dataservice.user?.name+"");
       this.ValidateData.controls.email.setValue(this.dataservice.user?.email+"");
       this.ValidateData.controls.password.setValue("");
+      this.ValidateData.controls.city.setValue(this.dataservice.town+"");
+
+
+     await this.dataservice.timePromise(); //Den her venter på responsen fra websocket.
+
+      this.ValidateData.controls.city.setValue(this.dataservice.town+"");
+
 
     }
 

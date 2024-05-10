@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Xml;
+using a;
 using api;
 using Fleck;
 using infrastructure;
@@ -30,6 +31,8 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddSingleton<ClientRepository>();
+builder.Services.AddSingleton<PostNrRespository>();
+builder.Services.AddSingleton<PostNrService>();
 builder.Services.AddSingleton<ClientService>();
 builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<HttpClient>();
