@@ -78,6 +78,7 @@ export class LoginOverviewComponent   {
 
     await this.dataservice.timePromise(); //Den her venter på responsen fra websocket.
 
+    this.dataservice.loginResponse="";
      this.dataservice.getUserInfo();
 
 

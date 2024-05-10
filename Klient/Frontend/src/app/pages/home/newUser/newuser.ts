@@ -148,7 +148,7 @@ import {Data} from "@angular/router";
 
       <ion-row>
         <ion-col>
-          <p *ngIf="dataservice.chooseComponent===1" style="height: 7px;color: red">{{ dataservice.loginResponse }}</p>
+          <p style="height: 7px;color: red">{{ dataservice.loginResponse }}</p>
         </ion-col>
       </ion-row>
 
@@ -253,8 +253,7 @@ makeStartTextRight()
       // @ts-ignore
       this.dataservice.sendAddressLine(this.ValidateData.controls.street.value);
 
-      const bool=await this.dataservice.timePromise()
-    // if (bool)
+
 
        this.addressSuggestions = this.dataservice.addressSuggestions;
 
@@ -299,7 +298,7 @@ makeStartTextRight()
 
        this.dataservice.UserActions("logInInfo");
 
-      if (this.dataservice.loginResponse=="Success")
+      if (this.dataservice.loginUser!="")
            this.dataservice.chooseComponent=2;
 else
         this.dataservice.loginResponse="";
