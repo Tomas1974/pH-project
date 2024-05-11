@@ -145,7 +145,7 @@ export class DataService {
 
     const addressSuggestions=dto.results!
     this.addressSuggestions=addressSuggestions.results;
-
+    this.timeStamp=new Date().getTime();
   }
 
 

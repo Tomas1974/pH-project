@@ -253,7 +253,7 @@ makeStartTextRight()
       // @ts-ignore
       this.dataservice.sendAddressLine(this.ValidateData.controls.street.value);
 
-
+      await this.dataservice.timePromise(); //Gør en lille forskel. Men det bliver aldrig rigtig godt.
 
        this.addressSuggestions = this.dataservice.addressSuggestions;
 
@@ -365,7 +365,7 @@ else
       let zip=this.dataservice.user?.zip_code;
 
       this.dataservice.getPostNr(zip!);
-      
+
 
       this.ValidateData.controls.street.setValue(this.dataservice.user?.address+"");
       this.ValidateData.controls.street_number.setValue(this.dataservice.user?.street_number+"");
