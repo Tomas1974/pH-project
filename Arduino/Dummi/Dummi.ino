@@ -8,7 +8,7 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 
 int satisfaction = 0;
-int secondsDelay=100;
+int secondsDelay=60;
 int counter=0;
 
 String names[]={"AAAA-AAAA","BBBB-BBBB","CCCC-CCCC","DDDD-DDDD","EEEE-EEEE","FFFF-FFFF","GGGG-GGGG","HHHH-HHHH","IIII-IIII","JJJJ-JJJJ","KKKK-KKKK","LLLL-LLLL","MMMM-MMMM","NNNN-NNNN","OOOO-OOOO","PPPP-PPPP","QQQQ-QQQQ","RRRR-RRRR","SSSS-SSSS"

@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 
 import {temperaturModel} from "./tempModel";
 
-import {ClientModel} from "../Models/clientModel";
 import {
   BaseDto, postNrDto,
   responseStringDto,
   sendAddressesDto,
   SendLoginInfoDto,
-  ServerSendsIOTDataToClientsDto, userModelDto
+  ServerSendsIOTDataToClientsDto, userClientDto, userModelDto
 } from "./BaseDto";
 import {Address, AddressAPIJsonResponseModel} from "../Models/LookupModels";
 import {LoginModel, UserModel} from "../Models/userModel";
+import {ClientModel} from "../Models/clientModel";
 
 
 
@@ -37,6 +37,10 @@ export class DataService {
   ws: WebSocket = new WebSocket("ws://localhost:8181")
 
   graphName: string="";
+
+  /***********Settings service********************/
+
+  clients: ClientModel[]  = [];
 
   constructor() {
     this.ws.onmessage = message => {
@@ -297,14 +301,28 @@ saveClient(clientModel: ClientModel)
   this.ws.send(JSON.stringify(object));
 }
 
-getClient(email: string)
+getClient()
 {
   var object = {
     eventType: "getClient",
-    email: email
+    email: this.loginUser
   }
   this.ws.send(JSON.stringify(object));
 }
+
+
+
+  responseListOfClients(dto: userClientDto)
+  {
+
+    this.clients = [...dto.clients!];
+
+
+  }
+
+
+
+
 
 }
 

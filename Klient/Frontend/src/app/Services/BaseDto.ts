@@ -1,4 +1,6 @@
 import {Address, AddressAPIJsonResponseModel} from "../Models/LookupModels";
+import {ClientModel} from "../Models/clientModel";
+
 
 
 export class BaseDto<T> {
@@ -50,12 +52,8 @@ export class userModelDto extends BaseDto<userModelDto> {
 
 export class userClientDto extends BaseDto<userClientDto>
 {
-  client_id?: string;
-  client_name?: string;
-  max_value?: number;
-  min_value?: number;
+  clients?: ClientModel[];
 }
-
 
 
 

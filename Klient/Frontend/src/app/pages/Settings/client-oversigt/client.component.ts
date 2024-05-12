@@ -118,9 +118,13 @@ export class ClientComponent {
     this.ValidateClient.controls.client_name.setValue("");
     this.ValidateClient.controls.max_value.setValue(0);
     this.ValidateClient.controls.min_value.setValue(0);
+
+    this.getClient();
+
+
   }
 
   getClient(){
-    this.dataservice.getClient(this.userEmail)
+    this.dataservice.getClient();
   }
 }
