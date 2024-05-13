@@ -7,7 +7,6 @@ namespace Service1;
 
 public class DataService
 {
-    public string loginEmail = "";
     
     
     private readonly DataRepository _dataRepository;
