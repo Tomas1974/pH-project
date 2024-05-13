@@ -55,10 +55,12 @@ export class userClientDto extends BaseDto<userClientDto>
   clients?: ClientModel[];
 }
 
-
+export class responseClient extends BaseDto<responseClient>
+{
+  duplicate?: boolean;
+}
 
 export class postNrDto extends BaseDto<postNrDto>
 {
   town?: string;
-
 }

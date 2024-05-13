@@ -11,7 +11,7 @@ import {ClientModel} from "../../../Models/clientModel";
     <ion-row>
       <ion-col size="1.3">
         <ion-list *ngFor="let client of clients">
-          <ion-label>{{client}}</ion-label>
+          <ion-label>{{client.client_name}}</ion-label>
         </ion-list>
       </ion-col>
     </ion-row>
@@ -86,6 +86,7 @@ import {ClientModel} from "../../../Models/clientModel";
 export class ClientComponent {
 
   clients: ClientModel[] = [];
+  duplicated: boolean = false;
   userEmail: string = "";
 
   ValidateClient = this.formbuilder.group({
@@ -105,12 +106,16 @@ export class ClientComponent {
 
       client_id: this.ValidateClient.controls.client_id.value + "",
       client_name: this.ValidateClient.controls.client_name.value + "",
-      max_value: this.ValidateClient.controls.max_value.value!,
-      min_value: this.ValidateClient.controls.min_value.value!,
+      max_value: Number(this.ValidateClient.controls.max_value.value),
+      min_value: Number(this.ValidateClient.controls.min_value.value),
     };
+    let email = this.dataservice.loginUser!
 
-    this.clients.push(clientModel);
-    this.dataservice.saveClient(clientModel)
+    this.dataservice.saveClient(clientModel, email)
+    this.duplicated = this.dataservice.duplicatedClient
+    if(!this.duplicated){
+      this.clients.push(clientModel);
+    }
   }
 
   ResetClient() {
@@ -120,11 +125,5 @@ export class ClientComponent {
     this.ValidateClient.controls.min_value.setValue(0);
 
 
-
-
-  }
-
-  getClient(){
-    this.dataservice.getClient();
   }
 }

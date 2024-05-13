@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
-
+import {Injectable} from '@angular/core';
 
 
 import {
-  BaseDto, postNrDto,
+  BaseDto, postNrDto, responseClient,
   responseStringDto,
   sendAddressesDto,
   SendLoginInfoDto,
@@ -15,35 +14,35 @@ import {ClientModel} from "../Models/clientModel";
 import {PHModel} from "../Models/pHModel";
 
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  secCounter:number=0;
-  pHData: PHModel[]=[];
+  secCounter: number = 0;
+  pHData: PHModel[] = [];
 
 
-  loginUser: string | undefined=""; //Her er brugeren der er logget ind gemt
+  loginUser: string | undefined = ""; //Her er brugeren der er logget ind gemt
 
   /***********Home service********************/
   addressSuggestions: Address[] = [];
-  loginResponse: string | undefined="";
-  requestLoginUser: string="";
+  loginResponse: string | undefined = "";
+  requestLoginUser: string = "";
   user: UserModel | undefined; //Her gemmes bruger information
-  chooseComponent: number=0;
+  chooseComponent: number = 0;
   timeStamp: number | undefined;
-  town: string | undefined="";
+  town: string | undefined = "";
 
   ws: WebSocket = new WebSocket("ws://localhost:8181")
 
-  graphName: string="";
+  graphName: string = "";
 
   /***********Settings service********************/
 
-  clients: ClientModel[]  = [];
-  clientsNames: string[]=[];
+  clients: ClientModel[] = [];
+  clientsNames: string[] = [];
+  duplicatedClient: boolean = false;
 
 
   constructor() {
@@ -56,28 +55,17 @@ export class DataService {
   }
 
 
-  getClientList()
-  {
+  getClientList() {
     //this.clientsNames=[];
 
-    for (let i =0; i<this.clients.length; i++)
-    {
+    for (let i = 0; i < this.clients.length; i++) {
       // @ts-ignore
       this.clientsNames.push(this.clients[i].client_name);
       console.log(this.clients[i].client_name);
     }
 
 
-
   }
-
-
-
-
-
-
-
-
 
 
   ServerSendsIOTDataToClients(dto: ServerSendsIOTDataToClientsDto) {
@@ -86,7 +74,7 @@ export class DataService {
       this.secCounter++;
       const existingSeries = this.pHData.find(series => series.name === this.graphName);
 
-        if (existingSeries) {
+      if (existingSeries) {
         existingSeries.series.push({
           name: this.secCounter.toString(),
           value: parseFloat(dto.data)
@@ -107,14 +95,7 @@ export class DataService {
   }
 
 
-
-
-
-
-
-
   timePromise(): Promise<boolean> {
-
 
 
     return new Promise<boolean>((resolve, reject) => {
@@ -135,12 +116,11 @@ export class DataService {
   }
 
 
-/*********************home-service*********************************/
+  /*********************home-service*********************************/
 
 
 
-  sendAddressLine(addressSearchTerm: string)
-  {
+  sendAddressLine(addressSearchTerm: string) {
 
     var object = {
       eventType: "getAddresses",
@@ -152,22 +132,17 @@ export class DataService {
   }
 
 
+  sendAddresses(dto: sendAddressesDto): void {
 
-
-  sendAddresses(dto: sendAddressesDto): void
-
-  {
-
-    const addressSuggestions=dto.results!
-    this.addressSuggestions=addressSuggestions.results;
-    this.timeStamp=new Date().getTime();
+    const addressSuggestions = dto.results!
+    this.addressSuggestions = addressSuggestions.results;
+    this.timeStamp = new Date().getTime();
   }
 
 
-  saveOrEditUser(userModel: UserModel, type: string)
-  {
+  saveOrEditUser(userModel: UserModel, type: string) {
 
-    this.requestLoginUser!=userModel.email;
+    this.requestLoginUser != userModel.email;
 
     var object = {
       eventType: "saveUser",
@@ -184,20 +159,15 @@ export class DataService {
   }
 
 
+  async responseString(dto: responseStringDto): Promise<void> {
 
- async responseString(dto: responseStringDto): Promise<void>
+    this.loginResponse = dto.response;
 
-  {
+    if (dto.response == "Success") {
+      this.loginUser = this.requestLoginUser;
 
-    this.loginResponse=dto.response;
-
-    if (dto.response=="Success")
-    {
-      this.loginUser=this.requestLoginUser;
-
-     this.chooseComponent=2;//Da denne infor bruges i andre pages sendes info til fælles dataservice
+      this.chooseComponent = 2;//Da denne infor bruges i andre pages sendes info til fælles dataservice
     }
-
 
 
     this.getClient(); //Her hentes client listen til den valgte bruger
@@ -207,16 +177,10 @@ export class DataService {
     this.getClientList(); //Her laves listen over navnene til clienterne
 
 
-
-
-
   }
 
 
-
-  getUserInfo()
-
-  {
+  getUserInfo() {
     var object = {
       eventType: "getUserInfo",
 
@@ -226,31 +190,27 @@ export class DataService {
     this.ws.send(JSON.stringify(object));
   }
 
-  userModel(dto:userModelDto)
-  {
+  userModel(dto: userModelDto) {
 
-    this.user=
-    {
-      address: dto.address,
-      street_number: dto.street_number,
-      cvr: dto.cvr,
-      email: dto.email,
-      name: dto.name,
-      password: "",
-      zip_code: dto.zip_code
-    }
+    this.user =
+      {
+        address: dto.address,
+        street_number: dto.street_number,
+        cvr: dto.cvr,
+        email: dto.email,
+        name: dto.name,
+        password: "",
+        zip_code: dto.zip_code
+      }
 
-    this.chooseComponent=3; //Her vælges new User. Den vælges her, da så ved man at user er opdateret.
+    this.chooseComponent = 3; //Her vælges new User. Den vælges her, da så ved man at user er opdateret.
 
 
   }
 
 
-
-
-  LoginUser(loginModel: LoginModel)
-  {
-    this.requestLoginUser=loginModel.email;
+  LoginUser(loginModel: LoginModel) {
+    this.requestLoginUser = loginModel.email;
 
     var object = {
       eventType: "loginUser",
@@ -262,24 +222,15 @@ export class DataService {
   }
 
 
-
-  async SendLoginInfo(dto:SendLoginInfoDto)
-  {
-    this.loginUser=dto.email;
-    this.timeStamp=new Date().getTime();
-
-
-
-
-
-
+  async SendLoginInfo(dto: SendLoginInfoDto) {
+    this.loginUser = dto.email;
+    this.timeStamp = new Date().getTime();
 
 
   }
 
 
-  getPostNr(postNr: number)
-  {
+  getPostNr(postNr: number) {
 
     var object = {
       eventType: "PostNr",
@@ -291,16 +242,13 @@ export class DataService {
 
   }
 
-   SendTown(dto: postNrDto)
-  {
-    this.town=dto.town;
+  SendTown(dto: postNrDto) {
+    this.town = dto.town;
 
 
-    this.timeStamp=new Date().getTime();
+    this.timeStamp = new Date().getTime();
 
   }
-
-
 
 
   UserActions(info: string) {
@@ -316,44 +264,44 @@ export class DataService {
 
   }
 
-/**************************************client-service*******************************/
+  /**************************************client-service*******************************/
 
-saveClient(clientModel: ClientModel)
-{
-  var object = {
-    eventType: "saveClient",
-    client_id: clientModel.client_id,
-    client_name: clientModel.client_name,
-    max_value: clientModel.max_value,
-    min_value: clientModel.min_value
+  saveClient(clientModel: ClientModel, email: String) {
+    var object = {
+      eventType: "saveClient",
+      client_id: clientModel.client_id,
+      client_name: clientModel.client_name,
+      max_value: clientModel.max_value,
+      min_value: clientModel.min_value,
+      email: email
+    }
+    this.ws.send(JSON.stringify(object));
   }
-  this.ws.send(JSON.stringify(object));
-}
 
-getClient()
-{
-  var object = {
-    eventType: "getClient",
-    email: this.loginUser
+  getClient() {
+    var object = {
+      eventType: "getClient",
+      email: this.loginUser
+    }
+    this.ws.send(JSON.stringify(object));
   }
-  this.ws.send(JSON.stringify(object));
-}
 
 
-
-  responseListOfClients(dto: userClientDto)
-  {
+  responseListOfClients(dto: userClientDto) {
 
     this.clients = [...dto.clients!];
 
     console.log("Check");
-    this.timeStamp=new Date().getTime();
+    this.timeStamp = new Date().getTime();
 
   }
 
 
+  responseClientDuplicate(dto: responseClient) {
 
-
-
+    this.duplicatedClient = dto.duplicate!
+    this.timeStamp = new Date().getTime();
+  }
 }
+
 
