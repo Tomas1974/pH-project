@@ -18,6 +18,6 @@ public class SeriesData
 
 public class DataModel
 {
-    public string data { get; set; }
+    public double data { get; set; }
     public DateTime time { get; set; }
 }
