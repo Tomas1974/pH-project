@@ -79,20 +79,20 @@ public class MQTT
             Console.WriteLine($"Received message: {msg}");
             var data = decimal.Parse(msg);
             var client = e.ApplicationMessage.Topic;
-            var today = DateTime.Today.Date;
+            var now = DateTime.Now;
 
-            var sql = "INSERT INTO ph.data(client_id, data, date) VALUES(@client, @data, @date);";
+            var sql = "INSERT INTO ph.data(client_id, data, time) VALUES(@Client, @Data, @Time);";
             using (var conn = _DataSource.OpenConnection())
             {
-                conn.Execute(sql, new {client = client, data = data, date = today});
+                conn.Execute(sql, new {Client = client, Data = data, Time = now});
             }
 
 
-            var resp = new ServerSendsIOTDataToClients()
-            {
-                data = msg
-            };
-            CurrentConnections.Connections.ForEach(e => { e.Send(JsonSerializer.Serialize(resp)); });
+            // var resp = new ServerSendsIOTDataToClients()
+            // {
+            //     data = msg
+            // };
+            // CurrentConnections.Connections.ForEach(e => { e.Send(JsonSerializer.Serialize(resp)); });
 
 
         });

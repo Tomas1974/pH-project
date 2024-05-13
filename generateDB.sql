@@ -45,7 +45,7 @@ CREATE TABLE ph.data(
     data_id SERIAL PRIMARY KEY,
     client_id VARCHAR(20) NOT NULL,
     data DECIMAL NOT NULL,
-    date DATE NOT NULL,
+    time TIMESTAMP NOT NULL,
     alarm VARCHAR(50),
     FOREIGN KEY (client_id) REFERENCES ph.client (client_iD)
 );
