@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {DataService} from "../../Services/Data.service";
 import {UtilitiesService} from "../../Services/utilities.service";
 import { LegendPosition } from '@swimlane/ngx-charts';
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import {filter, Subscription, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-Graf',
@@ -11,7 +13,8 @@ import { LegendPosition } from '@swimlane/ngx-charts';
 export class GrafPage  {
 
 
-  // options
+  selectedClient: string="";
+
 
   showLegend = true;
   showXAxisLabel = true;
@@ -34,8 +37,20 @@ export class GrafPage  {
 
 
   constructor(public dataService: DataService,
-              public utilitiesService: UtilitiesService,
-  ) {
+
+
+  )  {
+
+  }
+
+
+
+
+  async startGraf() {
+
+
+
+
 
   }
 
@@ -55,28 +70,14 @@ export class GrafPage  {
 
 
 
-  async nulstil() {
-
-    let confirm=await this.utilitiesService.confirmDelete()
-
-    if (confirm) {
-      this.dataService.nulstil();
-      this.dataService.graphName="";
-      window.location.reload();
-    }
-  }
 
 
-  async nameGraph() {
-    this.dataService.graphName=await this.utilitiesService.insertLine("Save Name","","");
-  }
 
-  saveGraph() {
 
-  }
+  async getClientList() {
 
-  start_stop() {
-    this.dataService.startStop();
+
+
 
   }
 }

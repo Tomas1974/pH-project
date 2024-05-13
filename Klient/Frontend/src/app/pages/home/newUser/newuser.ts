@@ -332,7 +332,7 @@ else
     }
   }
 
-  selectAddress() {
+  async selectAddress() {
 
   let userModel:UserModel = {
 
@@ -345,14 +345,11 @@ else
     cvr: 0
 
     }
-    if (this.dataservice.chooseComponent===3)
-    {
+
+    if (this.dataservice.loginUser!="")
       this.dataservice.UserActions("delete"); //Her slettes den oprindelige bruger.
-      this.dataservice.saveOrEditUser(userModel, "newUser");
 
 
-    }
-      else
     this.dataservice.saveOrEditUser(userModel,"newUser");
 
   }

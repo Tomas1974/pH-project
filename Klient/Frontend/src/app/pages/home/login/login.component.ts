@@ -95,7 +95,7 @@ export class LoginComponent {
   }
 
 
-  selectUser() {
+  async selectUser() {
 
 
     let loginuser:LoginModel={
@@ -106,6 +106,12 @@ export class LoginComponent {
     };
 
     this.dataservice.LoginUser(loginuser)
+
+
+
+
+
+
 
 
   }

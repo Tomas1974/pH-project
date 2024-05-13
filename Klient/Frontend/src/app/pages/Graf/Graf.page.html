@@ -17,9 +17,8 @@
 
   <ion-col>
     <ion-row>
-      <img style=" width: 2%; height: auto;" src="../assets/Temp_image.jpg">
 
-      <H1 style="margin-left: 20px;">pH</H1>
+
     </ion-row>
   </ion-col>
 
@@ -36,25 +35,19 @@
             <ion-col>
               <ion-row>
 
-                <ion-button  (click)="nameGraph()">Navn</ion-button>
-                <ion-button style=".grey {
-                  --ion-color-base: grey !important;
-                    --ion-color-base-rgb: 128,128,128 !important;
-}
-" [disabled]="dataService.graphName === ''" [class.grey]="dataService.graphName === ''" (click)="start_stop()">Start/Stop</ion-button>
+                <ion-list>
 
-                <ion-button style=".grey {
-                  --ion-color-base: grey !important;
-                    --ion-color-base-rgb: 128,128,128 !important;
-}
-" [disabled]="dataService.graphName === ''|| dataService.start===true" [class.grey]="dataService.graphName === '' || dataService.start===true" (click)="saveGraph()">Gem</ion-button>
-                <ion-button style=".grey {
-                  --ion-color-base: grey !important;
-                    --ion-color-base-rgb: 128,128,128 !important;
-}
-                " [disabled]="dataService.graphName === '' || dataService.start===true" [class.grey]="dataService.graphName === '' || dataService.start===true" (click)="nulstil()">Nulstil</ion-button>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <div class="indicator" [class.on]="dataService.start"></div>
+                  <ion-item>
+
+                    <ion-select placeholder="Clients" [(ngModel)]="this.selectedClient" (ionChange)="getClientList()">
+                      <ion-text >Name</ion-text>
+                      <ion-select-option *ngFor="let text of this.dataService.clientsNames" [value]="text">{{ text }}</ion-select-option>
+                    </ion-select>
+
+
+                  </ion-item>
+
+                </ion-list>
 
               </ion-row>
             </ion-col>
@@ -81,7 +74,7 @@
             [xAxisLabel]="xAxisLabel"
             [yAxisLabel]="yAxisLabel"
             [timeline]="timeline"
-            [results]="this.dataService.temperatureData"
+            [results]="this.dataService.pHData"
             [autoScale]="true"
             (select)="onSelect($event)"
             (activate)="onActivate($event)"
@@ -99,7 +92,7 @@
         <ion-card >
 
           <ion-row>
-            <p>Antal målinger {{ dataService.temperatureData.length }}</p>
+            <p>Antal målinger {{ dataService.pHData.length }}</p>
           </ion-row>
 
         </ion-card>

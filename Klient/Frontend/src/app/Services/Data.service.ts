@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import {temperaturModel} from "./tempModel";
+
 
 import {
   BaseDto, postNrDto,
@@ -12,6 +12,7 @@ import {
 import {Address, AddressAPIJsonResponseModel} from "../Models/LookupModels";
 import {LoginModel, UserModel} from "../Models/userModel";
 import {ClientModel} from "../Models/clientModel";
+import {PHModel} from "./tempModel";
 
 
 
@@ -21,9 +22,10 @@ import {ClientModel} from "../Models/clientModel";
 export class DataService {
 
   secCounter:number=0;
-  temperatureData: temperaturModel[]=[];
-  start: boolean=false;
-  loginUser: string | undefined="";
+  pHData: PHModel[]=[];
+
+
+  loginUser: string | undefined=""; //Her er brugeren der er logget ind gemt
 
   /***********Home service********************/
   addressSuggestions: Address[] = [];
@@ -41,6 +43,8 @@ export class DataService {
   /***********Settings service********************/
 
   clients: ClientModel[]  = [];
+  clientsNames: string[]=[];
+
 
   constructor() {
     this.ws.onmessage = message => {
@@ -52,11 +56,35 @@ export class DataService {
   }
 
 
+  getClientList()
+  {
+    //this.clientsNames=[];
+
+    for (let i =0; i<this.clients.length; i++)
+    {
+      // @ts-ignore
+      this.clientsNames.push(this.clients[i].client_name);
+      console.log(this.clients[i].client_name);
+    }
+
+
+
+  }
+
+
+
+
+
+
+
+
+
+
   ServerSendsIOTDataToClients(dto: ServerSendsIOTDataToClientsDto) {
     if (dto.data != null) {
 
       this.secCounter++;
-      const existingSeries = this.temperatureData.find(series => series.name === this.graphName);
+      const existingSeries = this.pHData.find(series => series.name === this.graphName);
 
         if (existingSeries) {
         existingSeries.series.push({
@@ -68,38 +96,21 @@ export class DataService {
           name: this.graphName,
           series: [{name: this.secCounter.toString(), value: parseFloat(dto.data)}]
         };
-        this.temperatureData.push(newSeries); // Push the new series to temperatureData
+        this.pHData.push(newSeries); // Push the new series to temperatureData
       }
 
       // Ensure this line is inside the if/else block to apply changes
-      this.temperatureData = [...this.temperatureData];
+      this.pHData = [...this.pHData];
 
     }
 
   }
 
-  startStop()
-  {
-    if (this.start)
-      this.start=false;
-    else
-      this.start=true;
-
-    var object = {
-      eventType: "StartStop",
-      start_stop: "Start"
-
-    }
-    this.ws.send(JSON.stringify(object));
-  }
 
 
-  nulstil()
-    {
 
-      this.temperatureData=[];
 
-    }
+
 
 
   timePromise(): Promise<boolean> {
@@ -174,7 +185,7 @@ export class DataService {
 
 
 
-  responseString(dto: responseStringDto): void
+ async responseString(dto: responseStringDto): Promise<void>
 
   {
 
@@ -186,6 +197,18 @@ export class DataService {
 
      this.chooseComponent=2;//Da denne infor bruges i andre pages sendes info til fælles dataservice
     }
+
+
+
+    this.getClient(); //Her hentes client listen til den valgte bruger
+
+    await this.timePromise();
+
+    this.getClientList(); //Her laves listen over navnene til clienterne
+
+
+
+
 
   }
 
@@ -240,10 +263,16 @@ export class DataService {
 
 
 
-  SendLoginInfo(dto:SendLoginInfoDto)
+  async SendLoginInfo(dto:SendLoginInfoDto)
   {
     this.loginUser=dto.email;
     this.timeStamp=new Date().getTime();
+
+
+
+
+
+
 
 
   }
@@ -317,6 +346,8 @@ getClient()
 
     this.clients = [...dto.clients!];
 
+    console.log("Check");
+    this.timeStamp=new Date().getTime();
 
   }
 

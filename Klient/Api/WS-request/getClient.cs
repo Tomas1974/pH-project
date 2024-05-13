@@ -18,18 +18,8 @@ public class getClient : BaseEventHandler<getClientDto>
     public override Task Handle(getClientDto dto, IWebSocketConnection socket)
     {
         var userClients = _clientService.GetClient(dto.email);
-        Console.WriteLine("Hej");
         
-        foreach (ClientModel client in userClients)
-        {
-            Console.WriteLine(client.client_name);
-            Console.WriteLine(client.min_value);
-            Console.WriteLine(client.max_value);
-            
-            
-        }
         
-
         var message = new responseListOfClients()
         {
             clients = userClients
