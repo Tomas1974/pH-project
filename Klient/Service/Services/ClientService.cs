@@ -19,10 +19,9 @@ public class ClientService
     
     public ClientModel CreateClient(ClientModel clientModel, string email)
     { 
-        if (_ClientRepository.ClientAlreadyExist(clientModel.client_id) == clientModel.client_id)
+        if (_ClientRepository.ClientAlreadyExist(clientModel.client_id))
         {
-            Console.WriteLine("Hello");
-            clientModel.duplicate = true;
+          clientModel.duplicate = true;
             return clientModel;
         } 
         clientModel.duplicate = false;

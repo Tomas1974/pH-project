@@ -35,13 +35,14 @@ public class ClientRepository
         }
     }
 
-    public string ClientAlreadyExist(string client_id)
+    public bool ClientAlreadyExist(string client_id)
     {
-        var sql = "SELECT client_id FROM ph.client_user WHERE client_id = @client_id";
+        var sql = "SELECT COUNT(*) FROM ph.client_user WHERE client_id = @client_id";
 
         using (var conn = _DataSource.OpenConnection())
         {
-            return conn.QueryFirst<string>(sql, new { client_id = client_id });
+          var count = conn.ExecuteScalar<int>(sql, new { client_id = client_id });
+          return count > 0;
         }
     }
 }

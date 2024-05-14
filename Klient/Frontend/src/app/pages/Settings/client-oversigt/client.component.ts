@@ -84,9 +84,6 @@ import {ClientModel} from "../../../Models/clientModel";
   styleUrls: ['./client.componen.scss'],
 })
 export class ClientComponent {
-  
-  duplicated: boolean = false;
-  userEmail: string = "";
 
   ValidateClient = this.formbuilder.group({
 
@@ -100,7 +97,7 @@ export class ClientComponent {
               public formbuilder: FormBuilder) {
   }
 
-  SaveClient() {
+  async SaveClient() {
     let clientModel: ClientModel = {
 
       client_id: this.ValidateClient.controls.client_id.value + "",
@@ -111,8 +108,8 @@ export class ClientComponent {
     let email = this.dataservice.loginUser!
 
     this.dataservice.saveClient(clientModel, email)
-    this.duplicated = this.dataservice.duplicatedClient
-    if(!this.duplicated){
+    await this.dataservice.timePromise();
+    if (!this.dataservice.duplicatedClient) {
       this.dataservice.clients.push(clientModel);
     }
   }

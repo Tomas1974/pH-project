@@ -297,8 +297,8 @@ export class DataService {
   }
 
 
-  responseClientDuplicate(dto: responseClient) {
-
+  responseClient(dto: responseClient)
+  {
     this.duplicatedClient = dto.duplicate!
     this.timeStamp = new Date().getTime();
   }
