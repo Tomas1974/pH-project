@@ -18,16 +18,15 @@ public class ClientService
     }
     
     public ClientModel CreateClient(ClientModel clientModel, string email)
-    {
+    { 
         if (_ClientRepository.ClientAlreadyExist(clientModel.client_id) == clientModel.client_id)
         {
+            Console.WriteLine("Hello");
             clientModel.duplicate = true;
             return clientModel;
         } 
         clientModel.duplicate = false;
-        var client = _ClientRepository.CreateClient(clientModel);
-        _ClientRepository.CreateClientUserEntry(clientModel.client_id, email);
-        return client;
+        return _ClientRepository.CreateClient(clientModel, email);
     }
 }
 

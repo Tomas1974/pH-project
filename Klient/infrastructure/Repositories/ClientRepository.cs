@@ -23,14 +23,15 @@ public class ClientRepository
         }
     }
     
-    public ClientModel CreateClient(ClientModel clientModel)
+    public ClientModel CreateClient(ClientModel clientModel, string email)
     {
-        var sql = "INSERT INTO ph.client(client_id, client_name, max_value, min_value) VALUES (@client_id, @client_name, @max_value, @min_value);";
+        var sql = "INSERT INTO ph.client(client_id, client_name, max_value, min_value) VALUES (@client_id, @client_name, @max_value, @min_value); INSERT INTO ph.client_user(client_id, email) VALUES (@client_id, @email);";
 
         using (var conn = _DataSource.OpenConnection())
         {
+            
            return conn.QueryFirst<ClientModel>(sql,
-                new { client_id = clientModel.client_id, client_name = clientModel.client_name, max_value = clientModel.max_value, min_value = clientModel.min_value });
+                new { client_id = clientModel.client_id, client_name = clientModel.client_name, max_value = clientModel.max_value, min_value = clientModel.min_value, email = email });
         }
     }
 
@@ -41,16 +42,6 @@ public class ClientRepository
         using (var conn = _DataSource.OpenConnection())
         {
             return conn.QueryFirst<string>(sql, new { client_id = client_id });
-        }
-    }
-
-    public void CreateClientUserEntry(string client_id, string email)
-    {
-        var sql = "INSERT INTO ph.client_user(client_id, email) VALUES (@client_id, @email);";
-
-        using (var conn = _DataSource.OpenConnection())
-        {
-            conn.Execute(sql, new { client_id = client_id, email = email });
         }
     }
 }

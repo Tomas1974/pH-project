@@ -10,7 +10,7 @@ import {ClientModel} from "../../../Models/clientModel";
 
     <ion-row>
       <ion-col size="1.3">
-        <ion-list *ngFor="let client of clients">
+        <ion-list *ngFor="let client of dataservice.clients">
           <ion-label>{{client.client_name}}</ion-label>
         </ion-list>
       </ion-col>
@@ -84,8 +84,7 @@ import {ClientModel} from "../../../Models/clientModel";
   styleUrls: ['./client.componen.scss'],
 })
 export class ClientComponent {
-
-  clients: ClientModel[] = [];
+  
   duplicated: boolean = false;
   userEmail: string = "";
 
@@ -114,7 +113,7 @@ export class ClientComponent {
     this.dataservice.saveClient(clientModel, email)
     this.duplicated = this.dataservice.duplicatedClient
     if(!this.duplicated){
-      this.clients.push(clientModel);
+      this.dataservice.clients.push(clientModel);
     }
   }
 
