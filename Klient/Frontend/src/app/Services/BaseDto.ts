@@ -1,5 +1,6 @@
 import {Address, AddressAPIJsonResponseModel} from "../Models/LookupModels";
 import {ClientModel} from "../Models/clientModel";
+import {PHModel} from "../Models/pHModel";
 
 
 
@@ -63,4 +64,11 @@ export class responseClient extends BaseDto<responseClient>
 export class postNrDto extends BaseDto<postNrDto>
 {
   town?: string;
+}
+
+
+
+export class PhDataDto extends BaseDto<PhDataDto>
+{
+  phmodel?: PHModel;
 }

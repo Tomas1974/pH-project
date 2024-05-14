@@ -16,16 +16,14 @@ public class DataRepository
     
     
     
-    public IEnumerable<DataModel> FindData(String Client)
+    public IEnumerable<DataModel> FindData(string client)
     {
-        
-        var sql = $@"SELECT data, time FROM ph.data WHERE client_id = @Client_id;";
+        string sql = @"SELECT data, time FROM ph.data WHERE client_id = @Client_id;";
     
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Query<DataModel>(sql, new { Client_id=Client });
+                return conn.Query<DataModel>(sql, new { Client_id = client });
         }
     }
-    
     
 }

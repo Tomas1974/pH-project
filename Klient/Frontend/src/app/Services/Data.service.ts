@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 
 
 import {
-  BaseDto, postNrDto, responseClient,
+  BaseDto, PhDataDto, postNrDto, responseClient,
   responseStringDto,
   sendAddressesDto,
   SendLoginInfoDto,
@@ -19,8 +19,8 @@ import {PHModel} from "../Models/pHModel";
 })
 export class DataService {
 
-  secCounter: number = 0;
-  pHData: PHModel[] = [];
+
+  pHData: PHModel | undefined ;
 
 
   loginUser: string | undefined = ""; //Her er brugeren der er logget ind gemt
@@ -68,31 +68,6 @@ export class DataService {
   }
 
 
-  ServerSendsIOTDataToClients(dto: ServerSendsIOTDataToClientsDto) {
-    if (dto.data != null) {
-
-      this.secCounter++;
-      const existingSeries = this.pHData.find(series => series.name === this.graphName);
-
-      if (existingSeries) {
-        existingSeries.series.push({
-          name: this.secCounter.toString(),
-          value: parseFloat(dto.data)
-        });
-      } else {
-        const newSeries = {
-          name: this.graphName,
-          series: [{name: this.secCounter.toString(), value: parseFloat(dto.data)}]
-        };
-        this.pHData.push(newSeries); // Push the new series to temperatureData
-      }
-
-      // Ensure this line is inside the if/else block to apply changes
-      this.pHData = [...this.pHData];
-
-    }
-
-  }
 
 
   timePromise(): Promise<boolean> {
@@ -117,6 +92,10 @@ export class DataService {
 
 
   /*********************home-service*********************************/
+
+
+
+
 
 
 
@@ -302,6 +281,54 @@ export class DataService {
     this.duplicatedClient = dto.duplicate!
     this.timeStamp = new Date().getTime();
   }
+
+
+
+/*********************graf-service*********************************/
+
+
+
+getGraf(client: string) {
+
+
+
+  const clientID=this.clients.find(clientSearch => client ===  clientSearch.client_name);
+
+
+  var object = {
+    eventType: "getData",
+    clientID: clientID?.client_id,
+
+  }
+  this.ws.send(JSON.stringify(object));
 }
 
 
+
+
+
+
+  PhData(dto: PhDataDto) {
+
+
+
+    const name =dto.phmodel!.name;
+    let data: any[];
+
+    // @ts-ignore
+    data = [...dto.phmodel?.series];
+
+    console.log("Her");
+
+
+  }
+
+
+
+
+
+
+
+
+
+}

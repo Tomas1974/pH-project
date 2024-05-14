@@ -22,10 +22,13 @@ public class DataService
     {
 
         var dataListe = _dataRepository.FindData(client);
-        List<SeriesData> Series = null;
+        List<SeriesData> Series  = new List<SeriesData>(); 
         
+       
         foreach (var data in dataListe)
         {
+            
+            
             SeriesData seriesData = new SeriesData
             {
                 Name = data.time.ToString(),
@@ -33,6 +36,7 @@ public class DataService
 
             };
             
+           
             Series.Add(seriesData);
             
         }

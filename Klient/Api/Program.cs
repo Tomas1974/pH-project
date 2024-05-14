@@ -39,6 +39,12 @@ builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<HttpClientService>();
 
 
+builder.Services.AddSingleton<DataService>();
+builder.Services.AddSingleton<DataRepository>();
+
+
+
+
 var clientEventHandlers = builder.FindAndInjectClientEventHandlers(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
