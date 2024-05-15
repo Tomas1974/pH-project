@@ -54,6 +54,8 @@ export class DataService {
   client: ClientModel | undefined;
   maxGrafValue: number=10;
   minGrafValue: number=2;
+  maxValue: number=0;
+  minValue: number=0;
 
   constructor() {
     this.ws.onmessage = message => {
@@ -308,7 +310,10 @@ getGraf() {
   this.maxGrafValue=this.client?.max_value+1;
 
 
-  console.log(this.client?.client_id);
+
+
+
+
 
   var object = {
     eventType: "getData",
@@ -326,18 +331,75 @@ getGraf() {
   PhData(dto: PhDataDto) {
 
 
-    const newPHModel: PHModel = {
+
+    this.maxValue = dto.series!.reduce((max, current) => {
+      return current.value > max ? current.value : max;
+    }, dto.series![0].value);
+
+
+
+    this.minValue = dto.series!.reduce((min, current) => {
+      return current.value < min ? current.value : min;
+    }, dto.series![0].value);
+
+
+
+
+    const measured: PHModel = {
       name: this.selectedClient,
       series: dto.series!
     };
 
-    this.pHData.push(newPHModel);
+    this.pHData.push(measured);
+
+
+
+    // @ts-ignore
+    const maxliste=this.newSerie(dto.series!,"MaxValue", this.client!.max_value);
+
+
+    const maxPh: PHModel = {
+      name: "Max value",
+      series: maxliste
+    };
+
+    this.pHData.push(maxPh);
+
+    // @ts-ignore
+    const minliste=this.newSerie(dto.series!,"MaxValue", this.client!.min_value);
+
+    // @ts-ignore
+    const minPh: PHModel = {
+      name: "Min value",
+      series: minliste
+    };
+
+    this.pHData.push(minPh);
+
 
     this.pHData = [... this.pHData];
 
-   }
 
 
+
+  }
+
+
+  newSerie(seri: series[], name: string, value: number): series[] {
+
+      let serie: series[]=[];
+
+
+      for (let i = 0; i < seri.length; i++) {
+       const ser=
+         {
+           name:seri[i].name,
+           value: value
+         };
+          serie.push(ser);
+        }
+    return serie;
+    }
 
 
 

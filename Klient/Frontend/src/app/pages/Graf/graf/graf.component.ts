@@ -9,80 +9,90 @@ import {LegendPosition} from "@swimlane/ngx-charts";
 
 
 
-    <ion-col>
-      <ion-row>
 
 
-      </ion-row>
-    </ion-col>
-
-    <br>
-    <br>
-    <br>
 
     <ion-grid>
       <ion-row>
-        <ion-col size="7">
+        <ion-col></ion-col>
 
-          <ion-card>
-            <ion-row>
-              <ion-col>
-                <ion-row>
-
-                  <ion-list>
-
-                    <ion-item>
-
-                      <ion-select placeholder="Clients" [(ngModel)]="this.dataService.selectedClient"
-                                  (ionChange)="getClientList()">
-                        <ion-text>Name</ion-text>
-                        <ion-select-option *ngFor="let text of this.dataService.clientsNames"
-                                           [value]="text">{{ text }}
-                        </ion-select-option>
-                      </ion-select>
+        <ion-col size="8">
+          <ion-row>
+            <ion-card>
 
 
-                    </ion-item>
+              <ion-row>
 
-                  </ion-list>
+                <ion-list>
 
-                </ion-row>
-              </ion-col>
-              <ion-col>
-                <h1>{{ this.dataService.graphName }}</h1>
+                  <ion-item>
 
-              </ion-col>
-            </ion-row>
-
-
-            <ngx-charts-line-chart
-              [view]=[1000,400]
-              [scheme]="colorScheme"
-              [legend]="showLegend"
-              [showXAxisLabel]="showXAxisLabel"
-              [showYAxisLabel]="showYAxisLabel"
-              [animations]="true"
-              [xAxis]="xAxis"
-              [yAxis]="yAxis"
-              [xAxisLabel]="xAxisLabel"
-              [yAxisLabel]="yAxisLabel"
-              [timeline]="timeline"
-              [results]="this.dataService.pHData"
-              [autoScale]="true"
-              [yScaleMin]="this.dataService.minGrafValue"
-              [yScaleMax]="this.dataService.maxGrafValue"
-              (select)="onSelect($event)"
-              (activate)="onActivate($event)"
-              (deactivate)="onDeactivate($event)"
-
-            >
-            </ngx-charts-line-chart>
+                    <ion-select placeholder="Clients" [(ngModel)]="this.dataService.selectedClient"
+                                (ionChange)="getClientList()">
+                      <ion-text>Name</ion-text>
+                      <ion-select-option *ngFor="let text of this.dataService.clientsNames"
+                                         [value]="text">{{ text }}
+                      </ion-select-option>
+                    </ion-select>
 
 
-          </ion-card>
+                  </ion-item>
+
+                </ion-list>
+
+              </ion-row>
+
+
+              <ngx-charts-line-chart
+                [view]=[900,400]
+                [scheme]="colorScheme"
+                [legend]="showLegend"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [animations]="true"
+                [xAxis]="xAxis"
+                [yAxis]="yAxis"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel"
+                [timeline]="timeline"
+                [results]="this.dataService.pHData"
+                [autoScale]="true"
+                [yScaleMin]="this.dataService.minGrafValue"
+                [yScaleMax]="this.dataService.maxGrafValue"
+                (select)="onSelect($event)"
+                (activate)="onActivate($event)"
+                (deactivate)="onDeactivate($event)"
+
+              >
+              </ngx-charts-line-chart>
+
+
+            </ion-card>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-row>
+                <p>Maximal value :{{ dataService.maxValue }}</p>
+              </ion-row>
+              <ion-row>
+                <p>Minimal value :{{ dataService.minValue }}</p>
+              </ion-row>
+            </ion-col>
+
+            <ion-col>
+              <ion-row>
+                <p>Maximal limit :{{ dataService.client?.max_value }}</p>
+              </ion-row>
+              <ion-row>
+                <p>Minimal limit :{{ dataService.client?.min_value }}</p>
+              </ion-row>
+            </ion-col>
+
+          </ion-row>
+
 
         </ion-col>
-
+        <ion-col></ion-col>
 
       </ion-row>
     </ion-grid>
