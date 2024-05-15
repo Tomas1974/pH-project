@@ -27,10 +27,11 @@ public class getData : BaseEventHandler<clientIdDto>
     public override  Task Handle(clientIdDto dto, IWebSocketConnection socket)
     {
        
-
+        Console.WriteLine("ddd"+ _dataService.getData(dto.clientID).Count);    
+        
         PhData phData = new PhData
         {
-            phmodel = _dataService.getData(dto.clientID)
+            series = _dataService.getData(dto.clientID)
 
         };
 
@@ -62,7 +63,7 @@ public class clientIdDto : BaseDto
 public class PhData : BaseDto
 {
    
-    public PHModel phmodel { get; set; }
+    public List<SeriesData> series { get; set; }
     
  
 }

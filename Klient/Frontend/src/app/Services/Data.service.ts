@@ -11,7 +11,8 @@ import {
 import {Address, AddressAPIJsonResponseModel} from "../Models/LookupModels";
 import {LoginModel, UserModel} from "../Models/userModel";
 import {ClientModel} from "../Models/clientModel";
-import {PHModel} from "../Models/pHModel";
+import {PHModel, series} from "../Models/pHModel";
+
 
 
 @Injectable({
@@ -20,7 +21,6 @@ import {PHModel} from "../Models/pHModel";
 export class DataService {
 
 
-  pHData: PHModel | undefined ;
 
 
   loginUser: string | undefined = ""; //Her er brugeren der er logget ind gemt
@@ -43,6 +43,16 @@ export class DataService {
   clients: ClientModel[] = [];
   clientsNames: string[] = [];
   duplicatedClient: boolean = false;
+
+  /***********graf service********************/
+
+
+  selectedClient: string="";
+
+  series: series[] =[];
+  pHData: PHModel[] =[];
+
+
 
 
   constructor() {
@@ -288,12 +298,13 @@ export class DataService {
 
 
 
-getGraf(client: string) {
+getGraf() {
 
 
 
-  const clientID=this.clients.find(clientSearch => client ===  clientSearch.client_name);
+  const clientID=this.clients.find(clientSearch => this.selectedClient ===  clientSearch.client_name);
 
+  console.log(clientID?.client_id);
 
   var object = {
     eventType: "getData",
@@ -311,17 +322,16 @@ getGraf(client: string) {
   PhData(dto: PhDataDto) {
 
 
+    const newPHModel: PHModel = {
+      name: this.selectedClient,
+      series: dto.series!
+    };
 
-    const name =dto.phmodel!.name;
-    let data: any[];
+    this.pHData.push(newPHModel);
 
-    // @ts-ignore
-    data = [...dto.phmodel?.series];
+    this.pHData = [... this.pHData];
 
-    console.log("Her");
-
-
-  }
+   }
 
 
 

@@ -10,8 +10,8 @@ public class PHModel
 
 public class SeriesData
 {
-    public string Name { get; set; }
-    public double Value { get; set; }
+    public string name { get; set; }
+    public double value { get; set; }
 }
 
 

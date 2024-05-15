@@ -39,7 +39,7 @@
 
                   <ion-item>
 
-                    <ion-select placeholder="Clients" [(ngModel)]="this.selectedClient" (ionChange)="getClientList()">
+                    <ion-select placeholder="Clients" [(ngModel)]="this.dataService.selectedClient" (ionChange)="getClientList()">
                       <ion-text >Name</ion-text>
                       <ion-select-option *ngFor="let text of this.dataService.clientsNames" [value]="text">{{ text }}</ion-select-option>
                     </ion-select>

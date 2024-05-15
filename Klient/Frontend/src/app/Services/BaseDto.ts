@@ -1,6 +1,7 @@
 import {Address, AddressAPIJsonResponseModel} from "../Models/LookupModels";
 import {ClientModel} from "../Models/clientModel";
-import {PHModel} from "../Models/pHModel";
+import {PHModel, series} from "../Models/pHModel";
+import {Series} from "@swimlane/ngx-charts";
 
 
 
@@ -70,5 +71,5 @@ export class postNrDto extends BaseDto<postNrDto>
 
 export class PhDataDto extends BaseDto<PhDataDto>
 {
-  phmodel?: PHModel;
+  series?: series[];
 }

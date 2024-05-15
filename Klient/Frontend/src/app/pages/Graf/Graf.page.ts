@@ -12,7 +12,7 @@ import { LegendPosition } from '@swimlane/ngx-charts';
 export class GrafPage  {
 
 
-  selectedClient: string="";
+
 
 
   showLegend = true;
@@ -75,7 +75,7 @@ export class GrafPage  {
 
   async getClientList() {
 
-    this.dataService.getGraf(this.selectedClient);
+    this.dataService.getGraf();
 
 
 

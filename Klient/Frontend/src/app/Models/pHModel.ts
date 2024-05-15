@@ -1,6 +1,14 @@
 export interface PHModel
 {
   name: string;
-  series: { name: string, value: number }[];
+  series:series[];
 }
 
+
+
+export interface series
+{
+  name: string;
+  value: number;
+
+}

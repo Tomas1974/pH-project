@@ -18,37 +18,33 @@ public class DataService
     
 
 
-    public PHModel getData(string client)
+    public  List<SeriesData> getData(string client)
     {
 
         var dataListe = _dataRepository.FindData(client);
         List<SeriesData> Series  = new List<SeriesData>(); 
         
        
+        Console.WriteLine("ccc"+_dataRepository.FindData(client).Count());
+        
         foreach (var data in dataListe)
         {
             
+   
             
             SeriesData seriesData = new SeriesData
             {
-                Name = data.time.ToString(),
-                Value = data.data
+                name = data.time.ToString(),
+                value = data.data
 
             };
-            
+            Console.WriteLine("ccc"+seriesData.name);
            
             Series.Add(seriesData);
-            
+           
         }
 
-        PHModel phModel = new PHModel
-        {
-            Name = client,
-            Series = Series
-
-
-        };
-        return phModel;
+               return Series;
     }
         
     
