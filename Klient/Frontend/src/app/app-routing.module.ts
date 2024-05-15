@@ -27,8 +27,8 @@ const routes: Routes = [
   },
   {
     path: 'Log',
-    loadChildren: () => import('./pages/Log/log.module').then(m => m.SpamPageModule)
-  },
+    loadChildren: () => import('./pages/Log/log').then(m => m.SpamPageModule)
+  }
 ];
 
 @NgModule({

@@ -16,22 +16,20 @@
   </ion-header>
 
 
+<br>
+  <br>
+  <br>
 
 
-
-  Hej Med dig
-  Hej Med dig
-  Hej Med dig
-  Hej Med dig
-  Hej Med dig
-  Hej Med dig
   Hej Med dig
 
 
 
-
-
-
+  <ul>
+    <li *ngFor="let item of statusEntries">
+      Log: {{ item.Log }} - Date: {{ item.Date }}
+    </li>
+  </ul>
 
 
 </ion-content>

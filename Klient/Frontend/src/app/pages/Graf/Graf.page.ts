@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from "../../Services/Data.service";
-import {UtilitiesService} from "../../Services/utilities.service";
 import { LegendPosition } from '@swimlane/ngx-charts';
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {filter, Subscription, switchMap} from "rxjs";
+
 
 @Component({
   selector: 'app-Graf',

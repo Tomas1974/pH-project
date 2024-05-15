@@ -12,6 +12,8 @@ import {Address, AddressAPIJsonResponseModel} from "../Models/LookupModels";
 import {LoginModel, UserModel} from "../Models/userModel";
 import {ClientModel} from "../Models/clientModel";
 import {PHModel} from "../Models/pHModel";
+import {StatusModel} from "../Models/SatusModel";
+import {Observable} from "rxjs";
 
 
 @Injectable({
@@ -44,6 +46,9 @@ export class DataService {
   clientsNames: string[] = [];
   duplicatedClient: boolean = false;
 
+  statusUpdates : StatusModel[] = [];
+
+
 
   constructor() {
     this.ws.onmessage = message => {
@@ -54,6 +59,33 @@ export class DataService {
     }
   }
 
+  getStatusFromServer() {
+
+    var object = {
+      eventType: "GetServerStatus",
+    }
+
+    this.ws.send(JSON.stringify(object));
+
+
+    this.ws.onmessage = (event) => {
+      // Parse the response
+      var data = JSON.parse(event.data);
+
+      console.log(data);
+      console.log("hehehe");
+
+
+      this.statusUpdates.push(data);
+
+    }
+  }
+
+  getStatusArray(): any[] {
+    return this.statusUpdates;
+  }
+
+
 
   getClientList() {
     //this.clientsNames=[];
@@ -63,8 +95,6 @@ export class DataService {
       this.clientsNames.push(this.clients[i].client_name);
       console.log(this.clients[i].client_name);
     }
-
-
   }
 
 
