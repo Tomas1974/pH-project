@@ -92,13 +92,15 @@ export class DataService {
       const intervalId = setInterval(() => {
 
 
-        if (this.timeStamp !== undefined && oldTimeStamp !== undefined) {
-          if (this.timeStamp >= oldTimeStamp) {
+          if (this.timeStamp! >= oldTimeStamp) {
             resolve(true);
           }
-
-        }
       }, 100);
+
+      const timeoutId = setTimeout(() => {
+        clearInterval(intervalId);
+        resolve(false);
+      }, 1000);
     });
   }
 
