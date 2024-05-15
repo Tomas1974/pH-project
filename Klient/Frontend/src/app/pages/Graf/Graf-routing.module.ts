@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {LegendPosition} from "@swimlane/ngx-charts";
+import {LegendPosition, LineChartModule} from "@swimlane/ngx-charts";
 
 import { GrafPage } from './Graf.page';
+import {GrafComponent} from "./graf/graf.component";
+import {IonicModule} from "@ionic/angular";
+import {FormsModule} from "@angular/forms";
+import {CommonModule} from "@angular/common";
+
 
 const routes: Routes = [
   {
@@ -12,7 +17,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  imports: [RouterModule.forChild(routes), LineChartModule, IonicModule, FormsModule,CommonModule],
+    exports: [RouterModule, GrafComponent ],
+    declarations: [
+        GrafComponent
+    ]
 })
 export class InboxPageRoutingModule {}
