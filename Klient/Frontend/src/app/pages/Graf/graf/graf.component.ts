@@ -108,7 +108,7 @@ export class GrafComponent  {
 
   showLegend = true;
   showXAxisLabel = true;
-  xAxisLabel = 'Sek';
+  xAxisLabel = 'Tid';
   yAxisLabel = 'pH';
   showYAxisLabel = true;
   xAxis: boolean = true;
