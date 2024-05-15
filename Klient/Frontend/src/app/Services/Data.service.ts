@@ -51,9 +51,9 @@ export class DataService {
 
   series: series[] =[];
   pHData: PHModel[] =[];
-
-
-
+  client: ClientModel | undefined;
+  maxGrafValue: number=10;
+  minGrafValue: number=2;
 
   constructor() {
     this.ws.onmessage = message => {
@@ -280,7 +280,6 @@ export class DataService {
 
     this.clients = [...dto.clients!];
 
-    console.log("Check");
     this.timeStamp = new Date().getTime();
 
   }
@@ -302,13 +301,18 @@ getGraf() {
 
 
 
-  const clientID=this.clients.find(clientSearch => this.selectedClient ===  clientSearch.client_name);
+   this.client=this.clients.find(clientSearch => this.selectedClient ===  clientSearch.client_name);
+   // @ts-ignore
+  this.minGrafValue=this.client?.min_value-1;
+  // @ts-ignore
+  this.maxGrafValue=this.client?.max_value+1;
 
-  console.log(clientID?.client_id);
+
+  console.log(this.client?.client_id);
 
   var object = {
     eventType: "getData",
-    clientID: clientID?.client_id,
+    clientID: this.client?.client_id,
 
   }
   this.ws.send(JSON.stringify(object));

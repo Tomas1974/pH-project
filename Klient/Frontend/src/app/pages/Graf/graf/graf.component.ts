@@ -24,7 +24,7 @@ import {LegendPosition} from "@swimlane/ngx-charts";
       <ion-row>
         <ion-col size="7">
 
-          <ion-card >
+          <ion-card>
             <ion-row>
               <ion-col>
                 <ion-row>
@@ -33,9 +33,12 @@ import {LegendPosition} from "@swimlane/ngx-charts";
 
                     <ion-item>
 
-                      <ion-select placeholder="Clients" [(ngModel)]="this.dataService.selectedClient" (ionChange)="getClientList()">
-                        <ion-text >Name</ion-text>
-                        <ion-select-option *ngFor="let text of this.dataService.clientsNames" [value]="text">{{ text }}</ion-select-option>
+                      <ion-select placeholder="Clients" [(ngModel)]="this.dataService.selectedClient"
+                                  (ionChange)="getClientList()">
+                        <ion-text>Name</ion-text>
+                        <ion-select-option *ngFor="let text of this.dataService.clientsNames"
+                                           [value]="text">{{ text }}
+                        </ion-select-option>
                       </ion-select>
 
 
@@ -45,15 +48,11 @@ import {LegendPosition} from "@swimlane/ngx-charts";
 
                 </ion-row>
               </ion-col>
-              <ion-col >
-                <h1>{{this.dataService.graphName}}</h1>
+              <ion-col>
+                <h1>{{ this.dataService.graphName }}</h1>
 
               </ion-col>
             </ion-row>
-
-
-
-
 
 
             <ngx-charts-line-chart
@@ -70,6 +69,8 @@ import {LegendPosition} from "@swimlane/ngx-charts";
               [timeline]="timeline"
               [results]="this.dataService.pHData"
               [autoScale]="true"
+              [yScaleMin]="this.dataService.minGrafValue"
+              [yScaleMax]="this.dataService.maxGrafValue"
               (select)="onSelect($event)"
               (activate)="onActivate($event)"
               (deactivate)="onDeactivate($event)"
@@ -81,7 +82,6 @@ import {LegendPosition} from "@swimlane/ngx-charts";
           </ion-card>
 
         </ion-col>
-
 
 
       </ion-row>
@@ -144,7 +144,8 @@ export class GrafComponent  {
 
   async getClientList() {
 
-    this.dataService.getGraf();
+    this.dataService.pHData=[]; //Her nulstilles gamle grafer
+    this.dataService.getGraf(); //Her bestilles en ny graf
 
 
 
