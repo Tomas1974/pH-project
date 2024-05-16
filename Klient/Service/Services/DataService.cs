@@ -38,8 +38,8 @@ public class DataService
                 value = data.data
 
             };
-            Console.WriteLine("ccc"+seriesData.name);
-           
+            
+            
             Series.Add(seriesData);
            
         }

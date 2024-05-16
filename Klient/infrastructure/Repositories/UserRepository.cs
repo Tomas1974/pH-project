@@ -52,11 +52,51 @@ public class UserRepository
     
     public void DeleteUser(string email)
     {
-        var sql = @"DELETE FROM ph.users WHERE email = @Email RETURNING *;";
+       
 
         using (var conn = _dataSource.OpenConnection())
         {
-            conn.QueryFirst<CheckLoginModel>(sql, new { Email=email });
+            
+            var transaction = conn.BeginTransaction();
+            
+             var sql = $@"SELECT client_id FROM ph.client_user WHERE email = @Email;";
+                
+             var liste = conn.Query<string>(sql, new { Email = email }).ToList();
+
+             foreach (var clientId in liste)
+             {
+                 var deleteSql = @"DELETE FROM ph.data WHERE client_id = @ClientId;";
+                 conn.Execute(deleteSql, new { ClientId = clientId });
+                
+                 
+                 var deleteClient = @"Delete from ph.client_user  WHERE email = @Email;";
+                 conn.Execute(deleteClient, new {  Email = email });
+                 
+                 
+                 
+                 
+             }
+             
+             
+             
+            
+             // foreach (var clientId in liste)
+             // {
+             //     var deleteSql = @"DELETE FROM ph.data WHERE client_id = @ClientId;";
+             //     conn.Execute(deleteSql, new { ClientId = clientId }, transaction);
+             // }
+             //
+             
+             
+            //   var sql1 = @"DELETE FROM ph.users WHERE email = @Email RETURNING *;";
+            //
+            //
+            // conn.QueryFirst<CheckLoginModel>(sql1, new { Email=email });
+            
+            
+            transaction.Commit();
+            
         }
+        
     }
 }

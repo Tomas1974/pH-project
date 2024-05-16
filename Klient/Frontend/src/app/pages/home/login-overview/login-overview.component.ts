@@ -75,6 +75,7 @@ export class LoginOverviewComponent   {
 
     this.dataservice.UserActions("logInInfo");
 
+
     await this.dataservice.timePromise(); //Den her venter på responsen fra websocket.
 
     this.dataservice.loginResponse="";

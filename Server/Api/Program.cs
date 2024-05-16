@@ -30,7 +30,7 @@ var clientEventHandlers = builder.FindAndInjectClientEventHandlers(Assembly.GetE
 var app = builder.Build();
 
 
-var server = new WebSocketServer("ws://0.0.0.0:8181");
+var server = new WebSocketServer("ws://0.0.0.0:9191");
 
 
 server.Start(ws =>
