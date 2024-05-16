@@ -20,32 +20,30 @@ public class GetServerStatus : BaseEventHandler<GetServerStatusDto>
 
     public override Task Handle(GetServerStatusDto dto, IWebSocketConnection ws)
     {
-        Console.WriteLine("hey jeg kom her til");
-        
-      
+        if (dto.eventType.Contains("GetServerStatus"))
+        {
+            Console.WriteLine("hey vi komer til GETSERVERSTATUS");
             var latestStatus = _serverStatusService.GetLatestEntry();
-            //var latestStatus = new StatusModel { Date = DateTime.Now, Log = "hej hej" };
-
-
-           // var message = new responseListOfStatus()
-            //{
-              // entries = latestStatus;
-            //};
-
+            
             var messageToClient = JsonSerializer.Serialize(latestStatus);
             ws.Send(messageToClient);
-            
+        }
+             if (dto.eventType2.Contains("createEntry"))
+           {
+               Console.WriteLine("vi kom her til NEW ENTRY");
+               _serverStatusService.CreateEntry("Server is live!", DateTime.Now);
+           }
+
         return Task.CompletedTask;
     }
-
-
-
-
+    
 }
 
 public class GetServerStatusDto : BaseDto
 {
-    public string status { get; set; }
+    public string eventType { get; set; }
+    public string eventType2 { get; set; }
+    
 
 }
 

@@ -73,6 +73,18 @@ export class DataService {
     }
   }
 
+  createStatusEntryOnServer(){
+
+    var object = {
+      eventType: "GetServerStatus",
+      eventType2: "createEntry"
+
+    }
+
+    this.ws.send(JSON.stringify(object));
+
+  }
+
   getStatusFromServer() {
 
     var object = {
@@ -285,7 +297,6 @@ export class DataService {
 
     }
     this.ws.send(JSON.stringify(object));
-
 
   }
 

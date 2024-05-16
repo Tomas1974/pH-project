@@ -11,11 +11,5 @@ export class WebSocketService {
   statusUpdates : StatusModel[] = [];
   ws: WebSocket = new WebSocket("ws://localhost:8181")
 
-  constructor() {
-
-  }
-
-
-
-
+  constructor() {}
 }
