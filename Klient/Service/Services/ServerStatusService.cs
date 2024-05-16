@@ -15,7 +15,6 @@ public class ServerStatusService
     
     public StatusModel GetLatestEntry()
     {
-        Console.WriteLine("og jeg kom os her til");
         return _statusRepository.GetLatestEntry();
     }
     
