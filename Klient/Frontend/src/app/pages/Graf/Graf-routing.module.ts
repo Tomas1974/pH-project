@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {LegendPosition, LineChartModule} from "@swimlane/ngx-charts";
 
+
 import { GrafPage } from './Graf.page';
 import {GrafComponent} from "./graf/graf.component";
 import {IonicModule} from "@ionic/angular";

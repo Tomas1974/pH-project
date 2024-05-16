@@ -7,14 +7,21 @@ import { IonicModule } from '@ionic/angular';
 import { SpamPageRoutingModule } from './log-routing.module';
 
 import { LogPage } from './log.page';
+import {WebSocketService} from "./LogService";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SpamPageRoutingModule
+    SpamPageRoutingModule,
   ],
-  declarations: [LogPage]
+  declarations: [LogPage],
+
+  providers: [WebSocketService]
 })
-export class SpamPageModule {}
+export class SpamPageModule {
+
+
+
+}

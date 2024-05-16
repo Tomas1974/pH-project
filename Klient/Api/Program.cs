@@ -12,6 +12,7 @@ using Service.Services;
 using Service1;
 
 using Websocket;
+using ws;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,9 +33,12 @@ builder.Services.AddHttpClient();
 builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddSingleton<ClientRepository>();
 builder.Services.AddSingleton<PostNrRespository>();
+builder.Services.AddSingleton<StatusRepository>();
 builder.Services.AddSingleton<PostNrService>();
 builder.Services.AddSingleton<ClientService>();
 builder.Services.AddSingleton<UserService>();
+builder.Services.AddSingleton<GetServerStatus>();
+builder.Services.AddSingleton<ServerStatusService>();
 builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<HttpClientService>();
 
@@ -62,10 +66,12 @@ server.Start(ws =>
     };
     ws.OnMessage = async message =>
     {
-      
+        
         try
         {
-           await app.InvokeClientEventHandler(clientEventHandlers, ws, message);
+            
+            await app.InvokeClientEventHandler(clientEventHandlers, ws, message);
+            
 
         }
         catch (Exception e)

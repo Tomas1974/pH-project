@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from "../../Services/Data.service";
-
 import { LegendPosition } from '@swimlane/ngx-charts';
 
 
