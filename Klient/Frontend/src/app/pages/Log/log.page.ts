@@ -1,6 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from "rxjs";
-import {WebSocketService} from "./LogService";
 import {DataService} from "../../Services/Data.service";
 
 @Component({
@@ -13,16 +11,29 @@ export class LogPage implements OnInit, OnDestroy {
 
   statusEntries: any[] = [];
 
-  constructor(private dataService : DataService) { }
+  constructor(private dataService : DataService) {}
 
   ngOnInit(): void {
 
     this.statusEntries = this.dataService.getStatusArray();
     this.dataService.getStatusFromServer();
-
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy(): void {}
 
+
+  waitForSeconds(seconds: number): Promise<void> {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, seconds * 1000); // Convert seconds to milliseconds
+    });
   }
+
+
+
+
+
 }
+
+

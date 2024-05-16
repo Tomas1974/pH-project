@@ -25,7 +25,7 @@ public class ClientRepository
     
     public ClientModel CreateClient(ClientModel clientModel, string email)
     {
-        var sql = "INSERT INTO ph.client(client_id, client_name, max_value, min_value) VALUES (@client_id, @client_name, @max_value, @min_value); INSERT INTO ph.client_user(client_id, email) VALUES (@client_id, @email);";
+        var sql = "UPDATE ph.client SET client_name=@client_name, max_value=@max_value, min_value=@min_value WHERE client_id=@client_id; INSERT INTO ph.client_user(client_id, email) VALUES (@client_id, @email);";
 
         using (var conn = _DataSource.OpenConnection())
         {

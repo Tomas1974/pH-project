@@ -20,6 +20,7 @@ public class getClient : BaseEventHandler<getClientDto>
         var userClients = _clientService.GetClient(dto.email);
         
         
+        
         var message = new responseListOfClients()
         {
             clients = userClients

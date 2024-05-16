@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
 import { SpamPageRoutingModule } from './log-routing.module';
-
 import { LogPage } from './log.page';
 import {WebSocketService} from "./LogService";
 
@@ -20,8 +17,4 @@ import {WebSocketService} from "./LogService";
 
   providers: [WebSocketService]
 })
-export class SpamPageModule {
-
-
-
-}
+export class SpamPageModule {}

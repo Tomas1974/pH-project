@@ -22,18 +22,40 @@ CREATE TABLE ph.users(
 CREATE TABLE ph.client
 (
     client_id varchar(20) PRIMARY KEY,  
-    client_name varchar(50) NOT NULL,
+    client_name varchar(50),
     max_value DECIMAL(4,2),            
     min_value DECIMAL(4,2)             
 );
 
-INSERT INTO ph.client (client_id, client_name, max_value, min_value)
+INSERT INTO ph.client (client_id)
 VALUES
-    ('client/AAAA-AAAA', 'Chiklide akvariet', 8.00, 6.00),  
-    ('client/BBBB-BBBB', 'Guppi akvariet', 8.00, 6.00),
-    ('client/CCCC-CCCC', 'Skalarne', 8.00, 6.00),
-    ('client/DDDD-DDDD', 'Guldfisk bowlen', 8.00, 6.00);
-
+    ('client/AAAA-AAAA'),  
+    ('client/BBBB-BBBB'),
+    ('client/CCCC-CCCC'),
+    ('client/DDDD-DDDD'),
+    ('client/EEEE-EEEE'),
+    ('client/FFFF-FFFF'),
+    ('client/GGGG-GGGG'),
+    ('client/HHHH-HHHH'),
+    ('client/IIII-IIII'),
+    ('client/JJJJ-JJJJ'),
+    ('client/KKKK-KKKK'),
+    ('client/LLLL-LLLL'),
+    ('client/MMMM-MMMM'),
+    ('client/NNNN-NNNN'),
+    ('client/OOOO-OOOO'),
+    ('client/PPPP-PPPP'),
+    ('client/QQQQ-QQQQ'),
+    ('client/RRRR-RRRR'),
+    ('client/SSSS-SSSS'),
+    ('client/TTTT-TTTT'),
+    ('client/UUUU-UUUU'),
+    ('client/VVVV-VVVV'),
+    ('client/WWWW-WWWW'),
+    ('client/XXXX-XXXX'),
+    ('client/YYYY-YYYY'),
+    ('client/ZZZZ-ZZZZ');
+    
 
 CREATE TABLE ph.status(
     status_id SERIAL PRIMARY KEY,

@@ -28,13 +28,12 @@ public class StatusRepository
     public StatusModel GetLatestEntry()
     {
         
-        var sql = $@"SELECT * FROM ph.status ORDER BY date DESC LIMIT 1;";
+        var sql = $@"SELECT * FROM ph.status ORDER BY date DESC LIMIT 10;";
         
     
         using (var conn = _DataSource.OpenConnection())
         {
-            //return conn.QueryFirstOrDefault<StatusModel>(sql, new StatusModel());
-            return new StatusModel { Date = DateTime.Today, Log = "hello" };
+            return conn.QueryFirstOrDefault<StatusModel>(sql, new StatusModel());
         }
     }
     
