@@ -74,25 +74,15 @@ public class UserRepository
 
                  var updatesql =
                      "UPDATE ph.client SET client_name=null, max_value=null, min_value=null WHERE client_id=@clientId;";
-                  conn.QueryFirst(updatesql,new { client_id = clientId });
+                  conn.Execute(updatesql,new { clientId = clientId });
 
              }
              
              
-             
+              var sql1 = @"DELETE FROM ph.users WHERE email = @Email;";
             
-             // foreach (var clientId in liste)
-             // {
-             //     var deleteSql = @"DELETE FROM ph.data WHERE client_id = @ClientId;";
-             //     conn.Execute(deleteSql, new { ClientId = clientId }, transaction);
-             // }
-             //
-             
-             
-            //   var sql1 = @"DELETE FROM ph.users WHERE email = @Email RETURNING *;";
-            //
-            //
-            // conn.QueryFirst<CheckLoginModel>(sql1, new { Email=email });
+            
+            conn.Execute(sql1, new { Email=email });
             
             
             transaction.Commit();
