@@ -71,10 +71,11 @@ public class UserRepository
                  
                  var deleteClient = @"Delete from ph.client_user  WHERE email = @Email;";
                  conn.Execute(deleteClient, new {  Email = email });
-                 
-                 
-                 
-                 
+
+                 var updatesql =
+                     "UPDATE ph.client SET client_name=null, max_value=null, min_value=null WHERE client_id=@clientId;";
+                  conn.QueryFirst(updatesql,new { client_id = clientId });
+
              }
              
              
