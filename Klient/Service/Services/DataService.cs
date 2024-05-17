@@ -25,7 +25,6 @@ public class DataService
         List<SeriesData> Series  = new List<SeriesData>(); 
         
        
-        Console.WriteLine("ccc"+_dataRepository.FindData(client).Count());
         
         foreach (var data in dataListe)
         {

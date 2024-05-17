@@ -116,42 +116,37 @@ export class DataService {
   getClientList() {
     //this.clientsNames=[];
 
+    this.clientsNames=[];
+
     for (let i = 0; i < this.clients.length; i++) {
       // @ts-ignore
       this.clientsNames.push(this.clients[i].client_name);
-      console.log(this.clients[i].client_name);
+
     }
   }
 
 
 
+  timePromise(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
 
-  timePromise(): Promise<boolean> {
-
-
-
-    return new Promise<boolean>((resolve, reject) => {
-
-      const oldTimeStamp = new Date().getTime(); //Her sættes første tidsstempel
-      let counter=0;
-
+      const oldTimeStamp = new Date().getTime();
+      let counter = 0;
 
       const intervalId = setInterval(() => {
-          counter++;
+        counter++;
 
-          if (this.timeStamp! >= oldTimeStamp || counter==10) {
-            resolve(true);
-
-          }
+        if (this.timeStamp! >= oldTimeStamp || counter === 10) {
+          clearInterval(intervalId);  // Clear the interval to stop it from running
+          resolve();
+        }
       }, 100);
-
     });
   }
 
 
+
   /*********************home-service*********************************/
-
-
 
 
 
