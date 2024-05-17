@@ -297,10 +297,17 @@ makeStartTextRight()
     this.addressSuggestions=[];
 
 
-       this.dataservice.UserActions("logInInfo");
+
+    this.dataservice.UserActions("logInInfo"); //Ryk mig ned
+
 
       if (this.dataservice.loginUser!="") //Altså at det er en updatering af brugeren
-           this.dataservice.chooseComponent=2;
+      {
+
+
+        this.dataservice.chooseComponent=2;
+
+      }
 else
         this.dataservice.loginResponse=""; //Her tømmes info om ukorrekt login.
   }
