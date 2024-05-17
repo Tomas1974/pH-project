@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {DataService} from "../../../Services/Data.service";
-import {LoginModel} from "../../../Models/userModel";
+import {LogInModel} from "../../../Models/userModel";
 
 
 @Component({
@@ -71,7 +71,7 @@ import {LoginModel} from "../../../Models/userModel";
   `,
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
 
   showPassword: boolean = false;
 
@@ -86,6 +86,10 @@ export class LoginComponent {
   constructor(public dataservice: DataService,
               public formbuilder: FormBuilder) { }
 
+  ngOnInit(): void {
+    this.dataservice.loginResponse="";
+    }
+
 
 
 
@@ -98,14 +102,14 @@ export class LoginComponent {
   async selectUser() {
 
 
-    let loginuser:LoginModel={
+    let logInUser:LogInModel={
 
       email: this.ValidateData.controls.email.value+"",
       password: this.ValidateData.controls.password.value+"",
 
     };
 
-    this.dataservice.LoginUser(loginuser)
+    this.dataservice.LoginUser(logInUser)
 
 
 

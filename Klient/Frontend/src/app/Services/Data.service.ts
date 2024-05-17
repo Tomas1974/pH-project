@@ -9,7 +9,7 @@ import {
   ServerSendsIOTDataToClientsDto, userClientDto, userModelDto
 } from "./BaseDto";
 import {Address, AddressAPIJsonResponseModel} from "../Models/LookupModels";
-import {LoginModel, UserModel} from "../Models/userModel";
+import {LogInModel, UserModel} from "../Models/userModel";
 import {ClientModel} from "../Models/clientModel";
 import {PHModel, series} from "../Models/pHModel";
 import {StatusModel} from "../Models/SatusModel";
@@ -30,7 +30,7 @@ export class DataService {
   /***********Home service********************/
   addressSuggestions: Address[] = [];
   loginResponse: string | undefined = "";
-  requestLoginUser: string = "";
+  requestLoginUser: string | undefined = "";
   user: UserModel | undefined; //Her gemmes bruger information
   chooseComponent: number = 0;
   timeStamp: number | undefined;
@@ -129,22 +129,22 @@ export class DataService {
   timePromise(): Promise<boolean> {
 
 
+
     return new Promise<boolean>((resolve, reject) => {
 
       const oldTimeStamp = new Date().getTime(); //Her sættes første tidsstempel
+      let counter=0;
+
 
       const intervalId = setInterval(() => {
+          counter++;
 
-
-          if (this.timeStamp! >= oldTimeStamp) {
+          if (this.timeStamp! >= oldTimeStamp || counter==10) {
             resolve(true);
+
           }
       }, 100);
 
-      const timeoutId = setTimeout(() => {
-        clearInterval(intervalId);
-        resolve(false);
-      }, 1000);
     });
   }
 
@@ -177,44 +177,6 @@ export class DataService {
   }
 
 
-  saveOrEditUser(userModel: UserModel, type: string) {
-
-    this.requestLoginUser != userModel.email;
-
-    var object = {
-      eventType: "saveUser",
-
-      email: userModel.email,
-      name: userModel.name,
-      password: userModel.password,
-      address: userModel.address,
-      street_number: userModel.street_number,
-      zip_code: userModel.zip_code,
-      cvr: userModel.cvr
-    }
-    this.ws.send(JSON.stringify(object));
-  }
-
-
-  async responseString(dto: responseStringDto): Promise<void> {
-
-    this.loginResponse = dto.response;
-
-    if (dto.response == "Success") {
-      this.loginUser = this.requestLoginUser;
-
-      this.chooseComponent = 2;//Da denne infor bruges i andre pages sendes info til fælles dataservice
-    }
-
-
-    this.getClient(); //Her hentes client listen til den valgte bruger
-
-    await this.timePromise();
-
-    this.getClientList(); //Her laves listen over navnene til clienterne
-
-
-  }
 
 
   getUserInfo() {
@@ -245,8 +207,27 @@ export class DataService {
 
   }
 
+  saveOrEditUser(userModel: UserModel, type: string) {
 
-  LoginUser(loginModel: LoginModel) {
+    this.requestLoginUser = userModel.email;
+
+    var object = {
+      eventType: "saveUser",
+
+      email: userModel.email,
+      name: userModel.name,
+      password: userModel.password,
+      address: userModel.address,
+      street_number: userModel.street_number,
+      zip_code: userModel.zip_code,
+      cvr: userModel.cvr
+    }
+    this.ws.send(JSON.stringify(object));
+  }
+
+
+
+  LoginUser(loginModel: LogInModel) {
     this.requestLoginUser = loginModel.email;
 
     var object = {
@@ -256,6 +237,29 @@ export class DataService {
 
     }
     this.ws.send(JSON.stringify(object));
+  }
+
+
+   responseString(dto: responseStringDto) {
+
+    this.loginResponse = dto.response;
+
+
+
+    if (dto.response == "Success") {
+      {
+        this.loginUser = this.requestLoginUser;
+
+
+      }
+
+      this.chooseComponent = 2;//Da denne info bruges i andre pages sendes info til fælles dataservice
+    }
+
+
+    this.getClient(); //Her hentes client listen til den valgte bruger
+
+
   }
 
 
@@ -320,14 +324,18 @@ export class DataService {
       email: this.loginUser
     }
     this.ws.send(JSON.stringify(object));
+
   }
 
 
   responseListOfClients(dto: userClientDto) {
 
+
     this.clients = [...dto.clients!];
 
     this.timeStamp = new Date().getTime();
+
+    this.getClientList(); //Her laves listen over navnene til clienterne. Den bruges til dropdown menu i graf.
 
   }
 
@@ -335,7 +343,11 @@ export class DataService {
   responseClient(dto: responseClient)
   {
     this.duplicatedClient = dto.duplicate!
+
     this.timeStamp = new Date().getTime();
+
+    this.getClient(); //Her hentes client listen til den valgte bruger
+
   }
 
 

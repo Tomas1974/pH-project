@@ -190,6 +190,7 @@ export class NewUserComponent implements OnInit {
   ngOnInit(): void {
        this.checkIfItIsAnUpdate();
        this.makeStartTextRight();
+
     }
 
 
@@ -230,7 +231,7 @@ makeStartTextRight()
     this.clearOrRegret="Clear";
   }
 
-
+  this.dataservice.loginResponse="";
 
 }
 

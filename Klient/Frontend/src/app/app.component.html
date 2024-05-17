@@ -1,29 +1,31 @@
 <ion-app>
   <ion-menu menuId="main-menu" content-id="main">
-    <ion-header>
+
       <ion-toolbar>
         <ion-menu-toggle>
           <ion-item routerLink="home">
-            <ion-title>Home</ion-title>
+            <ion-icon name="accessibility-outline" slot="start"></ion-icon>
+            <ion-title>Log in</ion-title>
           </ion-item>
         </ion-menu-toggle>
       </ion-toolbar>
-    </ion-header>
+
 
     <ion-content>
     <ion-list>
 
       <ion-menu-toggle>
-          <ion-item routerLink="Graf">
-          <ion-icon name="mail" slot="start"></ion-icon>
-          <ion-label>Graf</ion-label>
+          <ion-item routerLink="Graf" [ngClass]="{ 'grey-item': this.dataservice.loginUser === '' }">
+          <ion-icon name="analytics-outline" slot="start"></ion-icon>
+          <ion-label>Data</ion-label>
           </ion-item>
       </ion-menu-toggle>
 
 
+
       <ion-menu-toggle>
-      <ion-item routerLink="Settings">
-        <ion-icon name="paper-plane" slot="start"></ion-icon>
+      <ion-item routerLink="Settings" [ngClass]="{ 'grey-item': this.dataservice.loginUser === '' }">
+        <ion-icon name="settings-outline" slot="start"></ion-icon>
         <ion-label>Settings</ion-label>
       </ion-item>
       </ion-menu-toggle>
@@ -31,8 +33,8 @@
 
 
       <ion-menu-toggle>
-      <ion-item routerLink ="Log">
-        <ion-icon name="trash" slot="start"></ion-icon>
+      <ion-item routerLink ="Log" [ngClass]="{ 'grey-item': this.dataservice.loginUser === '' }">
+        <ion-icon name="reader-outline" slot="start"></ion-icon>
         <ion-label>Log</ion-label>
       </ion-item>
       </ion-menu-toggle>

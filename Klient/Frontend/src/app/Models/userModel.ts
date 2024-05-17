@@ -9,7 +9,7 @@ export interface UserModel {
     cvr?: number
 }
 
-export interface LoginModel {
+export interface LogInModel {
 
   email: string
   password: string

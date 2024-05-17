@@ -23,11 +23,8 @@ messageToToggle: string="";
 
 
 
-
-    // State to toggle between Login and Login2
-
   toggleLogin(): void {
-    //this.homeService.showLogin2 = !this.homeService.showLogin2;  // Toggle the state
+
 
     if (this.homeService.chooseComponent==0) {
       this.homeService.chooseComponent = 1;
