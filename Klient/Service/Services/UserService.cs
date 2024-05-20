@@ -19,7 +19,7 @@ public class UserService
     
 
 
-    public string CreateUser(UserModel userModel)
+    public string CreateOrUpdateUser(UserModel userModel, string type, string oldEmail)
     {
         try
         {
@@ -46,15 +46,22 @@ public class UserService
             UserSaveToDatabaseModel checkLoginModel = _userRepository.FindUser(userModel.email);
 
 
-             if (checkLoginModel == null) //Checker om emailen er brugt før
+            if (checkLoginModel == null) //Checker om emailen er brugt før
+
+            {
+                _userRepository.CreateUser(saveToDatabase);
+                loginEmail = userModel.email; //gemmer hvem der er login. 
+            }
+                 
+             else if (checkLoginModel.email==oldEmail) //Checker om det er den gamle email. Så er det en update
              {
                  
-                 _userRepository.CreateUser(saveToDatabase);
+                 _userRepository.updateUser(saveToDatabase, oldEmail);
+                 loginEmail = userModel.email;
                  
+             }
+              
                  
-                 
-                 loginEmail = userModel.email; //gemmer hvem der er login. Hvis browseren bliver genindlæst kan man slå op, hvem der er logget ind.
-             }    
              else
              
                      return "Email already used";
@@ -119,6 +126,14 @@ public class UserService
         }
         
     }
+    
+    
+    
+    
+    
+    
+    
+    
 
     public  UserModel getUserInfo (string email)
     {
@@ -148,6 +163,9 @@ public class UserService
         }
         
     }
+    
+    
+    
     
     
 }

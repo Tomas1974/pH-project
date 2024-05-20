@@ -194,15 +194,13 @@ export class NewUserComponent implements OnInit {
     }
 
 
-
-
-
   addressSuggestions: Address[] = [];
   showPassword: boolean = false;
   showSuggestions = false;
   selectedIndex = -1;
   headLine: string="";
   clearOrRegret: string="";
+  saveOldEmail: string="";
 
 ValidateData=this.formbuilder.group({
 
@@ -355,10 +353,14 @@ else
     }
 
     if (this.dataservice.loginUser!="")
-      this.dataservice.UserActions("delete"); //Her slettes den oprindelige bruger.
+    {
+      this.dataservice.saveOrEditUser(userModel,"Update", this.saveOldEmail);
+      this.saveOldEmail="";
+    }
+    else
+      this.dataservice.saveOrEditUser(userModel,"newUser", this.saveOldEmail); //Jeg har været doven og genbrugt samme metode, selvom old email er en tom streng.
 
 
-    this.dataservice.saveOrEditUser(userModel,"newUser");
 
   }
 
@@ -376,7 +378,11 @@ else
       this.ValidateData.controls.street_number.setValue(this.dataservice.user?.street_number+"");
       this.ValidateData.controls.zip_code.setValue(this.dataservice.user?.zip_code+"");
       this.ValidateData.controls.name.setValue(this.dataservice.user?.name+"");
+
       this.ValidateData.controls.email.setValue(this.dataservice.user?.email+"");
+      this.saveOldEmail=this.dataservice.user?.email+""; //Her gemmes den gamle email, så man kan bruge den til en update.
+
+
       this.ValidateData.controls.password.setValue("");
       this.ValidateData.controls.city.setValue(this.dataservice.town+"");
 

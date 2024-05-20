@@ -202,13 +202,15 @@ export class DataService {
 
   }
 
-  saveOrEditUser(userModel: UserModel, type: string) {
+  saveOrEditUser(userModel: UserModel, type: string, oldEmail: string) {
 
     this.requestLoginUser = userModel.email;
 
     var object = {
       eventType: "saveUser",
 
+      oldEmail: oldEmail,
+      type: type,
       email: userModel.email,
       name: userModel.name,
       password: userModel.password,

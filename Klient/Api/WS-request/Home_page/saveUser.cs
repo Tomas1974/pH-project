@@ -33,15 +33,10 @@ public class saveUser : BaseEventHandler<saveUserDto>
             zip_code = dto.zip_code,
             cvr = dto.cvr
         };
-
-
-        
-        
-       
-       
-            message1=_UserService.CreateUser(message);
-        
-        
+            
+            message1=_UserService.CreateOrUpdateUser(message, dto.type,dto.oldEmail);
+            
+          
         
         var message2 = new responseString
         {
@@ -54,6 +49,7 @@ public class saveUser : BaseEventHandler<saveUserDto>
         var messageToClient = JsonSerializer.Serialize(message2);
         socket.Send(messageToClient);
         
+        
         return Task.CompletedTask;    
 
     }
@@ -62,6 +58,8 @@ public class saveUser : BaseEventHandler<saveUserDto>
 
 public class saveUserDto : BaseDto
 {
+    public string oldEmail { get; set; }
+    public string type { get; set; }
     public string email { get; set; }
     public string name { get; set; }
     public string password { get; set; }
