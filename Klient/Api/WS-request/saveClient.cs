@@ -4,22 +4,22 @@ using infrastructure.DataModels;
 using lib;
 using Service.Services;
 
-namespace ws;
+namespace api.WS_request;
 
 public class saveClient : BaseEventHandler<saveClientDto>
 {
     public readonly ClientService _ClientService;
-    
+
     public saveClient(ClientService clientService)
     {
         _ClientService = clientService;
     }
-    
-    
+
+
     public override Task Handle(saveClientDto dto, IWebSocketConnection socket)
     {
         var email = dto.email;
-        
+
         var client = new ClientModel
         {
             client_id = dto.client_id,
@@ -29,12 +29,12 @@ public class saveClient : BaseEventHandler<saveClientDto>
         };
 
         _ClientService.CreateClient(client, email);
-        
+
         var message = new responseClient()
         {
             duplicate = client.duplicate
         };
-        
+
         var messageToClient = JsonSerializer.Serialize(message);
         socket.Send(messageToClient);
         return Task.CompletedTask;
@@ -43,10 +43,10 @@ public class saveClient : BaseEventHandler<saveClientDto>
 
 public class saveClientDto : BaseDto
 {
-    public string client_id { get; set; }  
+    public string client_id { get; set; }
     public string client_name { get; set; }
-    public decimal max_value { get; set; }            
-    public decimal min_value { get; set; }   
+    public decimal max_value { get; set; }
+    public decimal min_value { get; set; }
     public string email { get; set; }
 }
 

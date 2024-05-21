@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using Fleck;
 using infrastructure.DataModels;
@@ -6,23 +5,22 @@ using lib;
 using Service1;
 
 
-namespace ws;
-
+namespace api.WS_request.Home_page;
 
 public class saveUser : BaseEventHandler<saveUserDto>
 {
     public readonly UserService _UserService;
-    
+
     public saveUser(UserService userService)
     {
         _UserService = userService;
     }
-    
-    
+
+
     public override Task Handle(saveUserDto dto, IWebSocketConnection socket)
     {
         string message1;
-        
+
         var message = new UserModel
         {
             email = dto.email,
@@ -33,28 +31,22 @@ public class saveUser : BaseEventHandler<saveUserDto>
             zip_code = dto.zip_code,
             cvr = dto.cvr
         };
-            
-            message1=_UserService.CreateOrUpdateUser(message, dto.type,dto.oldEmail);
-            
-          
-        
+
+        message1 = _UserService.CreateOrUpdateUser(message, dto.type, dto.oldEmail);
+
+
         var message2 = new responseString
         {
-            
             response = message1
-        
-      
         };
- 
+
         var messageToClient = JsonSerializer.Serialize(message2);
         socket.Send(messageToClient);
-        
-        
-        return Task.CompletedTask;    
 
+
+        return Task.CompletedTask;
     }
-    
-    }
+}
 
 public class saveUserDto : BaseDto
 {
@@ -68,13 +60,3 @@ public class saveUserDto : BaseDto
     public int zip_code { get; set; }
     public int? cvr { get; set; }
 }
-
-
-
-
-
-
-
-
-
-

@@ -1,4 +1,3 @@
-
 using System.Text.Json;
 using a;
 using DefaultNamespace;
@@ -6,7 +5,7 @@ using Fleck;
 using lib;
 
 
-namespace ws;
+namespace api.WS_request;
 
 public class GetServerStatus : BaseEventHandler<GetServerStatusDto>
 {
@@ -23,30 +22,27 @@ public class GetServerStatus : BaseEventHandler<GetServerStatusDto>
         if (dto.eventType.Contains("GetServerStatus"))
         {
             var latestStatus = _serverStatusService.GetLatestEntry();
-            
+
             var messageToClient = JsonSerializer.Serialize(latestStatus);
             ws.Send(messageToClient);
         }
-             if (dto.eventType2.Contains("createEntry"))
-           {
-               _serverStatusService.CreateEntry("Server is live!", DateTime.Now);
-           }
+
+        if (dto.eventType2.Contains("createEntry"))
+        {
+            _serverStatusService.CreateEntry("Server is live!", DateTime.Now);
+        }
 
         return Task.CompletedTask;
     }
-    
 }
 
 public class GetServerStatusDto : BaseDto
 {
     public string eventType { get; set; }
     public string eventType2 { get; set; }
-    
-
 }
 
 public class responseListOfStatus : BaseDto
 {
     public IEnumerable<StatusModel> entries { get; set; }
 }
-

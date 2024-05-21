@@ -1,6 +1,6 @@
 ﻿using Fleck;
 
-namespace Websocket;
+namespace api;
 
 public static class CurrentConnections
 {

@@ -4,7 +4,7 @@ using infrastructure.DataModels;
 using lib;
 using Service.Services;
 
-namespace ws;
+namespace api.WS_request;
 
 public class getClient : BaseEventHandler<getClientDto>
 {
@@ -14,18 +14,17 @@ public class getClient : BaseEventHandler<getClientDto>
     {
         _clientService = clientService;
     }
-    
+
     public override Task Handle(getClientDto dto, IWebSocketConnection socket)
     {
         var userClients = _clientService.GetClient(dto.email);
-        
-        
-        
+
+
         var message = new responseListOfClients()
         {
             clients = userClients
         };
-        
+
         var messageToClient = JsonSerializer.Serialize(message);
         socket.Send(messageToClient);
         return Task.CompletedTask;

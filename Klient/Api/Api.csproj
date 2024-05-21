@@ -1,30 +1,29 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <InvariantGlobalization>true</InvariantGlobalization>
-    <RootNamespace>Websocket_fødselsdag_2</RootNamespace>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <InvariantGlobalization>true</InvariantGlobalization>
+    </PropertyGroup>
 
-  <ItemGroup>
-    
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4" />
-    
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
-    
-    <PackageReference Include="Npgsql" Version="8.0.3" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="Fleck" Version="1.2.0" />
-    <PackageReference Include="uldahlalex.websocket.boilerplate" Version="1.6.0" />
-    <PackageReference Include="Npgsql.DependencyInjection" Version="8.0.3" />
-  </ItemGroup>
+    <ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\infrastructure\infrastructure.csproj" />
-    <ProjectReference Include="..\service\service.csproj" />
-  </ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4"/>
+
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1"/>
+
+        <PackageReference Include="Npgsql" Version="8.0.3"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+        <PackageReference Include="Fleck" Version="1.2.0"/>
+        <PackageReference Include="uldahlalex.websocket.boilerplate" Version="1.6.0"/>
+        <PackageReference Include="Npgsql.DependencyInjection" Version="8.0.3"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\infrastructure\infrastructure.csproj"/>
+        <ProjectReference Include="..\service\service.csproj"/>
+    </ItemGroup>
 
 
 </Project>
