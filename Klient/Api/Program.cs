@@ -1,5 +1,4 @@
 using System.Reflection;
-using a;
 using api;
 using api.HttpRequest;
 using api.WS_request;
@@ -8,7 +7,6 @@ using infrastructure;
 using infrastructure.Repositories;
 using lib;
 using Service.Services;
-using Service1;
 
 public static class Startup
 {

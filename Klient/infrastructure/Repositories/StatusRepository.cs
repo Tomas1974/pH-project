@@ -1,5 +1,5 @@
 using Dapper;
-using DefaultNamespace;
+using infrastructure.DataModels;
 using Npgsql;
 
 namespace infrastructure.Repositories;

@@ -7,7 +7,7 @@
         using MQTTnet.Client;
         using MQTTnet.Client.Options;
    using Npgsql;
-   using Service1.Service;
+   using Service.Service;
 
    namespace Websocket;
 

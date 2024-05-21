@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using Dapper;
+﻿using Dapper;
 using infrastructure.DataModels;
 using Npgsql;
 
-namespace infrastructure;
+namespace infrastructure.Repositories;
 
 public class DataRepository
 {

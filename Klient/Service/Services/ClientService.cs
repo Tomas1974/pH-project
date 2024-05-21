@@ -16,17 +16,17 @@ public class ClientService
     {
         return _ClientRepository.GetClients(user_id);
     }
-    
+
     public ClientModel CreateClient(ClientModel clientModel, string email)
-    { 
+    {
         if (_ClientRepository.ClientAlreadyExist(clientModel.client_id))
         {
-          clientModel.duplicate = true;
+            clientModel.duplicate = true;
             return clientModel;
-        } 
+        }
+
         ClientModel newClientModel = _ClientRepository.CreateClient(clientModel, email);
         newClientModel.duplicate = false;
         return newClientModel;
     }
 }
-
