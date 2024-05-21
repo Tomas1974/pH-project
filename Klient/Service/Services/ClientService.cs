@@ -24,8 +24,9 @@ public class ClientService
           clientModel.duplicate = true;
             return clientModel;
         } 
-        clientModel.duplicate = false;
-        return _ClientRepository.CreateClient(clientModel, email);
+        ClientModel newClientModel = _ClientRepository.CreateClient(clientModel, email);
+        newClientModel.duplicate = false;
+        return newClientModel;
     }
 }
 

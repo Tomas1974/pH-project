@@ -77,6 +77,9 @@ import {ClientModel} from "../../../Models/clientModel";
           <ion-col>
             <ion-button size="small" (click)="ResetClient()" (keydown.enter)="ResetClient()">Clear</ion-button>
           </ion-col>
+          <ion-col>
+            <ion-button size="small" (click)="deleteClient()">Delete</ion-button>
+          </ion-col>
         </ion-row>
       </ion-col>
     </ion-row>
@@ -87,7 +90,7 @@ export class ClientComponent {
 
   ValidateClient = this.formbuilder.group({
 
-    client_id: ["", [Validators.required, Validators.minLength(1)]],
+    client_id: ["client/", [Validators.required, Validators.minLength(16), Validators.maxLength(16)]],
     client_name: ["", [Validators.required, Validators.minLength(1)]],
     max_value: [0, [Validators.required, Validators.min(1), Validators.max(15)]],
     min_value: [0, [Validators.required, Validators.min(1), Validators.max(15)]],
@@ -111,7 +114,20 @@ export class ClientComponent {
     await this.dataservice.timePromise();
     if (!this.dataservice.duplicatedClient) {
       this.dataservice.clients.push(clientModel);
+      this.ResetClient();
     }
+  }
+
+  deleteClient(){
+    let clientModel: ClientModel = {
+      client_id: "",
+      client_name: undefined,
+      max_value: undefined,
+      min_value: undefined
+    };
+    let email = this.dataservice.loginUser!
+    
+    this.dataservice.saveClient(clientModel, email)
   }
 
   ResetClient() {
