@@ -42,6 +42,7 @@ public class UserService
             UserSaveToDatabaseModel checkLoginModel = _userRepository.FindUser(userModel.email);
 
 
+<<<<<<< Updated upstream
             if (checkLoginModel == null) //Checker om emailen er brugt før
 
             {
@@ -61,6 +62,31 @@ public class UserService
                 return "Email already used";
 
 
+=======
+            Console.WriteLine("Skriv: "+oldEmail);
+                 
+              if (oldEmail!="") //Checker om det er den gamle email. Så er det en update
+             {
+
+                 Console.WriteLine("Enter update");
+                 _userRepository.updateUser(saveToDatabase, oldEmail);
+                 loginEmail = userModel.email;
+                 
+             }
+              else if (checkLoginModel == null) //Checker om emailen er brugt før
+
+              {
+                  Console.WriteLine("Enter new");
+                  _userRepository.CreateUser(saveToDatabase);
+                  loginEmail = userModel.email; //gemmer hvem der er login. 
+              }
+                 
+             else
+             
+                     return "Email already used";
+                
+            
+>>>>>>> Stashed changes
             return "Success";
         }
         catch

@@ -68,7 +68,7 @@ export class DataService {
     this.ws.onmessage = message => {
       const messageFromServer = JSON.parse(message.data) as BaseDto<any>;
       // @ts-ignore
-      this[messageFromServer.eventType].call(this, messageFromServer);
+        this[messageFromServer.eventType].call(this, messageFromServer);
 
     }
   }
@@ -235,7 +235,7 @@ export class DataService {
   }
 
 
-   responseString(dto: responseStringDto) {
+   responseString(dto: responseStringDto) { //Svar fra login
 
     this.loginResponse = dto.response;
 
@@ -341,6 +341,9 @@ export class DataService {
 
     this.timeStamp = new Date().getTime();
 
+    console.log(this.duplicatedClient);
+
+    if (!this.duplicatedClient)
     this.getClient(); //Her hentes client listen til den valgte bruger
 
   }

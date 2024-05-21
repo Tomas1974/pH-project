@@ -43,24 +43,49 @@ public class UserRepository
     {
         using (var transaction = conn.BeginTransaction())
         {
+            
             try
             {
+                // var sql = @"SELECT client_id FROM ph.client_user WHERE email = @Email;";
+                // var liste = conn.Query<string>(sql, new { Email = oldEmail }).ToList();
+                //
+                //
+                //
+                //
+                // foreach (var clientId in liste)
+                // {
+                //     var updateClientUser = @"UPDATE ph.client_user SET email = @NewEmail WHERE client_id = @ClientId;";
+                //     conn.Execute(updateClientUser, new { NewEmail = saveToDatabase.email, ClientId = clientId }, transaction);
+                // }
                 
-                var sql = @"SELECT client_id FROM ph.client_user WHERE email = @Email;";
-                var liste = conn.Query<string>(sql, new { Email = oldEmail }).ToList();
                 
-                
+                //
+                // var updateUser = @"UPDATE ph.users SET email = @Email, name = @Name, hash = @Hash, salt = @Salt, address = @Address, 
+                //                    street_number = @StreetNumber, zip_code = @ZipCode, cvr = @Cvr WHERE email = @OldEmail;
+                //                     ";
+                // conn.Execute(updateUser, 
+                //     new
+                //     {
+                //         Email = saveToDatabase.email,
+                //         Name = saveToDatabase.name,
+                //         Hash = saveToDatabase.hash,
+                //         Salt = saveToDatabase.salt,
+                //         Address = saveToDatabase.address,
+                //         StreetNumber = saveToDatabase.street_number,
+                //         ZipCode = saveToDatabase.zip_code,
+                //         Cvr = saveToDatabase.cvr,
+                //         OldEmail = oldEmail
+                //     }, transaction);
 
-                foreach (var clientId in liste)
-                {
-                    var updateClientUser = @"UPDATE ph.client_user SET email = @NewEmail WHERE client_id = @ClientId;";
-                    conn.Execute(updateClientUser, new { NewEmail = saveToDatabase.email, ClientId = clientId }, transaction);
-                }
 
+               
                 
                 
                 var updateUser = @"UPDATE ph.users SET email = @Email, name = @Name, hash = @Hash, salt = @Salt, address = @Address, 
-                                   street_number = @StreetNumber, zip_code = @ZipCode, cvr = @Cvr WHERE email = OldEmail;";
+                                   street_number = @StreetNumber, zip_code = @ZipCode, cvr = @Cvr
+                                   INNER JOIN ph.users on ph.users.email=ph.client_user.email  
+                    
+                                WHERE email = @OldEmail; ";
                 conn.Execute(updateUser, 
                     new
                     {
@@ -76,12 +101,16 @@ public class UserRepository
                     }, transaction);
 
 
-                // if (oldEmail != saveToDatabase.email)
-                // {
-                //     var sql1 = @"DELETE FROM ph.users WHERE email = @Email;";
-                //     conn.Execute(sql1, new { Email=oldEmail });
-                // }
-                //
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
                 
                 
                 
