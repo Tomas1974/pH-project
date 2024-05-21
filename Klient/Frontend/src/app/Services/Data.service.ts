@@ -99,8 +99,6 @@ export class DataService {
       var data = JSON.parse(event.data);
 
       console.log(data);
-      console.log("hehehe");
-
 
       this.statusUpdates.push(data);
 

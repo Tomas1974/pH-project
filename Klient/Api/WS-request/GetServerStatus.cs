@@ -22,7 +22,6 @@ public class GetServerStatus : BaseEventHandler<GetServerStatusDto>
     {
         if (dto.eventType.Contains("GetServerStatus"))
         {
-            Console.WriteLine("hey vi komer til GETSERVERSTATUS");
             var latestStatus = _serverStatusService.GetLatestEntry();
             
             var messageToClient = JsonSerializer.Serialize(latestStatus);
@@ -30,7 +29,6 @@ public class GetServerStatus : BaseEventHandler<GetServerStatusDto>
         }
              if (dto.eventType2.Contains("createEntry"))
            {
-               Console.WriteLine("vi kom her til NEW ENTRY");
                _serverStatusService.CreateEntry("Server is live!", DateTime.Now);
            }
 
