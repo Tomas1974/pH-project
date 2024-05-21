@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using infrastructure.DataModels;
+using infrastructure.Repositories;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Npgsql;
 
@@ -8,10 +9,12 @@ namespace infrastructure;
 public class UserRepository
 {
     private readonly NpgsqlDataSource _dataSource;
+    private readonly ClientRepository _clientRepository;
 
-    public UserRepository(NpgsqlDataSource dataSource)
+    public UserRepository(NpgsqlDataSource dataSource,ClientRepository clientRepository)
     {
         _dataSource = dataSource;
+        _clientRepository = clientRepository;
     }
     
     public UserModel CreateUser(UserSaveToDatabaseModel saveToDatabase)
@@ -137,4 +140,30 @@ public class UserRepository
         }
         
     }
-}
+
+    public void updateUserWithNewEmail(UserSaveToDatabaseModel saveToDatabase,string oldEmail)
+    {
+        using (var conn = _dataSource.OpenConnection())
+        {
+            
+            var transaction = conn.BeginTransaction();
+        
+            
+            CreateUser(saveToDatabase); //Her gemmes brugeren med den nye email.
+                    
+            List<string> liste= findClients(oldEmail); //først en liste over clienter
+                    
+            foreach (var clientId in liste)
+            {
+                _clientRepository.createClientUser(clientId, saveToDatabase.email); //Så gemmes clienterne med den nye email
+            }
+
+            DeleteUser(oldEmail); //Her slettes den gamle bruger og hans clienter
+            
+            transaction.Commit();
+        }
+            
+        }
+    }
+    
+    
