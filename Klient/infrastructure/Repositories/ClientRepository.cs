@@ -39,6 +39,21 @@ public class ClientRepository
                 });
         }
     }
+    
+    
+    public void createClientUser(string clientId, string email)
+    {
+        var sql = @"INSERT INTO ph.client_user(client_id, email) VALUES (@ClientId, @Email);";
+
+      
+            using (var conn = _DataSource.OpenConnection())
+            {
+                conn.Execute(sql, new { ClientId = clientId, Email = email });
+            }
+       
+    }
+    
+    
 
     public bool ClientAlreadyExist(string client_id)
     {

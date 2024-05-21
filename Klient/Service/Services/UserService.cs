@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using infrastructure;
 using infrastructure.DataModels;
+using infrastructure.Repositories;
 
 namespace Service.Services;
 
@@ -10,10 +11,12 @@ public class UserService
 
 
     private readonly UserRepository _userRepository;
-
-    public UserService(UserRepository userRepository)
+    private readonly ClientRepository _clientRepository;
+    
+    public UserService(UserRepository userRepository, ClientRepository clientRepository)
     {
         _userRepository = userRepository;
+        _clientRepository = clientRepository;
     }
 
 
@@ -21,73 +24,48 @@ public class UserService
     {
         try
         {
-            PasswordHashService passwordHashService = new PasswordHashService();
-            string salt = passwordHashService.GenerateSalt();
-            string hashPassword = passwordHashService.HashPassword(userModel.password, salt);
-
-
-            UserSaveToDatabaseModel saveToDatabase = new UserSaveToDatabaseModel
-
-            {
-                email = userModel.email,
-                name = userModel.name,
-                hash = hashPassword,
-                salt = salt,
-                address = userModel.address,
-                street_number = userModel.street_number,
-                zip_code = userModel.zip_code,
-                cvr = userModel.cvr
-            };
-
+            UserSaveToDatabaseModel saveToDatabase= makeUserSaveToDatabaseModel(userModel);
+            
             UserSaveToDatabaseModel checkLoginModel = _userRepository.FindUser(userModel.email);
 
 
-
-            if (checkLoginModel == null) //Checker om emailen er brugt før
-
-            {
+            if (type=="newUser") //ny bruger
+                if (checkLoginModel == null) //checker om email har været brugt før
                 _userRepository.CreateUser(saveToDatabase);
-                loginEmail = userModel.email; //gemmer hvem der er login. 
-            }
-
-            else if (checkLoginModel.email == oldEmail) //Checker om det er den gamle email. Så er det en update
-            {
-                _userRepository.updateUser(saveToDatabase, oldEmail);
-                loginEmail = userModel.email;
-            }
-
-
-            else
-
-                return "Email already used";
-
-
-
-            Console.WriteLine("Skriv: "+oldEmail);
-                 
-              if (oldEmail!="") //Checker om det er den gamle email. Så er det en update
-             {
-
-                 Console.WriteLine("Enter update");
-                 _userRepository.updateUser(saveToDatabase, oldEmail);
-                 loginEmail = userModel.email;
-                 
-             }
-              else if (checkLoginModel == null) //Checker om emailen er brugt før
-
-              {
-                  Console.WriteLine("Enter new");
-                  _userRepository.CreateUser(saveToDatabase);
-                  loginEmail = userModel.email; //gemmer hvem der er login. 
-              }
-                 
-             else
-             
-                     return "Email already used";
                 
+                else
+                    return "Email already used";
+           
             
+            else //Opdatering af eksisterende bruger
+            {
+                if (oldEmail==saveToDatabase.email) //ny og gammel email er uforandret
+                    _userRepository.updateUser(saveToDatabase, oldEmail);
+                
+                else if (checkLoginModel != null) //email er brugt før og den er ikke uforandret
+                    return "Email already used";
+                
+                
+                else //ny og gammel email er forskellige
+                {
+                    
+                    _userRepository.CreateUser(saveToDatabase); //Her gemmes brugeren med den nye email.
+                    
+                    List<string> liste= _userRepository.findClients(oldEmail); //først en liste over clienter
+                    
+                    foreach (var clientId in liste)
+                    {
+                        _clientRepository.createClientUser(clientId, saveToDatabase.email); //Så gemmes clienterne med den nye email
+                    }
 
-            return "Success";
+                    _userRepository.DeleteUser(oldEmail); //Her slettes den gamle bruger og hans clienter
+                }
+            }
+                    
+                
+        loginEmail = userModel.email;
+        return "Success";
+        
         }
         catch
         {
@@ -95,6 +73,28 @@ public class UserService
             throw new ValidationException("An error occured creating user");
         }
     }
+
+    private UserSaveToDatabaseModel makeUserSaveToDatabaseModel(UserModel userModel)
+    {
+        PasswordHashService passwordHashService = new PasswordHashService();
+        string salt = passwordHashService.GenerateSalt();
+        string hashPassword = passwordHashService.HashPassword(userModel.password, salt);
+        
+         return new UserSaveToDatabaseModel
+
+        {
+            email = userModel.email,
+            name = userModel.name,
+            hash = hashPassword,
+            salt = salt,
+            address = userModel.address,
+            street_number = userModel.street_number,
+            zip_code = userModel.zip_code,
+            cvr = userModel.cvr
+        };
+        
+    }
+
 
     public string loginUser(LoginModel loginModel)
     {
