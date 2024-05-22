@@ -29,4 +29,9 @@ public class ClientService
         newClientModel.duplicate = false;
         return newClientModel;
     }
+
+    public void deleteClient(string client_id)
+    {
+        _ClientRepository.deleteClient(client_id);
+    }
 }

@@ -65,4 +65,13 @@ public class ClientRepository
             return count > 0;
         }
     }
+
+    public void deleteClient(string client_Id)
+    {
+        var sql = "UPDATE ph.client SET client_name=null, max_value=null, min_value=null WHERE client_id=@client_id; DELETE FROM ph.client_user WHERE client_id = @client_id";
+        using (var conn = _DataSource.OpenConnection())
+        {
+            conn.Execute(sql, new { client_Id = client_Id });
+        }
+    }
 }

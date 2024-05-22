@@ -57,6 +57,8 @@ ion-button[size="small"]:focus {
 .highlighted-selection {
   background-color: #f0f0f0;
   color: black;
-
 }
 
+ion-item.selected ion-label {
+  color: #4c8dff;
+}

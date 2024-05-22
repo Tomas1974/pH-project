@@ -313,6 +313,14 @@ export class DataService {
     this.ws.send(JSON.stringify(object));
   }
 
+  deleteClient(client_id: String){
+    var object = {
+      eventType: "deleteClient",
+      client_id: client_id
+    }
+    this.ws.send(JSON.stringify(object));
+  }
+
   getClient() {
     var object = {
       eventType: "getClient",

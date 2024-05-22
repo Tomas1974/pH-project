@@ -10,26 +10,13 @@ import {ClientModel} from "../../../Models/clientModel";
 
     <ion-row>
       <ion-col size="1.3">
-
-
-        <ion-item>
-
-          <ion-select placeholder="Clients" [(ngModel)]="selectedClient"
-                     >
-            <ion-text>Name</ion-text>
-            <ion-select-option *ngFor="let client of dataservice.clients"
-                               [value]="client">{{ client.client_name }}
-            </ion-select-option>
-          </ion-select>
-
-
-        </ion-item>
-
-
-
-  <!--      <ion-list *ngFor="let client of dataservice.clients">
-          <ion-label>{{client.client_name}}</ion-label>
-        </ion-list> -->
+        <ion-list>
+          <ion-item *ngFor="let client of dataservice.clients; let i = index"
+                    [ngClass]="{'selected': client === selectedClient}"
+                    (click)="selectClient(client, i)">
+            <ion-label>{{client.client_name}}</ion-label>
+          </ion-item>
+        </ion-list>
       </ion-col>
     </ion-row>
 
@@ -95,7 +82,7 @@ import {ClientModel} from "../../../Models/clientModel";
             <ion-button size="small" (click)="ResetClient()" (keydown.enter)="ResetClient()">Clear</ion-button>
           </ion-col>
           <ion-col>
-            <ion-button size="small" (click)="deleteClient()">Delete</ion-button>
+            <ion-button size="small" (click)="deleteClient(selectedClient.client_id)">Delete</ion-button>
           </ion-col>
         </ion-row>
       </ion-col>
@@ -113,7 +100,8 @@ export class ClientComponent {
     min_value: [0, [Validators.required, Validators.min(1), Validators.max(15)]],
   })
 
-  selectedClient: ClientModel | undefined;
+  selectedClient: ClientModel = this.dataservice.clients[0];
+  selectedIndex: number = 0;
   constructor(public dataservice: DataService,
               public formbuilder: FormBuilder) {
   }
@@ -136,16 +124,9 @@ export class ClientComponent {
     }
   }
 
-  deleteClient(){
-    let clientModel: ClientModel = {
-      client_id: "",
-      client_name: undefined,
-      max_value: undefined,
-      min_value: undefined
-    };
-    let email = this.dataservice.loginUser!
-
-    this.dataservice.saveClient(clientModel, email)
+  deleteClient(client_id: string){
+    this.dataservice.deleteClient(client_id)
+    this.dataservice.clients.splice(this.selectedIndex, 1);
   }
 
   ResetClient() {
@@ -153,7 +134,10 @@ export class ClientComponent {
     this.ValidateClient.controls.client_name.setValue("");
     this.ValidateClient.controls.max_value.setValue(0);
     this.ValidateClient.controls.min_value.setValue(0);
+  }
 
-
+  selectClient(client: ClientModel, index: number) {
+    this.selectedClient = client;
+    this.selectedIndex = index;
   }
 }
