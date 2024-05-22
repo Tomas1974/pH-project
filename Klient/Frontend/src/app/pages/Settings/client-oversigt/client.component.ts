@@ -7,86 +7,98 @@ import {ClientModel} from "../../../Models/clientModel";
 @Component({
   selector: 'client-overview',
   template: `
-
-    <ion-row>
-      <ion-col size="1.3">
-        <ion-list>
-          <ion-item *ngFor="let client of dataservice.clients; let i = index"
-                    [ngClass]="{'selected': client === selectedClient}"
-                    (click)="selectClient(client, i)">
-            <ion-label>{{client.client_name}}</ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col size="1.3" offset="1.6">
-        <ion-item>
-          <ion-input labelPlacement="stacked" [formControl]="ValidateClient.controls.client_id">
-            <div slot="label">Product id from manufacture
-              <ion-text *ngIf="!ValidateClient.controls.client_id.valid"></ion-text>
-            </div>
-          </ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
+      <div style="display: flex; height: 100%">
+        <!--  vensrtre -->
+          <div style="width: 10%">
+              <ion-row>
+                  <ion-col>
+                      <ion-list>
+                          <ion-item *ngFor="let client of dataservice.clients; let i = index"
+                                    [ngClass]="{'selected': client === selectedClient}"
+                                    (click)="selectClient(client, i)">
+                              <ion-label>{{client.client_name}}</ion-label>
+                          </ion-item>
+                      </ion-list>
+                  </ion-col>
+              </ion-row>
+          </div>
 
 
-    <ion-row>
-      <ion-col size="1.3" offset="1.6">
-        <ion-item>
-          <ion-input labelPlacement="stacked" [formControl]="ValidateClient.controls.client_name">
-            <div slot="label">Device name
-              <ion-text *ngIf="!ValidateClient.controls.client_name.valid"></ion-text>
-            </div>
-          </ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
+          <!-- højre --->
+          <div STYLE="width: 50%">
+              <ion-row>
+                  <ion-col>
+                      <ion-item>
+                          <ion-input labelPlacement="stacked" [formControl]="ValidateClient.controls.client_id">
+                              <div slot="label">Product id from manufacture
+                                  <ion-text *ngIf="!ValidateClient.controls.client_id.valid"></ion-text>
+                              </div>
+                          </ion-input>
+                      </ion-item>
+                  </ion-col>
+              </ion-row>
 
-    <ion-row>
-      <ion-col size="1.3" offset="1.6">
-        <ion-item>
-          <ion-input labelPlacement="stacked" [formControl]="ValidateClient.controls.max_value">
-            <div slot="label">Maximum value for alarm
-              <ion-text *ngIf="!ValidateClient.controls.max_value.valid"></ion-text>
-            </div>
-          </ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
 
-    <ion-row>
-      <ion-col size="1.3" offset="1.6">
-        <ion-item>
-          <ion-input labelPlacement="stacked" [formControl]="ValidateClient.controls.min_value">
-            <div slot="label">Minimum value for alarm
-              <ion-text *ngIf="!ValidateClient.controls.min_value.valid"></ion-text>
-            </div>
-          </ion-input>
-        </ion-item>
-        <ion-row>
-          <ion-col>
-            <ion-button style=".grey {
+
+              <ion-row>
+                  <ion-col>
+                      <ion-item>
+                          <ion-input labelPlacement="stacked" [formControl]="ValidateClient.controls.client_name">
+                              <div slot="label">Device name
+                                  <ion-text *ngIf="!ValidateClient.controls.client_name.valid"></ion-text>
+                              </div>
+                          </ion-input>
+                      </ion-item>
+                  </ion-col>
+              </ion-row>
+
+              <ion-row>
+                  <ion-col>
+                      <ion-item>
+                          <ion-input labelPlacement="stacked" [formControl]="ValidateClient.controls.max_value">
+                              <div slot="label">Maximum value for alarm
+                                  <ion-text *ngIf="!ValidateClient.controls.max_value.valid"></ion-text>
+                              </div>
+                          </ion-input>
+                      </ion-item>
+                  </ion-col>
+              </ion-row>
+
+              <ion-row>
+                  <ion-col>
+                      <ion-item>
+                          <ion-input labelPlacement="stacked" [formControl]="ValidateClient.controls.min_value">
+                              <div slot="label">Minimum value for alarm
+                                  <ion-text *ngIf="!ValidateClient.controls.min_value.valid"></ion-text>
+                              </div>
+                          </ion-input>
+                      </ion-item>
+                      <ion-row>
+                          <ion-col>
+                              <ion-button style=".grey {
                       --ion-color-base: grey !important;
                         --ion-color-base-rgb: 128,128,128 !important;
         }" [disabled]="!ValidateClient.valid"
-                        [class.grey]="!ValidateClient.valid"
-                        size="small"
-                        (click)="SaveClient()"
-                        (keydown.enter)="SaveClient()">Register device
-            </ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button size="small" (click)="ResetClient()" (keydown.enter)="ResetClient()">Clear</ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button size="small" (click)="deleteClient(selectedClient.client_id)">Delete</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-col>
-    </ion-row>
+                                          [class.grey]="!ValidateClient.valid"
+                                          size="small"
+                                          (click)="SaveClient()"
+                                          (keydown.enter)="SaveClient()">Register device
+                              </ion-button>
+                          </ion-col>
+                          <ion-col>
+                              <ion-button size="small" (click)="ResetClient()" (keydown.enter)="ResetClient()">Clear
+                              </ion-button>
+                          </ion-col>
+                          <ion-col>
+                              <ion-button size="small" (click)="deleteClient(selectedClient.client_id)">Delete
+                              </ion-button>
+                          </ion-col>
+                      </ion-row>
+                  </ion-col>
+              </ion-row>
+          </div>
+      </div>
+
   `,
   styleUrls: ['./client.componen.scss'],
 })
