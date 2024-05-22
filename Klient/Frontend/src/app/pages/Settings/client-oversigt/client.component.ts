@@ -10,9 +10,26 @@ import {ClientModel} from "../../../Models/clientModel";
 
     <ion-row>
       <ion-col size="1.3">
-        <ion-list *ngFor="let client of dataservice.clients">
+
+
+        <ion-item>
+
+          <ion-select placeholder="Clients" [(ngModel)]="selectedClient"
+                     >
+            <ion-text>Name</ion-text>
+            <ion-select-option *ngFor="let client of dataservice.clients"
+                               [value]="client">{{ client.client_name }}
+            </ion-select-option>
+          </ion-select>
+
+
+        </ion-item>
+
+
+
+  <!--      <ion-list *ngFor="let client of dataservice.clients">
           <ion-label>{{client.client_name}}</ion-label>
-        </ion-list>
+        </ion-list> -->
       </ion-col>
     </ion-row>
 
@@ -96,6 +113,7 @@ export class ClientComponent {
     min_value: [0, [Validators.required, Validators.min(1), Validators.max(15)]],
   })
 
+  selectedClient: ClientModel | undefined;
   constructor(public dataservice: DataService,
               public formbuilder: FormBuilder) {
   }
@@ -126,7 +144,7 @@ export class ClientComponent {
       min_value: undefined
     };
     let email = this.dataservice.loginUser!
-    
+
     this.dataservice.saveClient(clientModel, email)
   }
 
