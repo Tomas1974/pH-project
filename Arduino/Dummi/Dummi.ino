@@ -96,7 +96,7 @@ if(counter>secondsDelay)
 {
   counter=0;
 randNumber = random(650+i*3, 680+i*3); 
- randNumber1=float(randNumber)/100.0;
+ randNumber1=float(randNumber)/100.0 + 3;
  sprintf(message, "%.2f", randNumber1);
 sprintf(address, "client/%s", names[i]);
  client.publish(address, message);

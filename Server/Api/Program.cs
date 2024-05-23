@@ -2,9 +2,11 @@ using System.Reflection;
 using api;
 using Fleck;
 using lib;
+using MailKit;
 using Npgsql;
 using Service.Service;
 using Websocket;
+using Websocket_fødselsdag_2.Email;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,14 +22,25 @@ if (builder.Environment.IsProduction())
     builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString);
 }
 
-var npgsqlConnection = builder.Services.BuildServiceProvider().GetRequiredService<NpgsqlDataSource>();
 
+
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddSingleton<DataService>();
-builder.Services.AddSingleton<MQTT>(_ => new MQTT(npgsqlConnection));
+
+
+builder.Services.AddSingleton<MQTT>();
+
+
+
+
 
 var clientEventHandlers = builder.FindAndInjectClientEventHandlers(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
+app.Services.GetService<MQTT>().Startup();
+app.Services.GetService<IEmailService>();
 
 
 var server = new WebSocketServer("ws://0.0.0.0:9191");
@@ -57,7 +70,8 @@ server.Start(ws =>
     };
 });
 
-new MQTT(npgsqlConnection).Startup();
+
+
 
 Console.ReadLine();
 
