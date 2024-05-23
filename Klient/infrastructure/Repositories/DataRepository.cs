@@ -16,6 +16,8 @@ public class DataRepository
     
     
     
+    
+    
     public IEnumerable<DataModel> FindData(string client)
     {
         string sql = @"SELECT data, time FROM ph.data WHERE client_id = @Client_id;";

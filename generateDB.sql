@@ -60,7 +60,7 @@ VALUES
 CREATE TABLE ph.status(
     status_id SERIAL PRIMARY KEY,
     log VARCHAR(200) NOT NULL,
-    date DATE NOT NULL
+    date TIMESTAMP NOT NULL
 );
 
 CREATE TABLE ph.data(
@@ -79,3 +79,44 @@ CREATE TABLE ph.client_user(
     FOREIGN KEY (client_id) REFERENCES ph.client (client_iD),
     FOREIGN KEY (email) REFERENCES ph.users (email)
 );
+
+
+
+CREATE TABLE alarm (
+ id SERIAL PRIMARY KEY,
+ log_message TEXT,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE OR REPLACE FUNCTION check_latest_value_function()
+    RETURNS TRIGGER AS $$
+BEGIN
+    -- Ensure we are only working with the latest entry
+    PERFORM * FROM ph.data
+    WHERE ph.data.data_id > NEW.id
+    ORDER BY ph.data.data_id DESC
+    LIMIT 1;
+
+    -- If no rows are found, NEW is the latest entry
+    IF NOT FOUND AND NEW.data > 7 THEN
+        -- Log the event into log_table
+        INSERT INTO alarm (log_message, created_at)
+        VALUES (CONCAT('Value over 7 detected: ', NEW.data, ' in row with ID: ', NEW.id), CURRENT_TIMESTAMP);
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER check_latest_value_after_insert
+    AFTER INSERT ON ph.data
+    FOR EACH ROW
+EXECUTE FUNCTION check_latest_value_function();
+
+
+
+
+
+
