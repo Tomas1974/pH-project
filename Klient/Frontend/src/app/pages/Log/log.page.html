@@ -15,19 +15,18 @@
     </ion-toolbar>
   </ion-header>
 
+  <br>
+    <ion-button class="my-button" (click)="dataService.createStatusEntryOnServer()">Update</ion-button>
 
-<br>
+
+
+
   <br>
   <br>
-
-
-  Hej Med dig
-
-
 
   <ul>
     <li *ngFor="let item of statusEntries">
-      Log: {{ item.Log }} - Date: {{ item.Date }}
+      {{ item.Log }} - {{ item.Date.split('.')[0]}}
     </li>
   </ul>
 

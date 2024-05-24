@@ -11,28 +11,15 @@ export class LogPage implements OnInit, OnDestroy {
 
   statusEntries: any[] = [];
 
-  constructor(private dataService : DataService) {}
+  constructor(public dataService : DataService) {}
 
   ngOnInit(): void {
 
-    this.statusEntries = this.dataService.getStatusArray();
     this.dataService.getStatusFromServer();
+    this.statusEntries = this.dataService.getStatusArray();
   }
 
   ngOnDestroy(): void {}
-
-
-  waitForSeconds(seconds: number): Promise<void> {
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, seconds * 1000); // Convert seconds to milliseconds
-    });
-  }
-
-
-
-
 
 }
 

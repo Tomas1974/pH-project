@@ -65,6 +65,7 @@ public static class Startup
             ws.OnOpen = () => { CurrentConnections.Connections.Add(ws); };
             ws.OnMessage = async message =>
             {
+                Console.WriteLine(message);
 
                 try
                 {

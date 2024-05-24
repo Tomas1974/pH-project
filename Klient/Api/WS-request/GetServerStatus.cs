@@ -15,8 +15,8 @@ public class GetServerStatus : BaseEventHandler<GetServerStatusDto>
     {
         _serverStatusService = serverStatusService;
     }
-
-
+    
+    //Method for handling an incoming message.
     public override Task Handle(GetServerStatusDto dto, IWebSocketConnection ws)
     {
         if (dto.eventType.Contains("GetServerStatus"))
@@ -36,13 +36,9 @@ public class GetServerStatus : BaseEventHandler<GetServerStatusDto>
     }
 }
 
-public class GetServerStatusDto : BaseDto
-{
+    //Objects containing WS message.
+    public class GetServerStatusDto : BaseDto
+    {
     public string eventType { get; set; }
     public string eventType2 { get; set; }
-}
-
-public class responseListOfStatus : BaseDto
-{
-    public IEnumerable<StatusModel> entries { get; set; }
-}
+    }

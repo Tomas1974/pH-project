@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 
-
 import {
   BaseDto, PhDataDto, postNrDto, responseClient,
   responseStringDto,
@@ -13,17 +12,11 @@ import {LogInModel, UserModel} from "../Models/userModel";
 import {ClientModel} from "../Models/clientModel";
 import {PHModel, series} from "../Models/pHModel";
 import {StatusModel} from "../Models/SatusModel";
-import {Observable} from "rxjs";
-
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-
-
-
 
   loginUser: string | undefined = ""; //Her er brugeren der er logget ind gemt
 
@@ -62,8 +55,6 @@ export class DataService {
   statusUpdates : StatusModel[] = [];
 
 
-
-
   constructor() {
     this.ws.onmessage = message => {
       const messageFromServer = JSON.parse(message.data) as BaseDto<any>;
@@ -73,26 +64,25 @@ export class DataService {
     }
   }
 
+  //Sends a message to the backend for creating a new entry in the ph.status table.
   createStatusEntryOnServer(){
 
     var object = {
       eventType: "GetServerStatus",
       eventType2: "createEntry"
-
     }
-
     this.ws.send(JSON.stringify(object));
-
   }
 
+  //Sends a message to the backend for fetching the latest entry in the ph.status table.
   getStatusFromServer() {
 
     var object = {
       eventType: "GetServerStatus",
+      eventType2: ""
     }
 
     this.ws.send(JSON.stringify(object));
-
 
     this.ws.onmessage = (event) => {
       // Parse the response
@@ -100,11 +90,12 @@ export class DataService {
 
       console.log(data);
 
-      this.statusUpdates.push(data);
 
+      this.statusUpdates.push(data);
     }
   }
 
+  //Returns the array containing status updates.
   getStatusArray(): any[] {
     return this.statusUpdates;
   }

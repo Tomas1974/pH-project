@@ -7,14 +7,13 @@ namespace infrastructure.Repositories;
 public class StatusRepository
 {
     public readonly NpgsqlDataSource _DataSource;
-
-
+    
     public StatusRepository(NpgsqlDataSource dataSource)
     {
         _DataSource = dataSource;
     }
     
-    
+    //Creates a new entry in the ph.status table.
     public StatusModel CreateStatusEntry(string log, DateTime date)
     {
         var sql = "INSERT INTO ph.status(log, date) VALUES (@log, @date);";
@@ -25,6 +24,8 @@ public class StatusRepository
         }
     }
     
+    
+    //Returns latest entry in the ph.status table.
     public StatusModel GetLatestEntry()
     {
         
@@ -36,9 +37,4 @@ public class StatusRepository
             return conn.QueryFirstOrDefault<StatusModel>(sql, new StatusModel());
         }
     }
-    
-    
-    
-    
-    
 }
