@@ -131,18 +131,6 @@ void loop() {
  {
 
   
-  if(wifiMenu.programNumber != 3){
-
-    wifiMenu.wifiMenuSystem();
-
-
-       if (wifiMenu.getwifiON() !="") //Den skal ikke forbinde, hvis der ikke er internet.
-     { mqttConnection(); 
-     start=true;
-     
-     } 
-
-}
 
 
   if(wifiMenu.programNumber != 3){
