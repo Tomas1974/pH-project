@@ -132,9 +132,6 @@ void loop() {
 
   
 
-
-  if(wifiMenu.programNumber != 3){
-
     wifiMenu.wifiMenuSystem();
 
 
@@ -146,29 +143,5 @@ void loop() {
 
 }
 
-if(wifiMenu.programNumber >= 3 )
-{
-    
-    int buttonState_Menu = digitalRead(BUTTON_Choise);
-
-    lcd.clear();
-    if(wifiMenu.programNumber == 3)
-    lcd.print("Measure PH4");
-    else
-    lcd.print("Measure PH7");
-    
-    if (buttonState_Menu != HIGH)
-    { 
-       if(wifiMenu.programNumber == 3) 
-     wifiMenu.startCalibration();
-     else
-     wifiMenu.startCalibrationtwo();
-
-    }
-    wifiMenu.wifiMenuSystem();
-    
-}
-    
- }
  delay(50);
 }

@@ -101,10 +101,13 @@ void WifiMenu::button_Menu()
 
 
 void WifiMenu::valg()
-{
+{ 
+  Serial.println("TEst "+ String(programNumber));
   
-       
-      _lcd.clear();
+       if (programNumber<_wifiNetworks.size()-2)
+       {
+
+       _lcd.clear();
       _lcd.print(_wifiNetworks[programNumber].getNetworkName());
 
       _lcd.setCursor(0,1);
@@ -117,6 +120,20 @@ void WifiMenu::valg()
        
       else
        _lcd.print("------OFF-------");
+}
+else
+    {
+         
+        
+         _lcd.clear();
+         if (programNumber==_wifiNetworks.size()-2)
+          
+          _lcd.print("Measure PH4");
+          else
+          _lcd.print("Measure PH7");
+
+    }
+
 
        
 
@@ -195,9 +212,22 @@ void WifiMenu::button_Choise()
       
    
     
-      
+        if (programNumber<_wifiNetworks.size()-2)
              //Her placeres en String i wificonnection. Det sker ved at kalde wificonnection. (Den etablere wifi og sender navnet på opkoblingen retur). Hvis der ikke var netværk er opkoblingen "" tom. 
        setWifiOn(wifiConnection(_wifiNetworks[programNumber].getSSID(), _wifiNetworks[programNumber].getPassword()));
+      else
+      {
+
+          if (programNumber==_wifiNetworks.size()-2)
+          
+          startCalibration();
+          else
+          startCalibrationtwo();
+
+
+      }
+
+
 
        valg();
              
