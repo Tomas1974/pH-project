@@ -144,33 +144,38 @@ void loop() {
 
 }
 
-if(wifiMenu.programNumber == 3)
-{
-    int lastButtonState_Menu = HIGH;
-    int buttonState_Menu = digitalRead(BUTTON_Choise);
 
-    lcd.clear();
-    lcd.print("Measure PH4");
-    
-    if (buttonState_Menu != lastButtonState_Menu)
-    {  
-     wifiMenu.startCalibration();
-    }
+  if(wifiMenu.programNumber != 3){
+
     wifiMenu.wifiMenuSystem();
-    
+
+
+       if (wifiMenu.getwifiON() !="") //Den skal ikke forbinde, hvis der ikke er internet.
+     { mqttConnection(); 
+     start=true;
+     
+     } 
+
 }
 
-if(wifiMenu.programNumber == 4)
+if(wifiMenu.programNumber >= 3 )
 {
-    int lastButtonState_Menu = HIGH;
+    
     int buttonState_Menu = digitalRead(BUTTON_Choise);
 
     lcd.clear();
+    if(wifiMenu.programNumber == 3)
+    lcd.print("Measure PH4");
+    else
     lcd.print("Measure PH7");
     
-    if (buttonState_Menu != lastButtonState_Menu)
-    {  
+    if (buttonState_Menu != HIGH)
+    { 
+       if(wifiMenu.programNumber == 3) 
+     wifiMenu.startCalibration();
+     else
      wifiMenu.startCalibrationtwo();
+
     }
     wifiMenu.wifiMenuSystem();
     
