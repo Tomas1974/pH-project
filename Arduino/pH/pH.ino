@@ -91,8 +91,6 @@ void setup() {
   
   
 
-//pHDriver.makeCalibration(1958, 1467);
-
   
 }
 
@@ -107,15 +105,18 @@ void loop() {
   {
       
    float pH = pHDriver.measurePh(); // Measure the pH
-  //int U=pHDriver.measureU();
-  //Serial.println(U); // Print the U value to the Serial Monitor
+  
 
   Serial.println(pH); // Print the pH value to the Serial Monitor
 
 
+    //Serial.println(pHDriver.measureU()); 
+
 
      lcd.clear();
      lcd.print("pH = "+ String(pH));
+
+     
     
         
     char message[20];
