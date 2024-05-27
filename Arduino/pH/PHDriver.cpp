@@ -11,7 +11,7 @@ _PHAnalogPin = PHAnalogPin;
 
 void PHDriver::initialize()
 {
-  if (!SPIFFS.begin(true)) { //Den her linje stabilisere evnen til at læse gemte data. Jeg ved ikke hvorfor.
+  if (!SPIFFS.begin(true)) { //Den her linje instansiere filsystement, så vi kan læse og skrive data.
         Serial.println("SPIFFS Mount Failed");
         return;
     }
@@ -91,50 +91,47 @@ int PHDriver::measureU()
 
 
 
-void PHDriver::writeJsonToFile(std::vector<WriteModel> writeModel, String fileName) {//Her gemmes kalibreringsværdierne
-        if (!SPIFFS.begin(true)) {
-            Serial.println("An Error has occurred while mounting SPIFFS");
-            return;
-        } else {
+  void PHDriver::writeJsonToFile(std::vector<WriteModel> writeModel, String fileName) {//Her gemmes kalibreringsværdierne
+        
 
-            File file = SPIFFS.open(fileName, FILE_WRITE);
-           
-            StaticJsonDocument<256> doc;
+              File file = SPIFFS.open(fileName, FILE_WRITE); //Her åbnes eller skabes en fil og data 
+            
+              StaticJsonDocument<256> doc; //Her laves et json dokument kaldt doc
 
-            for ( WriteModel& model : writeModel) {
-                doc[model.getName()] = model.getValue();
-            }
+              for ( WriteModel model : writeModel) { //Foreach løkke gennemløber alle værdier i model vektoren
+                  doc[model.getName()] = model.getValue(); //Her tilføjes værdier til doc
+              }
 
-            serializeJson(doc, file);  
-            file.close();
-        }
-    }
+              serializeJson(doc, file);  //Her konventeres json object til en json string
+              file.close();
+          
+      }
 
 
 
 
 std::vector<WriteModel> PHDriver::readJsonFromFile(  String fileName) { //Her hentes kalibreringsværdierne
     
-    std::vector<WriteModel> models;
-    File file = SPIFFS.open(fileName, FILE_READ); 
-    if (!file) {
+    std::vector<WriteModel> model; //Tom vektor
+    File file = SPIFFS.open(fileName, FILE_READ);  //Her åbnes en fil til læsning 
+    if (!file) { //Hvis filen ikke findes returneres en tom vektor og der skrives en fejlmeldning i konsolen
         Serial.println("Failed to open file for reading");
-        return models;
+        return model;
     } else {
-        StaticJsonDocument<256> docRead;
-        deserializeJson(docRead, file);
+        StaticJsonDocument<256> doc; //Her laves et json dokument kaldt doc
+        deserializeJson(doc, file); //Her skabes et json object.
 
-      for (JsonObject::iterator it = docRead.as<JsonObject>().begin(); it != docRead.as<JsonObject>().end(); ++it) {
+      for (JsonObject::iterator it = doc.as<JsonObject>().begin(); it != doc.as<JsonObject>().end(); ++it) { //Et for loop meget specielt. Den tager objekter et for et og gennemløber indtil end.
      
-        String name = it->key().c_str(); // Extract the model name.
-        int value = it->value().as<int>(); // Extract the model value, assuming it's an integer.
-       models.push_back(WriteModel(name, value)); // Create a new WriteModel object and add it to the vector.
+        String name = it->key().c_str(); // Her hentes nøglen altså pH4 eller pH7. -> bruges i c++ til at pege på medlemmer i et object her et json object.
+        int value = it->value().as<int>(); // Her hentes pH4 eller pH7 spænding i mV
+       model.push_back(WriteModel(name, value)); //Her skrives til model 
     }
 
 
-        file.close(); // Close the file after reading
+        file.close(); // Her lukkes filen
     }
 
-    return models;
+    return model;
  }
 
