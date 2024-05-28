@@ -38,7 +38,7 @@ void WifiMenu::initialize() {
 String WifiMenu::wifiConnection(String ssid, String password)
 {
   int counter=0;
-  //programNumber == 0;
+  
   
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED && counter<10) 
@@ -48,10 +48,7 @@ String WifiMenu::wifiConnection(String ssid, String password)
     
   }
 
-if (programNumber == 3){
-  Serial.println("kalibrere");
-  return "calibration";
-}
+
   
 if (counter==10)
 {
@@ -74,49 +71,64 @@ return ssid;
 void WifiMenu::button_Menu()
 {
     
-    buttonState_Menu = digitalRead(_BUTTON_Menu);
+    buttonState_Menu = digitalRead(_BUTTON_Menu); //Her læses knappe status
         
-  if (buttonState_Menu != lastButtonState_Menu) {
+  if (buttonState_Menu != lastButtonState_Menu) {   //Her ses om knappen er anderledes end sidste gang enten at man trykker knappen ned eller slipper den
     
 
-    if (buttonState_Menu == HIGH) {
+    if (buttonState_Menu == HIGH) { //Når kan kun være tilfældet hvis vi slipper knappen.
             
 
-        programNumber++;
+        programNumber++;  //Eftersom det er programmer vil skal bladre i, så hæver vi værdien til næste værdi.
 
-      if (programNumber==_wifiNetworks.size())
+      if (programNumber==_wifiNetworks.size())  //Værdierne skal nulstilles. Det når vi når til sidste menupunkt. Det sker her.
       programNumber=0;
 
-          valg();  
+          valg();  //Her vælges tekst til skærmen.
 
        
     }
     
   }
 
-  lastButtonState_Menu = buttonState_Menu;
+  lastButtonState_Menu = buttonState_Menu; //Så vi kan sammenligne, når vi trykker på knapperne, så gemmes sidste state her.
   
 
 }
 
 
 void WifiMenu::valg()
-{
+{ 
+  Serial.println("TEst "+ String(programNumber));
   
-       
-      _lcd.clear();
-      _lcd.print(_wifiNetworks[programNumber].getNetworkName());
+       if (programNumber<_wifiNetworks.size()-2) //De to sidste er til kalibrering. 
+       {
 
-      _lcd.setCursor(0,1);
+       _lcd.clear();
+      _lcd.print(_wifiNetworks[programNumber].getNetworkName()); //Her skriver på første linje netværksnavnet.
+
+      _lcd.setCursor(0,1); //Her skriver på anden linje netværksstatus.
         
-      if (getwifiON() == _wifiNetworks[programNumber].getSSID() )
+      if (getwifiON() == _wifiNetworks[programNumber].getSSID() ) //Hvis netværksnavnet gemt under wifi tilslutningen er den samme om netværksnavnet for knaptrykket. Så er den on.
        _lcd.print("-------ON-------");
 
-       else if (_wifiNetworks[programNumber].getNetworkName() == "Calibrate")
-        _lcd.print("");
-       
+              
       else
        _lcd.print("------OFF-------");
+}
+else
+    {
+         
+        
+         _lcd.clear();
+         if (programNumber==_wifiNetworks.size()-2)
+          
+          _lcd.print("Measure PH4");
+          else
+          _lcd.print("Measure PH7");
+
+    }
+
 
        
 
@@ -125,61 +137,38 @@ void WifiMenu::valg()
 
 void WifiMenu::startCalibration(){
 
-      _lcd.clear();
+      _lcd.setCursor(0,1);
+       _lcd.print("-----Measure----");
+    
+    PHDriver pHDriver(36);
+     
+if (programNumber==_wifiNetworks.size()-2) //Det er de den som bruges til  kalibrering af ph4
+           {
+             ph4 = pHDriver.measureU();
+             delay(2000);
+         
+         }
+         
+          else
+          
+          {
+            ph7 = pHDriver.measureU();
+            delay (2000);
 
-     _lcd.print("Measuring PH4...");
+          
+           pHDriver.makeCalibration(ph4, ph7);
+           _lcd.clear();
+            _lcd.print("Calibration fin");
 
-     PHDriver pHDriver(36);
-
-     ph4 = pHDriver.measureU();
-
-     delay (2000);
-
-     _lcd.clear();
-
-     _lcd.print(ph4);
+          }
+      
+      
 
      delay(2000);
  
 }
 
-void WifiMenu::startCalibrationtwo(){
-
-      
-    _lcd.clear();
-
-     _lcd.print("measuring PH7...");
-     PHDriver pHDriver(36);
-
-    ph7 = pHDriver.measureU();
-
-     delay (2000);
-
-     _lcd.clear();
-
-     _lcd.print(ph7);
-
-     delay(2000);
-
-     _lcd.clear();
-
-     _lcd.print("Calibrating");
-
    
-     delay(2000);
-
-     _lcd.clear();
-      pHDriver.makeCalibration(ph4, ph7);
-
-     _lcd.print("Calibration fin");
-
-     delay(2000);
-     
-
-}
-
-
-    
 
 
 
@@ -195,9 +184,16 @@ void WifiMenu::button_Choise()
       
    
     
-      
+        if (programNumber<_wifiNetworks.size()-2)
              //Her placeres en String i wificonnection. Det sker ved at kalde wificonnection. (Den etablere wifi og sender navnet på opkoblingen retur). Hvis der ikke var netværk er opkoblingen "" tom. 
        setWifiOn(wifiConnection(_wifiNetworks[programNumber].getSSID(), _wifiNetworks[programNumber].getPassword()));
+      else
+            startCalibration();
+          
+
+      
+
+
 
        valg();
              

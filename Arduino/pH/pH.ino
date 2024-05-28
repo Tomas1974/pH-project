@@ -91,8 +91,6 @@ void setup() {
   
   
 
-//pHDriver.makeCalibration(1958, 1467);
-
   
 }
 
@@ -107,15 +105,18 @@ void loop() {
   {
       
    float pH = pHDriver.measurePh(); // Measure the pH
-  //int U=pHDriver.measureU();
-  //Serial.println(U); // Print the U value to the Serial Monitor
+  
 
   Serial.println(pH); // Print the pH value to the Serial Monitor
 
 
+    //Serial.println(pHDriver.measureU()); 
+
 
      lcd.clear();
      lcd.print("pH = "+ String(pH));
+
+     
     
         
     char message[20];
@@ -131,7 +132,6 @@ void loop() {
  {
 
   
-  if(wifiMenu.programNumber != 3){
 
     wifiMenu.wifiMenuSystem();
 
@@ -144,38 +144,5 @@ void loop() {
 
 }
 
-if(wifiMenu.programNumber == 3)
-{
-    int lastButtonState_Menu = HIGH;
-    int buttonState_Menu = digitalRead(BUTTON_Choise);
-
-    lcd.clear();
-    lcd.print("Measure PH4");
-    
-    if (buttonState_Menu != lastButtonState_Menu)
-    {  
-     wifiMenu.startCalibration();
-    }
-    wifiMenu.wifiMenuSystem();
-    
-}
-
-if(wifiMenu.programNumber == 4)
-{
-    int lastButtonState_Menu = HIGH;
-    int buttonState_Menu = digitalRead(BUTTON_Choise);
-
-    lcd.clear();
-    lcd.print("Measure PH7");
-    
-    if (buttonState_Menu != lastButtonState_Menu)
-    {  
-     wifiMenu.startCalibrationtwo();
-    }
-    wifiMenu.wifiMenuSystem();
-    
-}
-    
- }
  delay(50);
 }

@@ -39,7 +39,7 @@ private:
     int buttonState_Choise;
     int lastButtonState_Menu;
     int lastButtonState_Choise;
-    //int programNumber;
+    
     std::vector<WifiModel> _wifiNetworks ;
     
             
