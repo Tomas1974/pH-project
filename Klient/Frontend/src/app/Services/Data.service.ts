@@ -124,7 +124,7 @@ export class DataService {
 
       const intervalId = setInterval(() => {
         counter++;
-     
+
         if (this.timeStamp! >= oldTimeStamp || counter === 10) {
           clearInterval(intervalId);  // Clear the interval to stop it from running
           resolve();
