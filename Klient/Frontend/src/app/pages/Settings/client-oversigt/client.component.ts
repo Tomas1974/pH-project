@@ -130,8 +130,8 @@ export class ClientComponent {
 
     this.dataservice.saveClient(clientModel, email)
     await this.dataservice.timePromise();
-    if (!this.dataservice.duplicatedClient) {
-      this.dataservice.clients.push(clientModel);
+   if (!this.dataservice.duplicatedClient) {
+  //    this.dataservice.clients.push(clientModel);
       this.ResetClient();
     }
   }

@@ -28,8 +28,9 @@ public class saveClient : BaseEventHandler<saveClientDto>
             min_value = dto.min_value,
         };
 
-        _ClientService.CreateClient(client, email);
+        ClientModel clientModel= _ClientService.CreateClient(client, email);
 
+      
         var message = new responseClient()
         {
             duplicate = client.duplicate

@@ -44,8 +44,6 @@ public static class Startup
         builder.Services.AddSingleton<ServerStatusService>();
         builder.Services.AddSingleton<HttpClient>();
         builder.Services.AddSingleton<HttpClientService>();
-
-
         builder.Services.AddSingleton<DataService>();
         builder.Services.AddSingleton<DataRepository>();
 

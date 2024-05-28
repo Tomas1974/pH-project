@@ -26,19 +26,50 @@ public class ClientRepository
 
     public ClientModel CreateClient(ClientModel clientModel, string email)
     {
-        var sql =
-            "UPDATE ph.client SET client_name=@client_name, max_value=@max_value, min_value=@min_value WHERE client_id=@client_id; INSERT INTO ph.client_user(client_id, email) VALUES (@client_id, @email);";
+        var updateSql = 
+            "UPDATE ph.client SET client_name=@client_name, max_value=@max_value, min_value=@min_value WHERE client_id=@client_id;";
+
+        var insertSql = 
+            "INSERT INTO ph.client_user(client_id, email) VALUES (@client_id, @Email);";
+
+        var selectSql = 
+            "SELECT client_id, client_name, max_value, min_value FROM ph.client WHERE client_id=@client_id;";
 
         using (var conn = _DataSource.OpenConnection())
         {
-            return conn.QueryFirst<ClientModel>(sql,
-                new
-                {
-                    client_id = clientModel.client_id, client_name = clientModel.client_name,
-                    max_value = clientModel.max_value, min_value = clientModel.min_value, email = email
-                });
+            using (var transaction = conn.BeginTransaction())
+            {
+                conn.Execute(updateSql, 
+                    new
+                    {
+                        client_id = clientModel.client_id,
+                        client_name = clientModel.client_name,
+                        max_value = clientModel.max_value,
+                        min_value = clientModel.min_value
+                    }, transaction);
+
+                conn.Execute(insertSql, 
+                    new
+                    {
+                        client_id = clientModel.client_id,
+                        Email = email
+                    }, transaction);
+
+                var updatedClient = conn.QueryFirst<ClientModel>(selectSql, 
+                    new
+                    {
+                        client_id = clientModel.client_id
+                    }, transaction);
+
+                transaction.Commit();
+
+                return updatedClient;
+            }
         }
     }
+
+    
+    
     
     
     public void createClientUser(string clientId, string email)
@@ -61,7 +92,7 @@ public class ClientRepository
 
         using (var conn = _DataSource.OpenConnection())
         {
-            var count = conn.ExecuteScalar<int>(sql, new { client_id = client_id });
+            var count = conn.QueryFirstOrDefault<int>(sql, new { client_id = client_id });
             return count > 0;
         }
     }

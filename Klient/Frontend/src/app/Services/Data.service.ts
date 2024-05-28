@@ -124,7 +124,7 @@ export class DataService {
 
       const intervalId = setInterval(() => {
         counter++;
-
+     
         if (this.timeStamp! >= oldTimeStamp || counter === 10) {
           clearInterval(intervalId);  // Clear the interval to stop it from running
           resolve();
@@ -302,6 +302,10 @@ export class DataService {
       email: email
     }
     this.ws.send(JSON.stringify(object));
+
+
+
+
   }
 
   deleteClient(client_id: String){
@@ -340,9 +344,10 @@ export class DataService {
 
     this.timeStamp = new Date().getTime();
 
-    console.log(this.duplicatedClient);
+    console.log("Tjek mig: "+this.duplicatedClient);
 
-    if (!this.duplicatedClient)
+
+    //if (!this.duplicatedClient)
     this.getClient(); //Her hentes client listen til den valgte bruger
 
   }
