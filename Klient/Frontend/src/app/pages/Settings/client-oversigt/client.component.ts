@@ -73,8 +73,19 @@ import {ClientModel} from "../../../Models/clientModel";
                               </div>
                           </ion-input>
                       </ion-item>
+                  </ion-col>
+              </ion-row>
+
+            <ion-row>
+              <ion-col>
+                <p style="height: 7px;color: red">{{ dataservice.textToregardingClient }}</p>
+              </ion-col>
+            </ion-row>
+
+
+
                       <ion-row>
-                          <ion-col>
+
                               <ion-button style=".grey {
                       --ion-color-base: grey !important;
                         --ion-color-base-rgb: 128,128,128 !important;
@@ -84,18 +95,15 @@ import {ClientModel} from "../../../Models/clientModel";
                                           (click)="SaveClient()"
                                           (keydown.enter)="SaveClient()">Register device
                               </ion-button>
-                          </ion-col>
-                          <ion-col>
+
                               <ion-button size="small" (click)="ResetClient()" (keydown.enter)="ResetClient()">Clear
                               </ion-button>
-                          </ion-col>
-                          <ion-col>
+
                               <ion-button size="small" (click)="deleteClient(selectedClient.client_id)">Delete
                               </ion-button>
-                          </ion-col>
-                      </ion-row>
-                  </ion-col>
-              </ion-row>
+
+        </ion-row>
+
           </div>
       </div>
 
@@ -146,6 +154,7 @@ export class ClientComponent {
     this.ValidateClient.controls.client_name.setValue("");
     this.ValidateClient.controls.max_value.setValue(0);
     this.ValidateClient.controls.min_value.setValue(0);
+    this.dataservice.textToregardingClient="";
   }
 
   selectClient(client: ClientModel, index: number) {

@@ -38,6 +38,7 @@ export class DataService {
   clients: ClientModel[] = [];
   clientsNames: string[] = [];
   duplicatedClient: boolean = false;
+  textToregardingClient: string="";
 
   /***********graf service********************/
 
@@ -333,6 +334,9 @@ export class DataService {
 
     this.timeStamp = new Date().getTime();
 
+
+
+
     this.getClientList(); //Her laves listen over navnene til clienterne. Den bruges til dropdown menu i graf.
 
   }
@@ -344,10 +348,12 @@ export class DataService {
 
     this.timeStamp = new Date().getTime();
 
-    console.log("Tjek mig: "+this.duplicatedClient);
 
+    if (this.duplicatedClient)
+      this.textToregardingClient="Error in saving client";
+    else
+      this.textToregardingClient="";
 
-    //if (!this.duplicatedClient)
     this.getClient(); //Her hentes client listen til den valgte bruger
 
   }
