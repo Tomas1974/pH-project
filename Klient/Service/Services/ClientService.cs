@@ -19,10 +19,12 @@ public class ClientService
 
     public ClientModel CreateClient(ClientModel clientModel, string email)
     {
-      
-        if (_ClientRepository.ClientAlreadyExist(clientModel.client_id))
+
+        
+        
+        if (_ClientRepository.ClientAlreadyUsed(clientModel.client_id) || _ClientRepository.ClientExits(clientModel.client_id)==false)
         {
-            
+              
             clientModel.duplicate = true;
            return clientModel;
         }

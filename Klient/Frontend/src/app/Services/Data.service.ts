@@ -296,7 +296,7 @@ export class DataService {
   saveClient(clientModel: ClientModel, email: String) {
     var object = {
       eventType: "saveClient",
-      client_id: clientModel.client_id,
+      client_id: "client/"+clientModel.client_id,
       client_name: clientModel.client_name,
       max_value: clientModel.max_value,
       min_value: clientModel.min_value,

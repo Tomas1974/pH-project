@@ -31,26 +31,4 @@ export class UtilitiesService {
   }
 
 
-  async insertLine(header: string, message: string, placeholder: string): Promise<string> {
-    return new Promise<string>((resolve) => {
-      this.alertCtrl.create({
-        header: header,
-        message: message,
-        inputs: [
-          { type: 'text', name: 'promo', placeholder: placeholder }
-        ],
-        buttons: [
-          {
-            text: "Apply",
-            handler: (res) => resolve(res.promo)
-          },
-          {
-            text: "Cancel"
-          }
-        ]
-      }).then(alert => {
-        alert.present();
-      });
-    });
-  }
 }

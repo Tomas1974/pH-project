@@ -1,7 +1,8 @@
 ﻿import {Component} from "@angular/core";
-import {FormBuilder, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {DataService} from "../../../Services/Data.service";
 import {ClientModel} from "../../../Models/clientModel";
+import {UtilitiesService} from "../../../Services/utilities.service";
 
 
 @Component({
@@ -29,9 +30,10 @@ import {ClientModel} from "../../../Models/clientModel";
               <ion-row>
                   <ion-col>
                       <ion-item>
-                          <ion-input labelPlacement="stacked" [formControl]="ValidateClient.controls.client_id">
+                          <ion-input labelPlacement="stacked" [formControl]="ValidateClient.controls.client_id"
+                                     maxlength="9">
                               <div slot="label">Product id from manufacture
-                                  <ion-text *ngIf="!ValidateClient.controls.client_id.valid"></ion-text>
+                                  <ion-text *ngIf="!ValidateClient.controls.client_id.valid "color="danger">( 9 cha.)</ion-text>
                               </div>
                           </ion-input>
                       </ion-item>
@@ -45,7 +47,7 @@ import {ClientModel} from "../../../Models/clientModel";
                       <ion-item>
                           <ion-input labelPlacement="stacked" [formControl]="ValidateClient.controls.client_name">
                               <div slot="label">Device name
-                                  <ion-text *ngIf="!ValidateClient.controls.client_name.valid"></ion-text>
+                                  <ion-text *ngIf="!ValidateClient.controls.client_name.valid "color="danger">( 1 cha.) </ion-text>
                               </div>
                           </ion-input>
                       </ion-item>
@@ -56,8 +58,8 @@ import {ClientModel} from "../../../Models/clientModel";
                   <ion-col>
                       <ion-item>
                           <ion-input labelPlacement="stacked" [formControl]="ValidateClient.controls.max_value">
-                              <div slot="label">Maximum value for alarm
-                                  <ion-text *ngIf="!ValidateClient.controls.max_value.valid"></ion-text>
+                              <div slot="label">Max. value for alarm (higher than min)
+                                  <ion-text *ngIf="!ValidateClient.controls.max_value.valid "color="danger">(Decimal number)</ion-text>
                               </div>
                           </ion-input>
                       </ion-item>
@@ -68,8 +70,8 @@ import {ClientModel} from "../../../Models/clientModel";
                   <ion-col>
                       <ion-item>
                           <ion-input labelPlacement="stacked" [formControl]="ValidateClient.controls.min_value">
-                              <div slot="label">Minimum value for alarm
-                                  <ion-text *ngIf="!ValidateClient.controls.min_value.valid"></ion-text>
+                              <div slot="label">Minimum value for alarm (lower than max)
+                                  <ion-text *ngIf="!ValidateClient.controls.min_value.valid"color="danger">(Decimal number)</ion-text>
                               </div>
                           </ion-input>
                       </ion-item>
@@ -114,16 +116,19 @@ export class ClientComponent {
 
   ValidateClient = this.formbuilder.group({
 
-    client_id: ["client/", [Validators.required, Validators.minLength(16), Validators.maxLength(16)]],
+    client_id: ["", [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
     client_name: ["", [Validators.required, Validators.minLength(1)]],
-    max_value: [0, [Validators.required, Validators.min(1), Validators.max(15)]],
-    min_value: [0, [Validators.required, Validators.min(1), Validators.max(15)]],
-  })
+    max_value: [0, [Validators.required, Validators.min(3), Validators.max(11)]],
+    min_value: [0, [Validators.required, Validators.min(3), Validators.max(11)]],
+  }, { validators: maxGreaterThanMinValidator('min_value', 'max_value') });
+
+
 
   selectedClient: ClientModel = this.dataservice.clients[0];
   selectedIndex: number = 0;
   constructor(public dataservice: DataService,
-              public formbuilder: FormBuilder) {
+              public formbuilder: FormBuilder,
+              public utilitiesService: UtilitiesService) {
   }
 
   async SaveClient() {
@@ -139,14 +144,20 @@ export class ClientComponent {
     this.dataservice.saveClient(clientModel, email)
     await this.dataservice.timePromise();
    if (!this.dataservice.duplicatedClient) {
-  //    this.dataservice.clients.push(clientModel);
+
       this.ResetClient();
     }
   }
 
-  deleteClient(client_id: string){
-    this.dataservice.deleteClient(client_id)
-    this.dataservice.clients.splice(this.selectedIndex, 1);
+  async deleteClient(client_id: string){
+
+    let confirm=await this.utilitiesService.confirmDelete();
+    if (confirm)
+    {
+      this.dataservice.deleteClient(client_id)
+      this.dataservice.clients.splice(this.selectedIndex, 1);
+    }
+
   }
 
   ResetClient() {
@@ -161,4 +172,27 @@ export class ClientComponent {
     this.selectedClient = client;
     this.selectedIndex = index;
   }
+}
+
+
+
+
+export function maxGreaterThanMinValidator(minControlName: string, maxControlName: string): ValidatorFn {
+  return (formGroup: AbstractControl): ValidationErrors | null => {
+    const minControl = formGroup.get(minControlName);
+    const maxControl = formGroup.get(maxControlName);
+
+    if (!minControl || !maxControl) {
+      return null;
+    }
+
+    const minValue = minControl.value;
+    const maxValue = maxControl.value;
+
+    if (minValue !== null && maxValue !== null && maxValue <= minValue) {
+      return { maxGreaterThanMin: true };
+    }
+
+    return null;
+  };
 }

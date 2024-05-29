@@ -86,7 +86,7 @@ public class ClientRepository
     
     
 
-    public bool ClientAlreadyExist(string client_id)
+    public bool ClientAlreadyUsed(string client_id)
     {
         var sql = "SELECT COUNT(*) FROM ph.client_user WHERE client_id = @client_id";
 
@@ -96,6 +96,25 @@ public class ClientRepository
             return count > 0;
         }
     }
+    
+    
+    
+    public bool ClientExits(string client_id)
+    {
+        var sql = "SELECT COUNT(*) FROM ph.client WHERE client_id = @client_id";
+
+        using (var conn = _DataSource.OpenConnection())
+        {
+            var count = conn.QueryFirstOrDefault<int>(sql, new { client_id = client_id });
+            return count > 0;
+        }
+    }
+    
+    
+    
+    
+    
+    
 
     public void deleteClient(string client_Id)
     {
