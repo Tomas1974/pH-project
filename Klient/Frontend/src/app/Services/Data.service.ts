@@ -402,6 +402,9 @@ getGraf() {
 
   PhData(dto: PhDataDto) {
 
+    
+    if (dto.series!.length>0)
+    {
 
 
     this.maxValue = dto.series!.reduce((max, current) => {
@@ -416,7 +419,6 @@ getGraf() {
 
 
 
-
     const measured: PHModel = {
       name: this.selectedClient,
       series: dto.series!
@@ -427,7 +429,7 @@ getGraf() {
 
 
     // @ts-ignore
-    const maxliste=this.newSerie(dto.series!,"MaxValue", this.client!.max_value);
+    const maxliste=this.newSerie(dto.series,"MaxValue", this.client.max_value);
 
 
     const maxPh: PHModel = {
@@ -438,7 +440,7 @@ getGraf() {
     this.pHData.push(maxPh);
 
     // @ts-ignore
-    const minliste=this.newSerie(dto.series!,"MaxValue", this.client!.min_value);
+    const minliste=this.newSerie(dto.series,"MaxValue", this.client!.min_value);
 
     // @ts-ignore
     const minPh: PHModel = {
@@ -452,6 +454,7 @@ getGraf() {
     this.pHData = [... this.pHData];
 
 
+    }
 
 
   }
