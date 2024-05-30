@@ -26,35 +26,38 @@ public class ClientRepository
 
     public ClientModel CreateClient(ClientModel clientModel, string email)
     {
-        var updateSql = 
-            "UPDATE ph.client SET client_name=@client_name, max_value=@max_value, min_value=@min_value WHERE client_id=@client_id;";
-
-        var insertSql = 
-            "INSERT INTO ph.client_user(client_id, email) VALUES (@client_id, @Email);";
-
-        var selectSql = 
-            "SELECT client_id, client_name, max_value, min_value FROM ph.client WHERE client_id=@client_id;";
-
+        
         using (var conn = _DataSource.OpenConnection())
         {
-            using (var transaction = conn.BeginTransaction())
+
+            var transaction = conn.BeginTransaction();
+            
+            
+        var updateSql = "UPDATE ph.client SET client_name=@client_name, max_value=@max_value, min_value=@min_value WHERE client_id=@client_id;";
+
+       
+        conn.Execute(updateSql, 
+            new
             {
-                conn.Execute(updateSql, 
-                    new
-                    {
-                        client_id = clientModel.client_id,
-                        client_name = clientModel.client_name,
-                        max_value = clientModel.max_value,
-                        min_value = clientModel.min_value
-                    }, transaction);
+                client_id = clientModel.client_id,
+                client_name = clientModel.client_name,
+                max_value = clientModel.max_value,
+                min_value = clientModel.min_value
+            }, transaction);
+        
+        var insertSql = "INSERT INTO ph.client_user(client_id, email) VALUES (@client_id, @Email);";
 
-                conn.Execute(insertSql, 
-                    new
-                    {
-                        client_id = clientModel.client_id,
-                        Email = email
-                    }, transaction);
+        
+        conn.Execute(insertSql, 
+            new
+            {
+                client_id = clientModel.client_id,
+                Email = email
+            }, transaction);
+        
+        var selectSql = "SELECT client_id, client_name, max_value, min_value FROM ph.client WHERE client_id=@client_id;";
 
+       
                 var updatedClient = conn.QueryFirst<ClientModel>(selectSql, 
                     new
                     {
@@ -64,11 +67,10 @@ public class ClientRepository
                 transaction.Commit();
 
                 return updatedClient;
-            }
+            
         }
     }
 
-    
     
     
     
