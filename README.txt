@@ -15,4 +15,14 @@ Her kan brugeren af pH målere
 * Se pH målinger over tid.
 
 
+Her er nogle client id'er, som du kan bruge.
+
+FFFF-FFFF
+GGGG-GGGG
+....
+ZZZZ-ZZZZ
+
+
+
+
 God fornøjelse.
