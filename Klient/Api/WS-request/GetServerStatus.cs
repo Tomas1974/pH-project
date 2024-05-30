@@ -22,7 +22,7 @@ public class GetServerStatus : BaseEventHandler<GetServerStatusDto>
         if (dto.eventType.Contains("GetServerStatus"))
         {
             var latestStatus = _serverStatusService.GetLatestEntry();
-
+        
             var messageToClient = JsonSerializer.Serialize(latestStatus);
             ws.Send(messageToClient);
         }

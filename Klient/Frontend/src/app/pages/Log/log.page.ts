@@ -7,7 +7,7 @@ import {DataService} from "../../Services/Data.service";
   styleUrls: ['./log.page.scss'],
 })
 
-export class LogPage implements OnInit, OnDestroy {
+export class LogPage implements OnInit {
 
   statusEntries: any[] = [];
 
@@ -19,7 +19,6 @@ export class LogPage implements OnInit, OnDestroy {
     this.statusEntries = this.dataService.getStatusArray();
   }
 
-  ngOnDestroy(): void {}
 
 }
 

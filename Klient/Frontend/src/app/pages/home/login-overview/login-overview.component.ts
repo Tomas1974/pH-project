@@ -38,7 +38,7 @@ import {UtilitiesService} from "../../../Services/utilities.service";
   `,
   styleUrls: ['./login-overview.component.scss'],
 })
-export class LoginOverviewComponent implements OnInit  {
+export class LoginOverviewComponent   {
 
   constructor(private dataservice: DataService,
               private utilitiesservice: UtilitiesService,
@@ -84,7 +84,5 @@ export class LoginOverviewComponent implements OnInit  {
 
   }
 
-  ngOnInit(): void {
-    this.dataservice.createStatusEntryOnServer();
-  }
+
 }

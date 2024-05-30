@@ -73,6 +73,8 @@ export class DataService {
       eventType2: "createEntry"
     }
     this.ws.send(JSON.stringify(object));
+
+
   }
 
   //Sends a message to the backend for fetching the latest entry in the ph.status table.
@@ -93,6 +95,7 @@ export class DataService {
 
 
       this.statusUpdates.push(data);
+
     }
   }
 
@@ -151,6 +154,7 @@ export class DataService {
     }
 
     this.ws.send(JSON.stringify(object));
+
   }
 
 
@@ -159,6 +163,7 @@ export class DataService {
     const addressSuggestions = dto.results!
     this.addressSuggestions = addressSuggestions.results;
     this.timeStamp = new Date().getTime();
+
   }
 
 
@@ -210,6 +215,7 @@ export class DataService {
       cvr: userModel.cvr
     }
     this.ws.send(JSON.stringify(object));
+
   }
 
 
@@ -224,6 +230,7 @@ export class DataService {
 
     }
     this.ws.send(JSON.stringify(object));
+
   }
 
 
