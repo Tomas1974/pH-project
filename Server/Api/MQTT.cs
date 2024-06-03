@@ -84,7 +84,6 @@
 
 
 
-
                if (await GetLower(client) != -1 && await GetHigher(client) != -1) //Hvis der ikke er grænser, så skal vi ikke checke dem.
                    sendMessageToEmail(data, client);
                      
@@ -114,7 +113,7 @@
                        var mailRequest = new MailRequest
                        {
                            ToEmail = await GetEmailFromClient(client),
-                           Subject = "You're PH not inside your limits!",
+                           Subject = "You're PH not inside your limits for pH!",
                            Body = "You're PH level on " + client + "is at " + data
                        };
                        
@@ -202,12 +201,9 @@
         
         await mqttClient.DisconnectAsync();
 
-//Her afbrydes forbindelsen
+
     }
    
 }
 
-   public class ServerSendsIOTDataToClients : BaseDto
-   {
-       public string data { get; set; }
-   }
+   
