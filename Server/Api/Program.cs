@@ -4,7 +4,6 @@ using Fleck;
 using lib;
 using MailKit;
 using Npgsql;
-using Service.Service;
 using Websocket;
 using Websocket_fødselsdag_2.Email;
 
@@ -27,7 +26,7 @@ if (builder.Environment.IsProduction())
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailService, EmailService>();
-builder.Services.AddSingleton<DataService>();
+
 
 
 builder.Services.AddSingleton<MQTT>();

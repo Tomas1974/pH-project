@@ -64,6 +64,7 @@ public static class Startup
             ws.OnMessage = async message =>
             {
                 Console.WriteLine(message);
+                
 
                 try
                 {
