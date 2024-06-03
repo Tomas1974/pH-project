@@ -71,7 +71,7 @@
 
        }
 
-       /**********  Her sendes temperaturne til frontend og skrives i konsolen **********/
+       /**********  Her sendes pH til frontend og skrives i konsolen **********/
        public async Task sendMessageToFrontend()
        {
 
@@ -81,67 +81,13 @@
                var data = decimal.Parse(msg);
                var client = e.ApplicationMessage.Topic;
                var now = DateTime.Now;
-               
-            
-               
 
-               if ( await GetLower(client) != -1 && await GetHigher(client) != -1)
-               {
-               
-                   Console.WriteLine("ÆÆÆÆÆÆÆÆÆÆÆÆÆ "+GetLower(client));
-                   var minPH = await GetLower(client);
-                   var maxPH = await GetHigher(client);
-                   
-                   if (data > maxPH)
-                   {
-                   
-                       try
-                       {
 
-                           var mailRequest = new MailRequest
-                           {
-                               ToEmail = await GetEmailFromClient(client),
-                               Subject = "You're PH is too high!",
-                               Body = "You're PH level on " + client + "is at " + data
-                           };
-                       
-                           await _iEmailService.SendEmailAsync(mailRequest);
-                       
-                       }
-                       catch (Exception exception)
-                       {
-                           Console.WriteLine(exception);
-                           throw;
-                       }
 
-                   }
 
-                   if (data < minPH)
-                   {
-                       try
-                       {
-
-                           var mailRequest = new MailRequest
-                           {
-                               ToEmail = await GetEmailFromClient(client),
-                               Subject = "You're PH is too low!",
-                               Body = "You're PH level on " + client + "is at " + data
-                           };
-                       
-                           await _iEmailService.SendEmailAsync(mailRequest);
-                       }
-                       catch (Exception exception)
-                       {
-                           Console.WriteLine(exception);
-                           throw;
-                       }
-                   }
-
-                   await Task.Delay(1000);
-                   
-               }
-
-               Console.WriteLine("ØØØØØØØØØØØØØØØØØØØØØØØØØ");
+               if (await GetLower(client) != -1 && await GetHigher(client) != -1) //Hvis der ikke er grænser, så skal vi ikke checke dem.
+                   sendMessageToEmail(data, client);
+                     
                
                var sql = "INSERT INTO ph.data(client_id, data, time) VALUES(@Client, @Data, @Time);";
                using (var conn = await _DataSource.OpenConnectionAsync())
@@ -153,7 +99,39 @@
 
        }
 
-       
+       private async Task sendMessageToEmail(decimal data, string client)
+       {
+           
+               var minPH = await GetLower(client);
+               var maxPH = await GetHigher(client);
+                   
+               if (data > maxPH || data < minPH )
+               {
+                   
+                   try
+                   {
+
+                       var mailRequest = new MailRequest
+                       {
+                           ToEmail = await GetEmailFromClient(client),
+                           Subject = "You're PH not inside your limits!",
+                           Body = "You're PH level on " + client + "is at " + data
+                       };
+                       
+                       await _iEmailService.SendEmailAsync(mailRequest);
+                       
+                   }
+                   catch (Exception exception)
+                   {
+                       Console.WriteLine(exception);
+                       throw;
+                   }
+
+               }
+          
+       }
+
+
        public async Task<decimal> GetHigher(string client_id)
        {
            var sql = @"SELECT max_value FROM ph.client WHERE client_id = @client_id;";
