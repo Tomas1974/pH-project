@@ -82,65 +82,72 @@
                var client = e.ApplicationMessage.Topic;
                var now = DateTime.Now;
                
-               Console.WriteLine("Vi har fået beskeden; " + msg + " fra klient: " + client);
+            
                
-               var minPH = await GetLower(client);
-               Console.WriteLine(minPH);
-               
-               var maxPH = await GetHigher(client);
-               
-               
-               if (data > maxPH)
+
+               if ( await GetLower(client) != -1 && await GetHigher(client) != -1)
                {
+               
+                   Console.WriteLine("ÆÆÆÆÆÆÆÆÆÆÆÆÆ "+GetLower(client));
+                   var minPH = await GetLower(client);
+                   var maxPH = await GetHigher(client);
                    
-                   try
+                   if (data > maxPH)
                    {
-
-                       var mailRequest = new MailRequest
+                   
+                       try
                        {
-                           ToEmail = await GetEmailFromClient(client),
-                           Subject = "You're PH is too high!",
-                           Body = "You're PH level on " + client + "is at " + data
-                       };
+
+                           var mailRequest = new MailRequest
+                           {
+                               ToEmail = await GetEmailFromClient(client),
+                               Subject = "You're PH is too high!",
+                               Body = "You're PH level on " + client + "is at " + data
+                           };
                        
-                       await _iEmailService.SendEmailAsync(mailRequest);
+                           await _iEmailService.SendEmailAsync(mailRequest);
                        
-                   }
-                   catch (Exception exception)
-                   {
-                       Console.WriteLine(exception);
-                       throw;
+                       }
+                       catch (Exception exception)
+                       {
+                           Console.WriteLine(exception);
+                           throw;
+                       }
+
                    }
 
+                   if (data < minPH)
+                   {
+                       try
+                       {
+
+                           var mailRequest = new MailRequest
+                           {
+                               ToEmail = await GetEmailFromClient(client),
+                               Subject = "You're PH is too low!",
+                               Body = "You're PH level on " + client + "is at " + data
+                           };
+                       
+                           await _iEmailService.SendEmailAsync(mailRequest);
+                       }
+                       catch (Exception exception)
+                       {
+                           Console.WriteLine(exception);
+                           throw;
+                       }
+                   }
+
+                   await Task.Delay(1000);
+                   
                }
 
-               if (data < minPH)
-               {
-                   try
-                   {
-
-                       var mailRequest = new MailRequest
-                       {
-                           ToEmail = await GetEmailFromClient(client),
-                           Subject = "You're PH is too low!",
-                           Body = "You're PH level on " + client + "is at " + data
-                       };
-                       
-                       await _iEmailService.SendEmailAsync(mailRequest);
-                   }
-                   catch (Exception exception)
-                   {
-                       Console.WriteLine(exception);
-                       throw;
-                   }
-               }
-
-               await Task.Delay(1000);
-
+               Console.WriteLine("ØØØØØØØØØØØØØØØØØØØØØØØØØ");
+               
                var sql = "INSERT INTO ph.data(client_id, data, time) VALUES(@Client, @Data, @Time);";
                using (var conn = await _DataSource.OpenConnectionAsync())
                { 
                    await conn.ExecuteAsync(sql, new { Client = client, Data = data, Time = now });
+                   
                }
            });
 
@@ -149,29 +156,31 @@
        
        public async Task<decimal> GetHigher(string client_id)
        {
-
-           var sql = $@"SELECT max_value FROM ph.client WHERE client_id = @client_id;";
+           var sql = @"SELECT max_value FROM ph.client WHERE client_id = @client_id;";
 
            await using (var conn = await _DataSource.OpenConnectionAsync())
            {
-               return await conn.QueryFirstAsync<decimal>(sql,new {client_id});
+               
+               {
+                   var result = await conn.QueryFirstOrDefaultAsync<decimal?>(sql, new { client_id });
+                   return result ?? -1; 
+               }
            }
-
        }
 
-       
        
        public async Task<decimal> GetLower(string client_id)
        {
+           var sql = @"SELECT min_value FROM ph.client WHERE client_id = @client_id;";
 
-           var sql = $@"SELECT min_value FROM ph.client WHERE client_id = @client_id;";
-
-          await using (var conn = await _DataSource.OpenConnectionAsync())
+           await using (var conn = await _DataSource.OpenConnectionAsync())
            {
-               return await conn.QueryFirstAsync<decimal>(sql, new{client_id});
+               var result = await conn.QueryFirstOrDefaultAsync<decimal?>(sql, new { client_id });
+               return result ?? -1; 
            }
-
        }
+       
+       
 
        public async Task<string> GetEmailFromClient(string client_id)
        {

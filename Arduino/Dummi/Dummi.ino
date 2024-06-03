@@ -95,7 +95,7 @@ counter++;
 if(counter>secondsDelay)
 {
   counter=0;
-randNumber = random(650+i*3, 680+i*3); 
+randNumber = random(650+i, 680+i); 
  randNumber1=float(randNumber)/100.0 + 3;
  sprintf(message, "%.2f", randNumber1);
 sprintf(address, "client/%s", names[i]);
